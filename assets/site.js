@@ -170,7 +170,6 @@
   function initMobileNav() {
     var btn = document.querySelector('[data-nav-toggle]');
     var nav = document.querySelector('.site-header .nav');
-    var header = document.querySelector('.site-header');
     if (!btn || !nav) return;
 
     btn.addEventListener('click', function () {
@@ -188,14 +187,81 @@
         }
       });
     });
+  }
 
-    if (header) {
-      var onScroll = function () {
-        header.classList.toggle('is-scrolled', window.scrollY > 8);
-      };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+  function initHeaderHideOnScroll() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+
+    var lastY = window.scrollY || 0;
+    var ticking = false;
+    var releaseTimer = null;
+
+    function show() {
+      header.classList.remove('header-hidden');
     }
+
+    function hide() {
+      // Keep open menus visible while interacting
+      if (header.querySelector('.nav.is-open') || header.querySelector('.nav-item.is-open')) {
+        show();
+        return;
+      }
+      header.classList.add('header-hidden');
+    }
+
+    function update() {
+      ticking = false;
+      var y = window.scrollY || 0;
+      var banner = document.querySelector('.banner-test');
+      var bannerH = banner ? banner.offsetHeight : 0;
+
+      header.classList.toggle('is-scrolled', y > 8);
+
+      // Near top (incl. test banner): always show
+      if (y <= Math.max(64, bannerH + 8)) {
+        show();
+        lastY = y;
+        return;
+      }
+
+      if (header.querySelector('.nav.is-open') || header.querySelector('.nav-item.is-open')) {
+        show();
+        lastY = y;
+        return;
+      }
+
+      var delta = y - lastY;
+      if (delta > 4) hide();
+      if (delta < -4) show();
+      lastY = y;
+    }
+
+    function schedule() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('touchmove', schedule, { passive: true });
+    window.addEventListener('wheel', schedule, { passive: true });
+    window.addEventListener('resize', function () {
+      show();
+      lastY = window.scrollY || 0;
+    });
+    window.addEventListener(
+      'touchend',
+      function () {
+        if (releaseTimer) clearTimeout(releaseTimer);
+        releaseTimer = setTimeout(function () {
+          if (header.querySelector('.nav.is-open') || header.querySelector('.nav-item.is-open')) return;
+          show();
+        }, 180);
+      },
+      { passive: true }
+    );
+    update();
   }
 
   function initNavDropdowns() {
@@ -437,6 +503,7 @@
     initVoprosForm();
     initMobileNav();
     initNavDropdowns();
+    initHeaderHideOnScroll();
     initCarousels();
     initReviewExpand();
     initCookieBanner();

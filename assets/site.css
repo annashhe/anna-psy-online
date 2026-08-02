@@ -129,7 +129,12 @@ a:hover {
   background: linear-gradient(180deg, #d8c6e0 0%, #eadbef 42%, #eadbef 100%);
   border-bottom: none;
   box-shadow: none;
-  transition: background var(--ease), backdrop-filter var(--ease);
+  transition: transform 0.24s ease, background var(--ease), backdrop-filter var(--ease);
+  will-change: transform;
+}
+
+.site-header.header-hidden {
+  transform: translateY(calc(-100% - 2px));
 }
 
 .site-header.is-scrolled {
@@ -354,7 +359,9 @@ a:hover {
 }
 
 .hero-headline .accent,
-.hero-headline em {
+.hero-headline em,
+em.accent,
+.accent {
   color: var(--accent-text);
   font-style: normal;
 }
@@ -816,35 +823,30 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 /* —— Change photo cards —— */
-/* Lavender band behind grid so gaps between cards read clearly */
-.section:has(.change-cards) {
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    #f3eaf6 12%,
-    #eadbef 28%,
-    #eadbef 72%,
-    #f3eaf6 88%,
-    #ffffff 100%
-  );
+/* White section: gaps between cards must stay visible (no lavender wash) */
+.section:has(.change-cards),
+#results.section-white {
+  background: #ffffff;
 }
 
 .change-cards {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .change-card {
   min-height: 300px;
   aspect-ratio: 4 / 3;
-  border-radius: 12px;
+  border-radius: 14px;
+  background-color: #f7f2f8;
   background-size: cover;
   background-position: center;
   overflow: hidden;
   display: flex;
   align-items: stretch;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(180, 67, 108, 0.08);
   position: relative;
   isolation: isolate;
 }
@@ -1698,6 +1700,22 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 #booking {
   scroll-margin-top: 5.5rem;
+}
+
+#booking h2,
+.booking-heading {
+  text-align: center;
+  max-width: 22ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.3;
+}
+
+#booking h2 em.accent,
+.booking-heading em.accent {
+  color: var(--accent-text);
+  font-style: normal;
+  font-weight: 500;
 }
 
 .booking-shell {
@@ -2732,6 +2750,12 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .social-btn img {
   width: 1.35rem;
   height: 1.35rem;
+  filter: brightness(0) invert(1);
+}
+
+.social-btn[aria-label="MAX"] img {
+  width: 1.15rem;
+  height: 1.15rem;
 }
 
 @media (max-width: 1100px) {

@@ -880,6 +880,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   transition: transform 0.35s ease;
   will-change: transform;
   touch-action: pan-y;
+  align-items: flex-start;
 }
 
 .carousel-card {

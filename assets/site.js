@@ -1,0 +1,242 @@
+(function () {
+  'use strict';
+
+  window.PSI_SITE_HOME = 'https://muzhskoy-psikholog.ru';
+  window.PSI_LEADS_API = 'https://psi-leads.anna-shhe-adwords.workers.dev';
+
+  function phoneDigits(value) {
+    return String(value || '').replace(/\D/g, '').replace(/^8/, '7').slice(0, 11);
+  }
+
+  function formatPhone(value) {
+    var digits = phoneDigits(value);
+    if (!digits) return '';
+    if (digits.charAt(0) !== '7') digits = '7' + digits;
+    var out = '+7';
+    if (digits.length > 1) out += ' (' + digits.slice(1, 4);
+    if (digits.length >= 4) out += ') ' + digits.slice(4, 7);
+    if (digits.length >= 7) out += '-' + digits.slice(7, 9);
+    if (digits.length >= 9) out += '-' + digits.slice(9, 11);
+    return out;
+  }
+
+  function setError(el, on) {
+    if (!el) return;
+    el.classList.toggle('is-error', !!on);
+  }
+
+  function bindPhoneMask(phone) {
+    if (!phone) return;
+    phone.addEventListener('input', function () {
+      phone.value = formatPhone(phone.value);
+      setError(phone, false);
+    });
+    phone.addEventListener('focus', function () {
+      if (!phone.value) phone.value = '+7';
+    });
+  }
+
+  function postLead(payload, submit) {
+    if (submit) submit.disabled = true;
+    return fetch(window.PSI_LEADS_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('lead_failed');
+        window.location.href = '/thank-you-callback/';
+      })
+      .catch(function () {
+        if (submit) submit.disabled = false;
+        alert('Заявку не удалось отправить. Напишите в Telegram @annashhe или на WhatsApp +7 913 755 62 84.');
+      });
+  }
+
+  function initCallbackForm() {
+    var form = document.getElementById('callbackForm');
+    if (!form) return;
+
+    var name = form.querySelector('[name="name"]');
+    var phone = form.querySelector('[name="phone"]');
+    var comment = form.querySelector('[name="comment"]');
+    var consent = form.querySelector('[name="consent"]');
+    var website = form.querySelector('[name="website"]');
+    var contacts = form.querySelectorAll('[name="contactMethods"]');
+    var contactBox = form.querySelector('[data-contact-methods]');
+
+    bindPhoneMask(phone);
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var selected = Array.prototype.filter.call(contacts, function (c) {
+        return c.checked;
+      }).map(function (c) {
+        return c.value;
+      });
+
+      var badName = !name || !name.value.trim();
+      var badPhone = !phone || phoneDigits(phone.value).length !== 11;
+      var badContacts = !selected.length;
+      var badConsent = !consent || !consent.checked;
+
+      setError(name, badName);
+      setError(phone, badPhone);
+      setError(contactBox, badContacts);
+      setError(consent && consent.parentElement, badConsent);
+      if (badName || badPhone || badContacts || badConsent) return;
+
+      postLead(
+        {
+          source: 'callback',
+          name: name.value.trim(),
+          phone: phoneDigits(phone.value),
+          contactMethods: selected,
+          comment: comment ? comment.value.trim() : '',
+          website: website ? website.value.trim() : '',
+          pageUrl: window.location.href,
+          site: 'muzhskoy-psikholog.ru'
+        },
+        form.querySelector('[type="submit"]')
+      );
+    });
+  }
+
+  function initVoprosForm() {
+    var form = document.getElementById('voprosForm');
+    if (!form) return;
+
+    var name = form.querySelector('[name="name"]');
+    var phone = form.querySelector('[name="phone"]');
+    var comment = form.querySelector('[name="comment"]');
+    var consent = form.querySelector('[name="consent"]');
+    var website = form.querySelector('[name="website"]');
+    var role = form.querySelector('[name="role"]');
+    var question = form.querySelector('[name="question"]');
+    var contacts = form.querySelectorAll('[name="contactMethods"]');
+    var contactBox = form.querySelector('[data-contact-methods]');
+
+    bindPhoneMask(phone);
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var selected = Array.prototype.filter.call(contacts, function (c) {
+        return c.checked;
+      }).map(function (c) {
+        return c.value;
+      });
+
+      var badName = !name || !name.value.trim();
+      var badPhone = !phone || phoneDigits(phone.value).length !== 11;
+      var badContacts = !selected.length;
+      var badConsent = !consent || !consent.checked;
+
+      setError(name, badName);
+      setError(phone, badPhone);
+      setError(contactBox, badContacts);
+      setError(consent && consent.parentElement, badConsent);
+      if (badName || badPhone || badContacts || badConsent) return;
+
+      var parts = [];
+      if (role && role.value) parts.push('Роль: ' + role.value);
+      if (question && question.value.trim()) parts.push('Вопрос: ' + question.value.trim());
+      if (comment && comment.value.trim()) parts.push(comment.value.trim());
+
+      postLead(
+        {
+          source: 'vopros-psikhologu',
+          name: name.value.trim(),
+          phone: phoneDigits(phone.value),
+          contactMethods: selected,
+          comment: parts.join('\n'),
+          website: website ? website.value.trim() : '',
+          pageUrl: window.location.href,
+          site: 'muzhskoy-psikholog.ru'
+        },
+        form.querySelector('[type="submit"]')
+      );
+    });
+  }
+
+  function initMobileNav() {
+    var btn = document.querySelector('[data-nav-toggle]');
+    var nav = document.querySelector('.site-header .nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function () {
+      var open = nav.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  function loadBookingWidget() {
+    if (window.__psiWidgetLoading) return;
+    window.__psiWidgetLoading = true;
+    var host = document.querySelector('[data-anna-psy-widget]');
+    var root = document.getElementById('booking');
+    if (!host || !root) return;
+
+    var s = document.createElement('script');
+    s.src = 'https://anna-psy-schedule-frontend.vercel.app/widget.js';
+    s.async = true;
+    s.onerror = function () {
+      host.innerHTML =
+        '<div style="padding:1.25rem;border:1px solid rgba(28,26,23,.12);border-radius:12px;background:#fff;">' +
+        '<p style="margin:0 0 .75rem;">Календарь временно недоступен. Запишитесь через мессенджеры или форму ниже.</p>' +
+        '<p style="margin:0;"><a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a> · ' +
+        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a> · ' +
+        '<a href="#contact">Оставить заявку</a></p></div>';
+    };
+    root.appendChild(s);
+  }
+
+  function setupLazyWidget() {
+    var root = document.getElementById('booking');
+    if (!root || !document.querySelector('[data-anna-psy-widget]')) return;
+    if (!('IntersectionObserver' in window)) {
+      loadBookingWidget();
+      return;
+    }
+    var io = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            loadBookingWidget();
+            io.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px 0px' }
+    );
+    io.observe(root);
+  }
+
+  function patchBookingThankYou() {
+    if (!window.fetch) return;
+    var original = window.fetch.bind(window);
+    var started = false;
+    window.fetch = function () {
+      var args = arguments;
+      var url = String(args[0] || '');
+      var isBooking = /\/public\/bookings\b/.test(url) && args[1] && String(args[1].method || 'GET').toUpperCase() === 'POST';
+      return original.apply(window, args).then(function (res) {
+        if (isBooking && res && res.ok && !started) {
+          started = true;
+          try {
+            window.location.href = '/thank-you-booking/';
+          } catch (e) {
+            started = false;
+          }
+        }
+        return res;
+      });
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initCallbackForm();
+    initVoprosForm();
+    initMobileNav();
+    setupLazyWidget();
+    patchBookingThankYou();
+  });
+})();

@@ -751,26 +751,6 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   font-size: clamp(1.05rem, 1.4vw, 1.35rem);
 }
 
-.change-card h3 {
-  margin: 0 0 0.45rem;
-  font-size: clamp(1.5rem, 2.2vw, 2.15rem);
-  font-weight: 500;
-  color: var(--accent-text);
-}
-
-.change-card h3 span,
-.change-card p span {
-  background: rgba(252, 251, 253, 0.9);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-.change-card p {
-  margin: 0;
-  color: #333;
-  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
-}
-
 /* —— Icon cards (results) —— */
 .icon-cards {
   display: grid;

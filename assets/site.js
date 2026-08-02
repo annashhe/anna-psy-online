@@ -290,15 +290,19 @@
     };
   }
 
-  function initReviewsCarousel() {
-    var root = document.querySelector('[data-carousel]');
-    if (!root) return;
+  function initCarousels() {
+    document.querySelectorAll('[data-carousel]').forEach(function (root) {
+      initCarousel(root);
+    });
+  }
 
+  function initCarousel(root) {
     var track = root.querySelector('[data-carousel-track]');
     var viewport = root.querySelector('[data-carousel-viewport]');
     var prev = root.querySelector('[data-carousel-prev]');
     var next = root.querySelector('[data-carousel-next]');
-    var dotsHost = document.querySelector('[data-carousel-dots]');
+    var section = root.closest('section') || root.parentElement;
+    var dotsHost = section ? section.querySelector('[data-carousel-dots]') : null;
     var cards = track ? track.querySelectorAll('.carousel-card') : [];
     if (!track || !viewport || !cards.length) return;
 
@@ -306,9 +310,12 @@
     var startX = 0;
     var deltaX = 0;
     var dragging = false;
+    var isAbout = root.classList.contains('about-carousel');
 
     function perView() {
-      return window.matchMedia('(max-width: 900px)').matches ? 1 : 3;
+      if (window.matchMedia('(max-width: 900px)').matches) return 1;
+      if (isAbout) return 3;
+      return 3;
     }
 
     function maxIndex() {
@@ -323,7 +330,7 @@
         var btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'carousel-dot' + (i === index ? ' is-active' : '');
-        btn.setAttribute('aria-label', 'Страница отзывов ' + (i + 1));
+        btn.setAttribute('aria-label', 'Страница ' + (i + 1));
         btn.addEventListener('click', function (page) {
           return function () {
             index = page;
@@ -386,6 +393,14 @@
       resizeTimer = setTimeout(update, 120);
     });
 
+    if (root.hasAttribute('data-carousel-auto') && cards.length > perView()) {
+      setInterval(function () {
+        if (document.hidden) return;
+        index = index >= maxIndex() ? 0 : index + 1;
+        update();
+      }, 6000);
+    }
+
     update();
   }
 
@@ -411,7 +426,7 @@
     initVoprosForm();
     initMobileNav();
     initNavDropdowns();
-    initReviewsCarousel();
+    initCarousels();
     initCookieBanner();
     setupLazyWidget();
     patchBookingThankYou();

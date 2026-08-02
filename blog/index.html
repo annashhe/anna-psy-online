@@ -6,13 +6,14 @@
   <title>Блог психолога Анны Щеголихиной | ТЕСТ</title>
   <meta name="description" content="Статьи психолога Анны Щеголихиной о расставании, отношениях, самопознании и мужских запросах." />
   <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://muzhskoy-psikholog.ru/blog/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="stylesheet" href="/assets/site.css" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
   <div class="banner-test">ТЕСТОВЫЙ САЙТ · <strong>muzhskoy-psikholog.ru</strong> · noindex · <a href="/">на главную</a></div>
@@ -50,70 +51,147 @@
         </div>
         <a href="/#pricing">Стоимость</a>
         <a href="/#reviews">Отзывы</a>
-        <a href="/#contact">Контакты</a>
-        <a class="nav-mobile-cta btn btn-primary" href="/#booking">Записаться на консультацию</a>
+        <a href="#contact">Контакты</a>
+        <a class="nav-mobile-cta btn btn-primary" href="#booking">Записаться на консультацию</a>
       </nav>
       <div class="header-actions">
         <a class="btn-icon" href="https://t.me/annashhe" target="_blank" rel="noopener" aria-label="Telegram">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9 2C6.4 2 2 6.4 2 11.9c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9S17.4 2 11.9 2zm5.8 7.1-1.9 9c-.1.6-.5.8-1 .5l-2.8-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9l11-4.2c.5-.2 1 .1.8.7z"/></svg>
         </a>
-        <a class="btn btn-primary header-cta" href="/#booking"><span class="btn-label-full">Записаться на консультацию</span><span class="btn-label-short">Записаться</span></a>
+        <a class="btn btn-primary header-cta" href="#booking"><span class="btn-label-full">Записаться на консультацию</span><span class="btn-label-short">Записаться</span></a>
       </div>
     </div>
   </header>
+
   <main>
-    <section class="page-hero">
+    <section class="section section-white blog-index">
       <div class="wrap">
-        <p class="breadcrumb"><a href="/">Главная</a> / Блог</p>
-        <h1>Блог психолога</h1>
-        <p class="section-lead">Заметки о переживаниях, отношениях и бережной поддержке себя. На тесте — 5 статей на бренде и 3 страницы-указателя под будущий 301 на .рф.</p>
+        <h1 class="blog-index-title">Статьи психолога Анны Щеголихиной</h1>
+        <div class="blog-filters" data-blog-filters role="tablist" aria-label="Фильтр статей">
+          <button type="button" class="blog-filter is-active" data-filter="all" aria-pressed="true">Все</button>
+          <button type="button" class="blog-filter" data-filter="breakup" aria-pressed="false">Расставание</button>
+          <button type="button" class="blog-filter" data-filter="family" aria-pressed="false">Отношения</button>
+          <button type="button" class="blog-filter" data-filter="self" aria-pressed="false">Самопознание</button>
+          <button type="button" class="blog-filter" data-filter="men" aria-pressed="false">Для мужчин</button>
+        </div>
+
+        <div class="blog-cards" data-blog-cards>
+          <a class="blog-card" href="/blog/breakup/kak-perezhit-rasstavanie/" data-category="breakup">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/kak-perezhit-rasstavanie.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Расставание</span>
+            </div>
+            <strong>Как пережить расставание</strong>
+            <p>Как бережно пройти острый период после разрыва и не потерять опору в себе.</p>
+          </a>
+          <a class="blog-card" href="/blog/family/ya_nenavizhu_chuzhih_detey/" data-category="family">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/ya_nenavizhu_chuzhih_detey.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Отношения</span>
+            </div>
+            <strong>Я ненавижу чужих детей</strong>
+            <p>Честный разговор о раздражении, границах и чувствах, которые стыдно признавать.</p>
+          </a>
+          <a class="blog-card" href="/blog/self-knowledge/kak_perestat_vso_kontrolirovat/" data-category="self">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/kak_perestat_vso_kontrolirovat.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Самопознание</span>
+            </div>
+            <strong>Как перестать всё контролировать</strong>
+            <p>Почему контроль так цепляет и как постепенно отпускать то, что нельзя удержать.</p>
+          </a>
+          <a class="blog-card" href="/blog/family/sozavisimost-emotsionalnaya-zavisimost/" data-category="family">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/sozavisimost-emotsionalnaya-zavisimost.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Отношения</span>
+            </div>
+            <strong>Созависимость vs эмоциональная зависимость</strong>
+            <p>В чём разница между близостью, зависимостью и потерей себя в отношениях.</p>
+          </a>
+          <a class="blog-card" href="/blog/men/nastoyashchiy_muzhchina/" data-category="men">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/nastoyashchiy_muzhchina.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Для мужчин</span>
+            </div>
+            <strong>Настоящий мужчина</strong>
+            <p>Как стереотипы о «настоящем мужчине» мешают жить и чувствовать.</p>
+          </a>
+          <a class="blog-card" href="/blog/breakup/kak_zabyt_cheloveka/" data-category="breakup">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/kak_zabyt_cheloveka.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Расставание</span>
+            </div>
+            <strong>Как забыть человека</strong>
+            <p>Почему «просто забыть» не работает и что помогает отпустить связь.</p>
+          </a>
+          <a class="blog-card" href="/blog/self-knowledge/v_chem_smysl_zhizni/" data-category="self">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/v_chem_smysl_zhizni.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Самопознание</span>
+            </div>
+            <strong>В чём смысл жизни</strong>
+            <p>Как искать смысл без давления «должен понять раз и навсегда».</p>
+          </a>
+          <a class="blog-card" href="/blog/self-knowledge/millenialy/" data-category="self">
+            <div class="blog-card-media">
+              <img src="/assets/images/articles/millenialy.jpg" alt="" width="480" height="360" loading="lazy" />
+              <span class="blog-card-tag">Самопознание</span>
+            </div>
+            <strong>Миллениалы: кто они</strong>
+            <p>Поколенческий портрет: тревога, успех и поиск опоры в неопределённости.</p>
+          </a>
+        </div>
       </div>
     </section>
-    <section class="section section-soft">
-      <div class="wrap article-list">
-        <a href="/blog/breakup/kak-perezhit-rasstavanie/">
-          <img src="/assets/images/articles/kak-perezhit-rasstavanie.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Как пережить расставание</strong>
-          <span class="meta">Расставание · на бренде</span>
-        </a>
-        <a href="/blog/family/ya_nenavizhu_chuzhih_detey/">
-          <img src="/assets/images/articles/ya_nenavizhu_chuzhih_detey.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Я ненавижу чужих детей</strong>
-          <span class="meta">Семья и отношения · на бренде</span>
-        </a>
-        <a href="/blog/self-knowledge/kak_perestat_vso_kontrolirovat/">
-          <img src="/assets/images/articles/kak_perestat_vso_kontrolirovat.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Как перестать всё контролировать</strong>
-          <span class="meta">Самопознание · на бренде</span>
-        </a>
-        <a href="/blog/family/sozavisimost-emotsionalnaya-zavisimost/">
-          <img src="/assets/images/articles/sozavisimost-emotsionalnaya-zavisimost.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Созависимость vs эмоциональная зависимость</strong>
-          <span class="meta">Семья и отношения · на бренде</span>
-        </a>
-        <a href="/blog/men/nastoyashchiy_muzhchina/">
-          <img src="/assets/images/articles/nastoyashchiy_muzhchina.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Настоящий мужчина</strong>
-          <span class="meta">Для мужчин · на бренде</span>
-        </a>
-        <a href="/blog/breakup/kak_zabyt_cheloveka/">
-          <img src="/assets/images/articles/kak_zabyt_cheloveka.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Как забыть человека</strong>
-          <span class="meta">Будущий 301 → психолог-для-мужчин.рф</span>
-        </a>
-        <a href="/blog/self-knowledge/v_chem_smysl_zhizni/">
-          <img src="/assets/images/articles/v_chem_smysl_zhizni.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>В чём смысл жизни</strong>
-          <span class="meta">Будущий 301 → психолог-для-мужчин.рф</span>
-        </a>
-        <a href="/blog/self-knowledge/millenialy/">
-          <img src="/assets/images/articles/millenialy.jpg" alt="" width="480" height="360" loading="lazy" />
-          <strong>Миллениалы: кто они</strong>
-          <span class="meta">Будущий 301 → психолог-семейный-онлайн.рф</span>
-        </a>
+
+    <section class="quote-band" aria-label="Цитата">
+      <div class="quote-rule" aria-hidden="true"><div class="quote-rule-line"></div></div>
+      <blockquote class="quote-decor">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <p>Иногда достаточно одного разговора со специалистом, чтобы многое стало яснее</p>
+        <cite>Психолог, Анна Щеголихина</cite>
+      </blockquote>
+      <div class="quote-rule" aria-hidden="true"><div class="quote-rule-line"></div></div>
+    </section>
+
+    <section class="section section-white" id="booking">
+      <div class="wrap">
+        <h2 class="booking-heading">Выберите удобное <em class="accent">время в графике</em>, чтобы записаться на Онлайн консультацию ↴</h2>
+        <div class="booking-shell"><div data-anna-psy-widget></div></div>
+        <p class="calendar-note">Если календарь не отображается, попробуйте отключить VPN или открыть страницу в другом браузере</p>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="contact">
+      <div class="wrap blog-contact">
+        <h2>Контакты</h2>
+        <p class="section-lead">Вы можете связаться со мной любым удобным способом. Я отвечу в течение дня.</p>
+        <div class="social-round social-round-center">
+          <a class="social-btn" href="https://t.me/annashhe" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9 2C6.4 2 2 6.4 2 11.9c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9S17.4 2 11.9 2zm5.8 7.1-1.9 9c-.1.6-.5.8-1 .5l-2.8-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9l11-4.2c.5-.2 1 .1.8.7z"/></svg>
+          </a>
+          <a class="social-btn" href="https://wa.me/79137556284" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.1.8.8-3-.2-.3A8 8 0 1 1 12 20zm4.6-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4 0-.1 0-.3-.1-.4-.1-.1-.5-1.3-.7-1.8-.2-.5-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.9 3.4 2.3.9 2.3.6 2.7.6.4 0 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.4-.3z"/></svg>
+          </a>
+          <a class="social-btn" href="https://max.ru/u/f9LHodD0cOKrHIa3XdZycCKQSXXx0dFf9Ck7hXPtx3Ti-6RSxFnoPC7d1Ag" target="_blank" rel="noopener" aria-label="MAX">
+            <img src="/assets/images/icons/max.svg" alt="" width="22" height="22" />
+          </a>
+          <a class="social-btn" href="tel:+79137556284" aria-label="Позвонить">
+            <img src="/assets/images/icons/phone.svg" alt="" width="28" height="28" />
+          </a>
+        </div>
+        <p class="contact-phone contact-phone-center"><a href="tel:+79137556284">+7 913 755 62 84</a></p>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="wrap cta-band-inner">
+        <p>Остались сомнения или страхи?</p>
+        <a class="btn btn-primary" href="#contact">Связаться со мной ↴</a>
       </div>
     </section>
   </main>
+
   <footer class="site-footer site-footer-lavender">
     <div class="wrap">
       <div>© Щеголихина А. М., 2024–2026</div>

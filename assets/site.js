@@ -612,6 +612,30 @@
     });
   }
 
+  function initBlogFilters() {
+    var root = document.querySelector('[data-blog-filters]');
+    var cardsHost = document.querySelector('[data-blog-cards]');
+    if (!root || !cardsHost) return;
+    var buttons = root.querySelectorAll('[data-filter]');
+    var cards = cardsHost.querySelectorAll('.blog-card');
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filter = btn.getAttribute('data-filter') || 'all';
+        buttons.forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        cards.forEach(function (card) {
+          var cat = card.getAttribute('data-category') || '';
+          var show = filter === 'all' || cat === filter;
+          card.hidden = !show;
+        });
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initCallbackForm();
     initVoprosForm();
@@ -621,6 +645,7 @@
     initCarousels();
     initReviewExpand();
     initCookieBanner();
+    initBlogFilters();
     setupLazyWidget();
     patchBookingThankYou();
   });

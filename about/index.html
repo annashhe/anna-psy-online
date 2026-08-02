@@ -62,17 +62,22 @@
     </div>
   </header>
   <main>
-    <section class="page-hero niche-hero">
-      <div class="wrap">
-        <p class="eyebrow">О работе</p>
-        <h1 class="hero-headline">Помогаю справляться с <em class="accent">тревогой и сложностями в отношениях</em></h1>
-        <p class="hero-name">Анна Щеголихина</p>
-        <p class="hero-role">семейный и клинический психолог</p>
-        <blockquote class="hero-quote">
-          <p>«На личном опыте знаю, как многое меняется, когда можно честно говорить о том, что происходит внутри»</p>
-          <cite>Психолог, Анна Щеголихина</cite>
-        </blockquote>
-        <p style="margin-top:1.25rem;"><a class="btn btn-primary" href="#booking">Записаться на консультацию</a></p>
+    <section class="page-hero niche-hero about-hero">
+      <div class="wrap about-hero-grid">
+        <div>
+          <p class="eyebrow">О работе</p>
+          <h1 class="hero-headline">Помогаю справляться с <em class="accent">тревогой и сложностями в отношениях</em></h1>
+          <p class="hero-name">Анна Щеголихина</p>
+          <p class="hero-role">семейный и клинический психолог</p>
+          <blockquote class="hero-quote">
+            <p>«На личном опыте знаю, как многое меняется, когда можно честно говорить о том, что происходит внутри»</p>
+            <cite>Психолог, Анна Щеголихина</cite>
+          </blockquote>
+          <p style="margin-top:1.25rem;"><a class="btn btn-primary" href="#booking">Записаться на консультацию</a></p>
+        </div>
+        <div class="about-hero-photo">
+          <img src="/assets/images/tilda/about-photo.jpg" alt="Анна Щеголихина" width="520" height="640" loading="eager" />
+        </div>
       </div>
     </section>
 
@@ -82,13 +87,31 @@
         <p>Меня зовут Анна Щеголихина, я — клинический и семейный психолог. В психологии с 2019 года. Работаю со взрослыми и парами, помогая разобраться в сложных чувствах, напряжении в отношениях и справиться с внутренней неуверенностью.</p>
         <p>Помимо частной практики: организую психологические фестивали и летние смены «ЯРЧЕ»; являюсь соучредителем сервиса по подбору и работе с психологами «ДА»; провожу психологические мастер-классы.</p>
         <p>С опорой на личную терапию, регулярную супервизию и постоянное обучение я помогаю людям справляться с жизненными трудностями и находить пути к изменениям. В работе я создаю пространство, где можно спокойно говорить о сложном. Я верю, что у каждого человека есть ресурсы для изменений — иногда достаточно безопасного разговора со специалистом, чтобы их увидеть.</p>
-        <h2 id="education">Образование и квалификация</h2>
-        <ul class="list-check">
+      </div>
+    </section>
+
+    <section class="section section-soft" id="education">
+      <div class="wrap">
+        <h2>Образование и дипломы</h2>
+        <p class="section-lead">Профессиональный статус (квалификация)</p>
+        <ul class="list-check about-edu-list">
           <li>Клинический психолог</li>
           <li>Семейный психолог</li>
           <li>Групповой терапевт (в процессе обучения)</li>
           <li>Более 2 000 часов образования</li>
         </ul>
+        <div class="about-projects">
+          <article class="about-project">
+            <img src="/assets/images/tilda/about-yarche.jpg" alt="" width="420" height="280" loading="lazy" />
+            <h3>Фестивали и смены «ЯРЧЕ»</h3>
+            <p>Организую психологические фестивали и летние смены.</p>
+          </article>
+          <article class="about-project">
+            <img src="/assets/images/tilda/about-da.png" alt="" width="420" height="280" loading="lazy" />
+            <h3>Сервис «ДА»</h3>
+            <p>Соучредитель сервиса по подбору и работе с психологами.</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -185,9 +208,9 @@
       </div>
     </section>
 
-    <section class="section section-lavender" id="booking">
+    <section class="section section-white" id="booking">
       <div class="wrap">
-        <h2>Выберите удобное время в графике</h2>
+        <h2 class="booking-heading">Выберите удобное <em class="accent">время в графике</em>, чтобы записаться на Онлайн консультацию ↴</h2>
         <div class="booking-shell"><div data-anna-psy-widget></div></div>
         <p class="calendar-note">Если календарь не отображается, попробуйте отключить VPN или открыть страницу в другом браузере.</p>
       </div>
@@ -197,12 +220,24 @@
       <div class="wrap contact-grid">
         <div>
           <h2>Контакты</h2>
-          <p class="section-lead">Я отвечу вам в течение дня.</p>
-          <p><a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram @annashhe</a><br />
-          <a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp +7 913 755 62 84</a><br />
-          <a href="tel:+79137556284">+7 913 755 62 84</a></p>
+          <p class="section-lead">Вы можете связаться со мной любым удобным для вас способом, чтобы обсудить ваш запрос и подобрать удобное время. Я отвечу вам в течение дня.</p>
+          <p class="contact-phone"><a href="tel:+79137556284">+7 913 755 62 84</a></p>
+          <div class="social-round">
+            <a class="social-btn" href="https://t.me/annashhe" target="_blank" rel="noopener" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9 2C6.4 2 2 6.4 2 11.9c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9S17.4 2 11.9 2zm5.8 7.1-1.9 9c-.1.6-.5.8-1 .5l-2.8-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9l11-4.2c.5-.2 1 .1.8.7z"/></svg>
+            </a>
+            <a class="social-btn" href="https://wa.me/79137556284" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 14.9L2 22l5.3-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3.1.8.8-3-.2-.3A8 8 0 1 1 12 20zm4.6-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.7.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4 0-.1 0-.3-.1-.4-.1-.1-.5-1.3-.7-1.8-.2-.5-.4-.4-.5-.4h-.4c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.5 3.9 3.4 2.3.9 2.3.6 2.7.6.4 0 1.3-.5 1.5-1 .2-.5.2-.9.1-1 0-.1-.2-.2-.4-.3z"/></svg>
+            </a>
+            <a class="social-btn" href="https://max.ru/u/f9LHodD0cOKrHIa3XdZycCKQSXXx0dFf9Ck7hXPtx3Ti-6RSxFnoPC7d1Ag" target="_blank" rel="noopener" aria-label="MAX">
+              <img src="/assets/images/icons/max.svg" alt="" width="22" height="22" />
+            </a>
+            <a class="social-btn" href="tel:+79137556284" aria-label="Позвонить">
+              <img src="/assets/images/icons/phone.svg" alt="" width="28" height="28" />
+            </a>
+          </div>
         </div>
-        <form class="form" id="callbackForm" novalidate>
+        <form class="form form-card" id="callbackForm" novalidate>
           <label>Имя<input name="name" type="text" autocomplete="name" required /></label>
           <label>Телефон<input name="phone" type="tel" autocomplete="tel" required /></label>
           <fieldset data-contact-methods>
@@ -219,6 +254,13 @@
           <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <button class="btn btn-primary" type="submit">Отправить заявку</button>
         </form>
+      </div>
+    </section>
+
+    <section class="cta-band">
+      <div class="wrap cta-band-inner">
+        <p>Остались сомнения или страхи?</p>
+        <a class="btn btn-primary" href="#contact">Связаться со мной ↴</a>
       </div>
     </section>
   </main>

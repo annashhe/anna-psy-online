@@ -158,13 +158,71 @@
     });
   }
 
+  function closeAllDropdowns(except) {
+    document.querySelectorAll('.nav-item.is-open').forEach(function (item) {
+      if (item === except) return;
+      item.classList.remove('is-open');
+      var toggle = item.querySelector('[data-dropdown-toggle]');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function initMobileNav() {
     var btn = document.querySelector('[data-nav-toggle]');
     var nav = document.querySelector('.site-header .nav');
+    var header = document.querySelector('.site-header');
     if (!btn || !nav) return;
+
     btn.addEventListener('click', function () {
       var open = nav.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) closeAllDropdowns();
+    });
+
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        if (window.matchMedia('(max-width: 860px)').matches) {
+          nav.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+          closeAllDropdowns();
+        }
+      });
+    });
+
+    if (header) {
+      var onScroll = function () {
+        header.classList.toggle('is-scrolled', window.scrollY > 8);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  }
+
+  function initNavDropdowns() {
+    var items = document.querySelectorAll('.nav-item');
+    if (!items.length) return;
+
+    items.forEach(function (item) {
+      var toggle = item.querySelector('[data-dropdown-toggle]');
+      if (!toggle) return;
+
+      toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var willOpen = !item.classList.contains('is-open');
+        closeAllDropdowns(item);
+        item.classList.toggle('is-open', willOpen);
+        toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+    });
+
+    document.addEventListener('click', function (event) {
+      if (event.target.closest('.nav-item')) return;
+      closeAllDropdowns();
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeAllDropdowns();
     });
   }
 
@@ -236,6 +294,7 @@
     initCallbackForm();
     initVoprosForm();
     initMobileNav();
+    initNavDropdowns();
     setupLazyWidget();
     patchBookingThankYou();
   });

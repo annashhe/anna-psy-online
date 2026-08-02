@@ -29,17 +29,40 @@
       <a class="brand" href="/">Психолог Анна Щеголихина</a>
       <button class="mobile-nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="main-nav">Меню</button>
       <nav class="nav" id="main-nav" aria-label="Основная навигация">
-        <a href="#requests">Услуги</a>
-        <a href="/about/">О работе со мной</a>
+        <div class="nav-item">
+          <button class="nav-link" type="button" data-dropdown-toggle aria-expanded="false" aria-haspopup="true">Услуги</button>
+          <div class="nav-dropdown" role="menu">
+            <a href="/it/" role="menuitem">Для IT и специалистов</a>
+            <a href="/parting/" role="menuitem">После расставания</a>
+            <a href="/bloggers/" role="menuitem">Для блогеров</a>
+            <a href="/psycholog-dlya-muzhchin/" role="menuitem">Психолог для мужчин</a>
+            <a href="/family/" role="menuitem">Семейный психолог</a>
+            <a href="/psikholog-v-kaliningrade/" role="menuitem">Психолог в Калининграде</a>
+            <a href="/semeynyy-psikholog-kaliningrad/" role="menuitem">Семейный в Калининграде</a>
+            <a href="/group2026/" role="menuitem">Группа 2026</a>
+            <a href="/vopros-psikhologu/" role="menuitem">Вопрос психологу</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <button class="nav-link" type="button" data-dropdown-toggle aria-expanded="false" aria-haspopup="true">О работе со мной</button>
+          <div class="nav-dropdown" role="menu">
+            <a href="/about/" role="menuitem">Обо мне</a>
+            <a href="/#how" role="menuitem">Как проходит работа</a>
+            <a href="/about/#reviews" role="menuitem">Отзывы</a>
+            <a href="/about/#pricing" role="menuitem">Стоимость</a>
+            <a href="/blog/" role="menuitem">Блог</a>
+          </div>
+        </div>
         <a href="#pricing">Стоимость</a>
         <a href="#reviews">Отзывы</a>
         <a href="#contact">Контакты</a>
+        <a class="nav-mobile-cta btn btn-primary" href="#booking">Записаться на консультацию</a>
       </nav>
       <div class="header-actions">
-        <a class="tg-btn" href="https://t.me/annashhe" target="_blank" rel="noopener" aria-label="Telegram">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.8 4.2 2.9 11.5c-1.3.5-1.3 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.7.4.9 1 .9.6 0 .9-.3 1.2-.6l2.7-2.6 5.6 4.1c1 .6 1.8.3 2.1-.9L23.7 5.5c.4-1.5-.5-2.2-1.9-1.3zM9.7 14.7l-.3 3.5 1.7-2.2 7.7-7c.3-.3.7 0 .4.3L9.7 14.7z"/></svg>
+        <a class="btn-icon" href="https://t.me/annashhe" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.9 2C6.4 2 2 6.4 2 11.9c0 1.8.5 3.5 1.3 5L2 22l5.2-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 9.9-4.4 9.9-9.9S17.4 2 11.9 2zm5.8 7.1-1.9 9c-.1.6-.5.8-1 .5l-2.8-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9l11-4.2c.5-.2 1 .1.8.7z"/></svg>
         </a>
-        <a class="header-cta" href="#booking">Записаться на консультацию</a>
+        <a class="btn btn-primary header-cta" href="#booking"><span class="btn-label-full">Записаться на консультацию</span><span class="btn-label-short">Записаться</span></a>
       </div>
     </div>
   </header>
@@ -48,11 +71,9 @@
     <section class="hero hero-with-photo">
       <div class="wrap hero-grid fade-in">
         <div>
-          <h1 class="hero-headline">Помогаю справляться с <span class="accent">тревогой и сложностями в отношениях</span></h1>
-          <div class="hero-meta">
-            <p class="hero-name">Анна Щеголихина</p>
-            <p class="hero-role">семейный и клинический психолог</p>
-          </div>
+          <h1 class="hero-headline">Помогаю справляться с <em class="accent">тревогой и сложностями в отношениях</em></h1>
+          <p class="hero-name">Анна Щеголихина</p>
+          <p class="hero-role">семейный и клинический психолог</p>
           <div class="cta-row">
             <a class="btn btn-primary" href="#booking">Записаться на консультацию</a>
           </div>
@@ -319,6 +340,10 @@
       </nav>
     </div>
   </footer>
+
+  <div class="mobile-sticky-cta">
+    <a class="btn btn-primary" href="#booking">Записаться на консультацию</a>
+  </div>
 
   <script src="/assets/site.js" defer></script>
 </body>

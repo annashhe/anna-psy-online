@@ -125,15 +125,22 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: linear-gradient(180deg, #d8c6e0 0%, #eadbef 28%, #eadbef 100%);
-  border-bottom: 1px solid transparent;
-  transition: box-shadow var(--ease), border-color var(--ease), background var(--ease);
+  /* Flat lavender foot so sticky header never hard-cuts into hero / booking wash */
+  background: linear-gradient(180deg, #d8c6e0 0%, #eadbef 42%, #eadbef 100%);
+  border-bottom: none;
+  box-shadow: none;
+  transition: background var(--ease), backdrop-filter var(--ease);
 }
 
 .site-header.is-scrolled {
-  border-bottom-color: rgba(180, 67, 108, 0.08);
-  box-shadow: 0 4px 18px rgba(114, 41, 70, 0.06);
-  background: linear-gradient(180deg, rgba(234, 219, 239, 0.97) 0%, rgba(250, 246, 251, 0.97) 100%);
+  border-bottom: none;
+  box-shadow: none;
+  background: linear-gradient(
+    180deg,
+    rgba(216, 198, 224, 0.94) 0%,
+    rgba(234, 219, 239, 0.96) 55%,
+    rgba(234, 219, 239, 0.96) 100%
+  );
   backdrop-filter: blur(10px);
 }
 
@@ -752,30 +759,50 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 /* —— Change photo cards —— */
+/* Lavender band behind grid so gaps between cards read clearly */
+.section:has(.change-cards) {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f3eaf6 12%,
+    #eadbef 28%,
+    #eadbef 72%,
+    #f3eaf6 88%,
+    #ffffff 100%
+  );
+}
+
 .change-cards {
   display: grid;
-  gap: 1.75rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(3, 1fr);
 }
 
 .change-card {
   min-height: 300px;
   aspect-ratio: 4 / 3;
-  border-radius: 10px;
+  border-radius: 12px;
   background-size: cover;
   background-position: center;
   overflow: hidden;
   display: flex;
   align-items: stretch;
-  box-shadow: none;
+  box-shadow: var(--shadow-soft);
   position: relative;
+  isolation: isolate;
 }
 
 .change-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(252, 251, 253, 0.78);
+  /* Translucent mist — photos stay visible, text remains readable */
+  background: linear-gradient(
+    180deg,
+    rgba(252, 251, 253, 0.42) 0%,
+    rgba(252, 251, 253, 0.58) 45%,
+    rgba(252, 251, 253, 0.78) 100%
+  );
   z-index: 0;
 }
 
@@ -797,9 +824,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .change-card h3 span,
 .change-card p span {
-  background: rgba(252, 251, 253, 0.92);
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+  background: transparent;
 }
 
 .change-card p {
@@ -2260,9 +2285,17 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     padding: 0.65rem 0.85rem;
   }
 
-  .nav-mobile-cta {
-    display: block !important;
+  .nav > a.nav-mobile-cta {
+    display: flex !important;
     margin-top: 0.5rem;
+    justify-content: center;
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .nav > a.nav-mobile-cta:hover {
+    background: var(--accent-dark);
+    color: #fff;
   }
 
   .hero-grid {
@@ -2430,8 +2463,13 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   }
 }
 
-/* Desktop: hide mobile-only nav CTA duplicate unless in open menu */
-.nav-mobile-cta {
+/*
+  Desktop: hide mobile-only nav CTA.
+  Must beat `.nav > a { display: inline-flex }` (0,1,1) — a lone
+  `.nav-mobile-cta { display: none }` loses and the link shows as
+  plain ink-colored nav text under the menu row.
+*/
+.nav > a.nav-mobile-cta {
   display: none;
 }
 

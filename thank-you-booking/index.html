@@ -8,20 +8,128 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<link rel="stylesheet" href="/assets/site.css" />
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
 <body>
-  <div class="banner-test">ТЕСТОВЫЙ САЙТ · noindex · <a href="/" >на главную</a></div>
-  <header class="site-header"><div class="wrap"><a class="brand" href="/">Психолог Анна Щеголихина</a></div></header>
+  <div class="banner-test">ТЕСТОВЫЙ САЙТ · noindex · <a href="/">на главную</a></div>
+  <header class="site-header">
+    <div class="wrap"><a class="brand" href="/">Психолог Анна Щеголихина</a></div>
+  </header>
   <main class="page-hero">
-    <div class="thank-card">
+    <div class="thank-card thank-card-wide" id="thankYouContent">
       <h1>Спасибо!</h1>
-      <p>Запись принята. Я свяжусь с вами для подтверждения. Если нужно что-то уточнить раньше — напишите в <a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a>.</p><p><a class="btn btn-ghost" href="/">На главную</a></p>
+      <p class="thank-lead">Запись принята. Загрузка…</p>
     </div>
   </main>
-  <footer class="site-footer"><div class="wrap"><div>© Щеголихина А. М. · тест</div><nav><a href="/privacy/">Конфиденциальность</a><a href="/oferta/">Оферта</a></nav></div></footer>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>© Щеголихина А. М. · тест</div>
+      <nav><a href="/privacy/">Конфиденциальность</a><a href="/oferta/">Оферта</a></nav>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var CONTACT = { telegram: 'Telegram', whatsapp: 'WhatsApp', max: 'MAX', sms: 'SMS' };
+      var MAX_URL = 'https://max.ru/u/f9LHodD0cOKrHIa3XdZycCKQSXXx0dFf9Ck7hXPtx3Ti-6RSxFnoPC7d1Ag';
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function maskPhone(phone) {
+        var digits = String(phone || '').replace(/\D/g, '');
+        if (digits.length < 11) return '';
+        return '+7 ••• ••• ' + digits.slice(-4, -2) + '-' + digits.slice(-2);
+      }
+
+      function formatContact(methods, fallback) {
+        if (fallback) return fallback;
+        var list = (Array.isArray(methods) ? methods : [])
+          .map(function (m) {
+            var key = String(m || '').toLowerCase();
+            return CONTACT[key] || String(m || '').trim();
+          })
+          .filter(Boolean);
+        if (!list.length) return 'Telegram, WhatsApp или MAX';
+        if (list.length === 1) return list[0];
+        if (list.length === 2) return list[0] + ' или ' + list[1];
+        return list.slice(0, -1).join(', ') + ' или ' + list[list.length - 1];
+      }
+
+      function row(label, value, highlight) {
+        if (!value) return '';
+        return (
+          '<div class="thank-row' +
+          (highlight ? ' is-highlight' : '') +
+          '"><span>' +
+          escapeHtml(label) +
+          '</span><strong>' +
+          value +
+          '</strong></div>'
+        );
+      }
+
+      var root = document.getElementById('thankYouContent');
+      var raw = null;
+      try {
+        raw = sessionStorage.getItem('bookingThankYou');
+        sessionStorage.removeItem('bookingThankYou');
+      } catch (e) {}
+
+      var messengers =
+        '<a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a>, ' +
+        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a> или ' +
+        '<a href="' + MAX_URL + '" target="_blank" rel="noopener">MAX</a>';
+
+      if (!raw) {
+        root.innerHTML =
+          '<h1>Спасибо!</h1>' +
+          '<p class="thank-lead">Если вы только что записались через календарь, заявка принята. Я свяжусь с вами в течение дня тем способом, который вы указали в форме записи.</p>' +
+          '<p class="thank-note">Если нужно уточнить раньше — напишите в ' + messengers + '.</p>' +
+          '<p><a class="btn btn-ghost" href="/">На главную</a></p>';
+        return;
+      }
+
+      var data = {};
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        data = {};
+      }
+
+      var name = escapeHtml(data.name || '');
+      var via = formatContact(data.contactMethods, data.contact);
+      var phone = maskPhone(data.phone);
+      var greeting = name ? 'Спасибо, ' + name + '!' : 'Спасибо!';
+
+      root.innerHTML =
+        '<h1>' + greeting + '</h1>' +
+        '<p class="thank-lead">Я получила вашу заявку на онлайн-консультацию и свяжусь с вами через ' +
+        escapeHtml(via) +
+        (phone ? ' по телефону <strong>' + escapeHtml(phone) + '</strong>' : '') +
+        ' в течение дня, чтобы подтвердить запись.</p>' +
+        '<div class="thank-details">' +
+        row('Имя', name) +
+        row('Телефон', phone ? escapeHtml(phone) : '') +
+        row('Email', data.email ? escapeHtml(data.email) : '') +
+        row('Формат', data.therapy ? escapeHtml(data.therapy) : '') +
+        row('Длительность', data.duration ? escapeHtml(data.duration) : '', true) +
+        row('Стоимость', data.price ? escapeHtml(data.price) : '', true) +
+        row('Способ связи', escapeHtml(via)) +
+        row('Выбранное время', data.datetime ? escapeHtml(data.datetime) : '', true) +
+        row('Комментарий', data.comment ? escapeHtml(data.comment) : '') +
+        '</div>' +
+        '<p class="thank-note">Если нужно перенести время — напишите в ' + messengers + '.</p>' +
+        '<p><a class="btn btn-ghost" href="/">Вернуться на сайт</a></p>';
+    })();
+  </script>
+  <script src="/assets/site.js" defer></script>
 </body>
 </html>

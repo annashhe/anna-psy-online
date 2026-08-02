@@ -45,6 +45,18 @@
     })
       .then(function (res) {
         if (!res.ok) throw new Error('lead_failed');
+        try {
+          sessionStorage.setItem(
+            'callbackThankYou',
+            JSON.stringify({
+              name: payload.name || '',
+              phone: payload.phone || '',
+              contactMethods: payload.contactMethods || [],
+              comment: payload.comment || '',
+              source: payload.source || 'callback'
+            })
+          );
+        } catch (e) {}
         window.location.href = '/thank-you-callback/';
       })
       .catch(function () {
@@ -338,17 +350,119 @@
     if (!window.fetch) return;
     var original = window.fetch.bind(window);
     var started = false;
+    var CONTACT = { telegram: 'Telegram', whatsapp: 'WhatsApp', max: 'MAX', sms: 'SMS' };
+    var THERAPY = {
+      individual: { title: 'Индивидуальная консультация', duration: '50 минут', price: '4 500 ₽' },
+      individual90: { title: 'Индивидуальная консультация', duration: '90 минут', price: '7 000 ₽' },
+      individual_90: { title: 'Индивидуальная консультация', duration: '90 минут', price: '7 000 ₽' },
+      family: { title: 'Семейная (парная) консультация', duration: '90 минут', price: '7 000 ₽' }
+    };
+
+    function resolveTherapy(payload) {
+      var type = (payload && (payload.therapyType || payload.therapy)) || 'individual';
+      if (type === 'individual_90') type = 'individual90';
+      if (payload && payload.startIso && payload.endIso) {
+        var mins = Math.round((new Date(payload.endIso) - new Date(payload.startIso)) / 60000);
+        if (type === 'individual' && mins >= 80) type = 'individual90';
+      }
+      return { type: type, meta: THERAPY[type] || THERAPY.individual };
+    }
+
+    function formatContact(methods) {
+      var list = (Array.isArray(methods) ? methods : [])
+        .map(function (m) {
+          var key = String(m || '').toLowerCase();
+          return CONTACT[key] || String(m || '').trim();
+        })
+        .filter(Boolean);
+      if (!list.length) return '';
+      if (list.length === 1) return list[0];
+      if (list.length === 2) return list[0] + ' или ' + list[1];
+      return list.slice(0, -1).join(', ') + ' или ' + list[list.length - 1];
+    }
+
+    function formatWhen(startIso, endIso, tz) {
+      if (!startIso) return '';
+      try {
+        var start = new Date(startIso);
+        var end = endIso ? new Date(endIso) : null;
+        var zone = tz || 'Europe/Kaliningrad';
+        var datePart = start.toLocaleDateString('ru-RU', {
+          timeZone: zone,
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+        var t0 = start.toLocaleTimeString('ru-RU', {
+          timeZone: zone,
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        if (!end) return datePart + ', ' + t0 + ' (' + zone + ')';
+        var t1 = end.toLocaleTimeString('ru-RU', {
+          timeZone: zone,
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        return datePart + ', ' + t0 + ' – ' + t1 + ' (' + zone + ')';
+      } catch (e) {
+        return startIso;
+      }
+    }
+
     window.fetch = function () {
       var args = arguments;
       var url = String(args[0] || '');
-      var isBooking = /\/public\/bookings\b/.test(url) && args[1] && String(args[1].method || 'GET').toUpperCase() === 'POST';
+      var init = args[1] || {};
+      var isBooking =
+        /\/public\/bookings\b/.test(url) &&
+        String(init.method || 'GET').toUpperCase() === 'POST';
       return original.apply(window, args).then(function (res) {
         if (isBooking && res && res.ok && !started) {
           started = true;
           try {
+            var payload = {};
+            try {
+              payload = init.body ? JSON.parse(init.body) : {};
+            } catch (parseErr) {
+              payload = {};
+            }
+            var therapy = resolveTherapy(payload);
+            var endIso = payload.endIso;
+            if (payload.startIso && !endIso) {
+              var d = new Date(payload.startIso);
+              d.setMinutes(d.getMinutes() + (therapy.meta.duration.indexOf('90') >= 0 ? 90 : 50));
+              endIso = d.toISOString();
+            }
+            sessionStorage.setItem(
+              'bookingThankYou',
+              JSON.stringify({
+                name: payload.name || '',
+                phone: payload.phone || '',
+                email: payload.email || '',
+                therapyType: therapy.type,
+                therapy: therapy.meta.title,
+                duration: therapy.meta.duration,
+                price: therapy.meta.price,
+                contactMethods: Array.isArray(payload.contactMethods)
+                  ? payload.contactMethods.slice()
+                  : [],
+                contact: formatContact(payload.contactMethods),
+                startIso: payload.startIso || '',
+                endIso: endIso || '',
+                clientTimezone: payload.clientTimezone || '',
+                datetime: formatWhen(payload.startIso, endIso, payload.clientTimezone),
+                comment: payload.comment || ''
+              })
+            );
             window.location.href = '/thank-you-booking/';
           } catch (e) {
             started = false;
+            try {
+              window.location.href = '/thank-you-booking/';
+            } catch (e2) {
+              started = false;
+            }
           }
         }
         return res;

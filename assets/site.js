@@ -421,12 +421,24 @@
     });
   }
 
+  function initReviewExpand() {
+    document.querySelectorAll('[data-review-expand]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var card = btn.closest('.review-card');
+        if (!card) return;
+        var open = card.classList.toggle('is-open');
+        btn.textContent = open ? 'Свернуть' : 'Читать полностью';
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initCallbackForm();
     initVoprosForm();
     initMobileNav();
     initNavDropdowns();
     initCarousels();
+    initReviewExpand();
     initCookieBanner();
     setupLazyWidget();
     patchBookingThankYou();

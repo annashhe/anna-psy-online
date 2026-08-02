@@ -1,7 +1,8 @@
 :root {
   --bg: #ffffff;
-  --bg-soft: #f6f6f6;
+  --bg-soft: #faf6fb;
   --bg-lavender: #eadbef;
+  --bg-mist: #fcfbfd;
   --ink: #222222;
   --ink-strong: #111111;
   --muted: #808080;
@@ -19,13 +20,18 @@
   --font-body: "Inter", system-ui, sans-serif;
   --font-quote: Georgia, "Times New Roman", serif;
   --radius: 10px;
-  --radius-lg: 22px;
+  --radius-lg: 30px;
   --header-h: 72px;
   --max: 1140px;
   --ease: 0.22s ease;
   --shadow-soft: 0 8px 24px rgba(114, 41, 70, 0.06);
   --shadow-card: 0 10px 28px rgba(114, 41, 70, 0.08);
   --accent-text: #802d4b;
+  --wash-lav-white: linear-gradient(180deg, #eadbef 0%, #faf6fb 42%, #ffffff 100%);
+  --wash-white-lav: linear-gradient(180deg, #ffffff 0%, #faf6fb 55%, #eadbef 100%);
+  --wash-soft: linear-gradient(180deg, #ffffff 0%, #faf6fb 100%);
+  --wash-quote: linear-gradient(180deg, #faf6fb 0%, #eadbef 48%, #faf6fb 100%);
+  --divider-fade: linear-gradient(90deg, rgba(180, 67, 108, 0), #b4436c 50%, rgba(180, 67, 108, 0));
 }
 
 *,
@@ -370,6 +376,7 @@ a:hover {
   padding: 0;
   min-height: auto;
   align-items: stretch;
+  background: linear-gradient(180deg, #f3e6ef 0%, #faf6fb 38%, #ffffff 100%);
 }
 
 .hero-with-photo .hero-grid {
@@ -477,7 +484,8 @@ a:hover {
 
 /* —— Sections —— */
 .section {
-  padding: 5rem 0;
+  padding: 5.5rem 0;
+  position: relative;
 }
 
 .section-white {
@@ -485,16 +493,29 @@ a:hover {
 }
 
 .section-soft {
-  background: var(--bg-soft);
+  background: var(--wash-soft);
 }
 
 .section-lavender {
-  background: var(--bg-lavender);
+  background: var(--wash-lav-white);
+}
+
+.section-wash-up {
+  background: var(--wash-white-lav);
 }
 
 /* Soft alternating for inner pages that don't set band classes */
-main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.section-lavender) {
-  background: var(--bg-soft);
+main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.section-lavender):not(.section-wash-up) {
+  background: var(--wash-soft);
+}
+
+.section-divider {
+  height: 1px;
+  width: min(720px, 70%);
+  margin: 0 auto;
+  background: var(--divider-fade);
+  opacity: 0.45;
+  border: 0;
 }
 
 .section h2 {
@@ -695,8 +716,14 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .change-card-inner {
   width: 100%;
   margin-top: auto;
-  padding: 1.5rem 1.25rem 1.6rem;
-  background: linear-gradient(to top, rgba(252, 251, 253, 0.96) 35%, rgba(252, 251, 253, 0.55) 75%, transparent);
+  padding: 2rem 1.4rem 1.7rem;
+  background: linear-gradient(
+    to top,
+    rgba(252, 251, 253, 0.97) 0%,
+    rgba(252, 251, 253, 0.88) 42%,
+    rgba(252, 251, 253, 0.35) 72%,
+    rgba(252, 251, 253, 0) 100%
+  );
 }
 
 .change-card h3 {
@@ -770,13 +797,34 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 /* —— Quote bands —— */
 .quote-band {
-  padding: 3.5rem 0;
-  background: var(--bg-lavender);
+  padding: 4.25rem 0;
+  background: var(--wash-quote);
   text-align: center;
+  position: relative;
+}
+
+.quote-band::before,
+.quote-band::after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: min(640px, 68%);
+  margin: 0 auto 2rem;
+  background: var(--divider-fade);
+  opacity: 0.4;
+}
+
+.quote-band::after {
+  margin: 2rem auto 0;
 }
 
 .quote-band-cta .quote-decor {
   margin-bottom: 1.35rem;
+}
+
+.quote-band-cta::before,
+.quote-band-cta::after {
+  display: none;
 }
 
 .quote-decor {
@@ -840,32 +888,70 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .review-card {
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 1.35rem 1.25rem;
-  box-shadow: var(--shadow-soft);
+  background: var(--bg-mist);
+  border: none;
+  border-radius: 30px;
+  padding: 2rem 1.6rem 1.5rem;
+  box-shadow: none;
   height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 16rem;
+  min-height: 22rem;
+}
+
+.review-card-expandable {
+  min-height: 24rem;
+}
+
+.review-card-expandable p {
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+  margin: 0 0 0.85rem;
+  color: #333;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.review-card-expandable.is-open p {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.review-expand {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.92rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  margin-top: auto;
+}
+
+.review-expand:hover {
+  color: var(--accent-dark);
 }
 
 .review-card-circle {
-  border-radius: 50%;
-  aspect-ratio: 1;
-  width: 100%;
-  max-width: 380px;
-  margin-inline: auto;
-  min-height: 0;
-  padding: 2rem 1.6rem 1.8rem;
-  justify-content: flex-start;
-  overflow: hidden;
+  /* legacy override — no longer used as full circle */
+  border-radius: 30px;
+  aspect-ratio: auto;
+  max-width: none;
+  min-height: 22rem;
+  padding: 2rem 1.6rem 1.5rem;
+  overflow: visible;
 }
 
 .review-card-circle p {
   -webkit-line-clamp: 8;
-  font-size: 0.9rem;
+  font-size: 0.98rem;
 }
 
 .review-source {
@@ -918,15 +1004,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .review-card p {
-  margin: 0 0 1rem;
-  color: var(--ink);
-  font-size: 0.94rem;
+  margin: 0 0 0.85rem;
+  color: #333;
+  font-size: 0.98rem;
   line-height: 1.55;
-  display: -webkit-box;
-  -webkit-line-clamp: 7;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
 }
 
 .review-card footer {
@@ -937,16 +1018,16 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .carousel-btn {
-  width: 2.6rem;
-  height: 2.6rem;
-  border-radius: 50%;
-  border: 1px solid rgba(180, 67, 108, 0.25);
-  background: #fff;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50px;
+  border: none;
+  background: #faf6fb;
   color: var(--accent);
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: background var(--ease), color var(--ease), border-color var(--ease), transform var(--ease);
+  transition: background var(--ease), color var(--ease), transform var(--ease);
   flex-shrink: 0;
   padding: 0;
 }
@@ -954,7 +1035,6 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .carousel-btn:hover {
   background: var(--accent);
   color: #fff;
-  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
@@ -1045,17 +1125,26 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 1.35rem 1.5rem;
-  box-shadow: var(--shadow-soft);
-  transition: border-color var(--ease), box-shadow var(--ease);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(180, 67, 108, 0.12);
+  border-radius: 0;
+  padding: 1.45rem 0.25rem;
+  box-shadow: none;
+  transition: none;
 }
 
 .price-line:hover {
   border-color: rgba(180, 67, 108, 0.28);
-  box-shadow: var(--shadow-card);
+  box-shadow: none;
+}
+
+.price-line-package {
+  background: linear-gradient(90deg, rgba(234, 219, 239, 0.55), rgba(250, 246, 251, 0.35));
+  border: none;
+  border-radius: 16px;
+  padding: 1.35rem 1.4rem;
+  margin-top: 0.75rem;
 }
 
 .price-line-copy h3 {
@@ -1098,11 +1187,6 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   letter-spacing: -0.02em;
   white-space: nowrap;
   flex-shrink: 0;
-}
-
-.price-line-package {
-  background: linear-gradient(90deg, rgba(234, 219, 239, 0.55), rgba(250, 246, 251, 0.9));
-  border-color: transparent;
 }
 
 .price-line-package .price-line-copy {
@@ -1908,8 +1992,8 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .site-footer-lavender {
-  background: var(--bg-lavender);
-  color: var(--accent-dark);
+  background: var(--wash-white-lav);
+  color: #555;
 }
 
 .site-footer-lavender a {
@@ -2243,15 +2327,15 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .about-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1.5rem 1.35rem;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(234, 219, 239, 0.8);
+  background: var(--bg-mist);
+  border-radius: 30px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: none;
+  border: 1px solid rgba(234, 219, 239, 0.55);
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
-  min-height: 280px;
+  min-height: 300px;
 }
 
 .about-card .btn {

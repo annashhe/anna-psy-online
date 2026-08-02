@@ -18,13 +18,14 @@
   --font-display: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-quote: Georgia, "Times New Roman", serif;
-  --radius: 14px;
+  --radius: 10px;
   --radius-lg: 22px;
   --header-h: 72px;
   --max: 1140px;
   --ease: 0.22s ease;
-  --shadow-soft: 0 10px 28px rgba(114, 41, 70, 0.07);
-  --shadow-card: 0 12px 36px rgba(114, 41, 70, 0.09);
+  --shadow-soft: 0 8px 24px rgba(114, 41, 70, 0.06);
+  --shadow-card: 0 10px 28px rgba(114, 41, 70, 0.08);
+  --accent-text: #802d4b;
 }
 
 *,
@@ -291,7 +292,7 @@ a:hover {
 
 .hero-headline .accent,
 .hero-headline em {
-  color: var(--accent);
+  color: var(--accent-text);
   font-style: normal;
 }
 
@@ -384,7 +385,7 @@ a:hover {
   min-height: min(62vh, 560px);
   object-fit: cover;
   object-position: center top;
-  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 5rem;
+  border-radius: 100px;
   box-shadow: 0 24px 56px rgba(114, 41, 70, 0.15);
   animation: rise 0.9s ease both;
 }
@@ -476,7 +477,7 @@ a:hover {
 
 /* —— Sections —— */
 .section {
-  padding: 4.5rem 0;
+  padding: 5rem 0;
 }
 
 .section-white {
@@ -498,18 +499,27 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .section h2 {
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: clamp(1.55rem, 2.8vw, 2.1rem);
-  margin: 0 0 0.55rem;
+  font-weight: 500;
+  font-size: clamp(1.85rem, 4vw, 3.1rem);
+  margin: 0 0 2.5rem;
   line-height: 1.25;
   letter-spacing: -0.02em;
-  color: var(--ink-strong);
+  color: #333;
+  text-align: center;
 }
 
 .section-lead {
   color: var(--muted);
   max-width: 48ch;
-  margin: 0 0 1.85rem;
+  margin: 0 auto 1.85rem;
+  text-align: center;
+}
+
+.section-lead-note {
+  font-size: 0.92rem;
+  max-width: 56ch;
+  margin-top: -1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .section-cta {
@@ -567,15 +577,20 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   grid-template-columns: repeat(2, 1fr);
 }
 
+.request-grid-4 {
+  max-width: 920px;
+  margin-inline: auto;
+}
+
 .request-item {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 1rem;
   align-items: start;
-  padding: 1.15rem 1.1rem;
+  padding: 1.25rem 1.2rem;
   background: #fff;
-  border-radius: var(--radius);
-  border: 1px solid transparent;
+  border-radius: 10px;
+  border: 1px solid rgba(234, 219, 239, 0.9);
   box-shadow: var(--shadow-soft);
   transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
 }
@@ -587,31 +602,69 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .request-icon {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3.25rem;
+  height: 3.25rem;
   border-radius: 50%;
-  background: var(--bg-lavender);
+  background: transparent;
   color: var(--accent);
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
 
+.request-icon img,
 .request-icon svg {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .request-item h3 {
   margin: 0 0 0.35rem;
-  font-size: 1.05rem;
-  color: var(--accent-dark);
+  font-size: 1.1rem;
+  color: var(--accent-text);
 }
 
 .request-item p {
   margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
+  color: #333;
+  font-size: 0.98rem;
+}
+
+/* —— Change photo cards —— */
+.change-cards {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.change-card {
+  min-height: 280px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--shadow-soft);
+}
+
+.change-card-inner {
+  width: 100%;
+  padding: 1.35rem 1.25rem 1.5rem;
+  background: linear-gradient(to bottom, rgba(252, 251, 253, 0.9), rgba(252, 251, 253, 0.92));
+}
+
+.change-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.35rem, 2vw, 1.9rem);
+  font-weight: 500;
+  color: var(--accent-text);
+}
+
+.change-card p {
+  margin: 0;
+  color: #333;
+  font-size: 1.05rem;
 }
 
 /* —— Icon cards (results) —— */
@@ -623,7 +676,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .icon-card {
   background: #fff;
-  border-radius: 18px;
+  border-radius: 10px;
   padding: 1.5rem 1.3rem 1.4rem;
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(234, 219, 239, 0.7);
@@ -737,13 +790,45 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .review-card {
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 10px;
   padding: 1.35rem 1.25rem;
   box-shadow: var(--shadow-soft);
   height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 16rem;
+}
+
+.review-card-avatar {
+  min-height: 18rem;
+}
+
+.review-head {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.review-avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.review-head strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--ink-strong);
+}
+
+.review-head span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 400;
 }
 
 .review-card .stars {
@@ -831,7 +916,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 /* —— Leave review checklist —— */
 .leave-review .checklist {
   list-style: none;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   display: grid;
   gap: 0.85rem;
@@ -840,21 +925,21 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .checklist li {
   position: relative;
-  padding-left: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.35rem 0;
   font-size: 1.02rem;
 }
 
 .checklist li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.45rem;
-  width: 0.85rem;
-  height: 0.85rem;
-  border-radius: 50%;
-  border: 2px solid var(--accent);
-  background: #fff;
-  box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 5px var(--accent);
+  display: none;
+}
+
+.checklist li img {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
 }
 
 .checklist a {
@@ -883,7 +968,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   gap: 1.5rem;
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 10px;
   padding: 1.35rem 1.5rem;
   box-shadow: var(--shadow-soft);
   transition: border-color var(--ease), box-shadow var(--ease);
@@ -904,7 +989,12 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   margin: 0;
   color: var(--muted);
   font-size: 0.94rem;
-  max-width: 48ch;
+  max-width: 52ch;
+}
+
+.price-check {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .price-line-side {
@@ -915,10 +1005,11 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .price-line .amount {
   font-weight: 700;
   font-size: 1.85rem;
-  margin: 0 0 0.55rem;
+  margin: 0;
   color: var(--accent-dark);
   letter-spacing: -0.02em;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-sm {
@@ -931,6 +1022,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   gap: 1rem;
   align-items: flex-start;
   margin-top: 1.25rem;
+  background: var(--bg-lavender);
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
 }
 
 .package-banner p {
@@ -945,7 +1039,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   min-width: 3.4rem;
   height: 2.2rem;
   padding: 0 0.65rem;
-  border-radius: 999px;
+  border-radius: 10px;
   background: var(--accent);
   color: #fff;
   font-weight: 700;
@@ -1986,5 +2080,221 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 @media (min-width: 861px) {
   .nav-item:focus-within > .nav-dropdown {
     display: block;
+  }
+}
+
+/* —— About cards (Tilda parity) —— */
+.about-cards {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.about-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem 1.35rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(234, 219, 239, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.about-card h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.about-card p {
+  margin: 0;
+  color: #333;
+  font-size: 0.98rem;
+}
+
+.about-principles {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #333;
+}
+
+.about-principles li {
+  margin-bottom: 0.35rem;
+}
+
+.about-card-link {
+  margin-top: auto;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--accent);
+}
+
+.about-card-link:hover {
+  color: var(--accent-dark);
+}
+
+.about-card-project .about-card-thumb {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 0.35rem;
+}
+
+.format-icon {
+  margin-bottom: 0.75rem;
+}
+
+.format-icon img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+/* —— Articles grid —— */
+.articles-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.article-card {
+  display: block;
+  text-decoration: none;
+  color: #6a2841;
+  transition: transform var(--ease);
+}
+
+.article-card:hover {
+  transform: translateY(-3px);
+  color: var(--accent-dark);
+}
+
+.article-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 30px;
+  margin-bottom: 0.85rem;
+}
+
+.article-card strong {
+  display: block;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+/* —— Cookie banner —— */
+.cookie-banner {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 80;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  max-width: 600px;
+  padding: 1rem 1.15rem;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.cookie-banner[hidden] {
+  display: none !important;
+}
+
+.cookie-banner p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.45;
+}
+
+.btn-cookie {
+  flex-shrink: 0;
+  background: #fff;
+  color: #555;
+  border: 1px solid #999;
+  border-radius: 10px;
+  padding: 0.45rem 1rem;
+  font-weight: 500;
+}
+
+.btn-cookie:hover {
+  background: #e8e8e8;
+  color: #111;
+  border-color: #111;
+  transform: none;
+  box-shadow: none;
+}
+
+.social-btn img {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+@media (max-width: 1100px) {
+  .articles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .about-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .change-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .change-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .articles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .price-line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-line .amount {
+    font-size: 1.55rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .about-cards,
+  .articles-grid,
+  .request-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-with-photo .hero-photo {
+    border-radius: 30px;
+  }
+
+  .cookie-banner {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    max-width: none;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .article-card img {
+    border-radius: 20px;
   }
 }

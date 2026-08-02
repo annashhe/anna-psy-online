@@ -389,12 +389,30 @@
     update();
   }
 
+  function initCookieBanner() {
+    var banner = document.querySelector('[data-cookie-banner]');
+    var ok = document.querySelector('[data-cookie-ok]');
+    if (!banner || !ok) return;
+    var key = 'anna_psy_cookie_ok';
+    try {
+      if (window.localStorage.getItem(key) === '1') return;
+    } catch (e) {}
+    banner.hidden = false;
+    ok.addEventListener('click', function () {
+      try {
+        window.localStorage.setItem(key, '1');
+      } catch (err) {}
+      banner.hidden = true;
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initCallbackForm();
     initVoprosForm();
     initMobileNav();
     initNavDropdowns();
     initReviewsCarousel();
+    initCookieBanner();
     setupLazyWidget();
     patchBookingThankYou();
   });

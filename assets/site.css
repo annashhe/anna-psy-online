@@ -18,11 +18,13 @@
   --font-display: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-quote: Georgia, "Times New Roman", serif;
-  --radius: 12px;
-  --radius-lg: 28px;
+  --radius: 14px;
+  --radius-lg: 22px;
   --header-h: 72px;
   --max: 1140px;
   --ease: 0.22s ease;
+  --shadow-soft: 0 10px 28px rgba(114, 41, 70, 0.07);
+  --shadow-card: 0 12px 36px rgba(114, 41, 70, 0.09);
 }
 
 *,
@@ -474,10 +476,23 @@ a:hover {
 
 /* —— Sections —— */
 .section {
-  padding: 4rem 0;
+  padding: 4.5rem 0;
 }
 
-.section:nth-of-type(even) {
+.section-white {
+  background: #fff;
+}
+
+.section-soft {
+  background: var(--bg-soft);
+}
+
+.section-lavender {
+  background: var(--bg-lavender);
+}
+
+/* Soft alternating for inner pages that don't set band classes */
+main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.section-lavender) {
   background: var(--bg-soft);
 }
 
@@ -495,6 +510,16 @@ a:hover {
   color: var(--muted);
   max-width: 48ch;
   margin: 0 0 1.85rem;
+}
+
+.section-cta {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.section-more {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
 }
 
 .grid-3 {
@@ -520,7 +545,7 @@ a:hover {
 .tile:hover {
   border-color: rgba(180, 67, 108, 0.28);
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(114, 41, 70, 0.07);
+  box-shadow: var(--shadow-soft);
 }
 
 .tile h3 {
@@ -533,6 +558,592 @@ a:hover {
   margin: 0;
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+/* —— Request list (2-col with icons) —— */
+.request-grid {
+  display: grid;
+  gap: 1.25rem 2rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.request-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.15rem 1.1rem;
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+}
+
+.request-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+  border-color: rgba(180, 67, 108, 0.18);
+}
+
+.request-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--bg-lavender);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.request-icon svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.request-item h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  color: var(--accent-dark);
+}
+
+.request-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* —— Icon cards (results) —— */
+.icon-cards {
+  display: grid;
+  gap: 1.15rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.icon-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.5rem 1.3rem 1.4rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(234, 219, 239, 0.7);
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.icon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.icon-blob {
+  width: 3.4rem;
+  height: 3.4rem;
+  margin-bottom: 1rem;
+  border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
+  background: linear-gradient(145deg, #f3e4ef 0%, #eadbef 55%, #e2d0ea 100%);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+}
+
+.icon-blob svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.icon-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  color: var(--ink-strong);
+}
+
+.icon-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+/* —— Quote bands —— */
+.quote-band {
+  padding: 3.5rem 0;
+  background: var(--bg-lavender);
+  text-align: center;
+}
+
+.quote-band-cta .quote-decor {
+  margin-bottom: 1.35rem;
+}
+
+.quote-decor {
+  margin: 0 auto;
+  max-width: 40ch;
+  position: relative;
+}
+
+.quote-mark {
+  display: block;
+  font-family: var(--font-quote);
+  font-size: 4.5rem;
+  line-height: 0.6;
+  color: var(--accent);
+  opacity: 0.55;
+  margin-bottom: 0.75rem;
+}
+
+.quote-decor p {
+  font-family: var(--font-quote);
+  font-size: clamp(1.25rem, 2.6vw, 1.65rem);
+  line-height: 1.4;
+  margin: 0;
+  color: var(--ink-strong);
+}
+
+.quote-decor cite {
+  display: block;
+  margin-top: 0.85rem;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* —— Review carousel —— */
+.carousel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.35s ease;
+  will-change: transform;
+  touch-action: pan-y;
+}
+
+.carousel-card {
+  flex: 0 0 calc((100% - 2rem) / 3);
+  min-width: 0;
+}
+
+.review-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.35rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 16rem;
+}
+
+.review-card .stars {
+  color: #d4a017;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  margin-bottom: 0.65rem;
+}
+
+.review-card p {
+  margin: 0 0 1rem;
+  color: var(--ink);
+  font-size: 0.94rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.review-card footer {
+  font-size: 0.85rem;
+  color: var(--accent-dark);
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.carousel-btn {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  border: 1px solid rgba(180, 67, 108, 0.25);
+  background: #fff;
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background var(--ease), color var(--ease), border-color var(--ease), transform var(--ease);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.carousel-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+.carousel-btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.1rem;
+}
+
+.carousel-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(180, 67, 108, 0.25);
+  padding: 0;
+  cursor: pointer;
+  transition: background var(--ease), transform var(--ease);
+}
+
+.carousel-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+/* —— Leave review checklist —— */
+.leave-review .checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+  max-width: 36rem;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 1.75rem;
+  font-size: 1.02rem;
+}
+
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  background: #fff;
+  box-shadow: inset 0 0 0 2px #fff, inset 0 0 0 5px var(--accent);
+}
+
+.checklist a {
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--ease), color var(--ease);
+}
+
+.checklist a:hover {
+  color: var(--accent);
+  border-bottom-color: rgba(180, 67, 108, 0.35);
+}
+
+/* —— Pricing as elegant rows —— */
+.price-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.price-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.35rem 1.5rem;
+  box-shadow: var(--shadow-soft);
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+
+.price-line:hover {
+  border-color: rgba(180, 67, 108, 0.28);
+  box-shadow: var(--shadow-card);
+}
+
+.price-line-copy h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.08rem;
+  color: var(--ink-strong);
+}
+
+.price-line-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  max-width: 48ch;
+}
+
+.price-line-side {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.price-line .amount {
+  font-weight: 700;
+  font-size: 1.85rem;
+  margin: 0 0 0.55rem;
+  color: var(--accent-dark);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.btn-sm {
+  padding: 0.55rem 1rem;
+  font-size: 0.88rem;
+}
+
+.package-banner {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-top: 1.25rem;
+}
+
+.package-banner p {
+  margin: 0.35rem 0 0;
+}
+
+.package-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.4rem;
+  height: 2.2rem;
+  padding: 0 0.65rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.package-note {
+  opacity: 0.85;
+  font-size: 0.9rem;
+}
+
+/* —— About principles —— */
+.about-bio {
+  max-width: 62ch;
+}
+
+.principles-label {
+  margin: 0 0 1rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.principles-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.principle-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.25rem 1.15rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(234, 219, 239, 0.8);
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.principle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.principle-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1rem;
+  color: var(--accent-dark);
+}
+
+.principle-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* —— How steps horizontal —— */
+.steps-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.step-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.35rem 1.15rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--line);
+  text-align: center;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.step-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-bottom: 0.85rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.step-card strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--ink-strong);
+  font-size: 1rem;
+}
+
+.step-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* —— Format comparison —— */
+.format-grid {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.format-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem 1.3rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid transparent;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.format-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.format-card h3 {
+  margin: 0 0 0.5rem;
+  color: var(--accent-dark);
+  font-size: 1.05rem;
+}
+
+.format-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* —— Social round icons —— */
+.contact-phone {
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.contact-phone a {
+  color: var(--accent-dark);
+  text-decoration: none;
+}
+
+.contact-phone a:hover {
+  color: var(--accent);
+}
+
+.social-round {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.social-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background var(--ease), transform var(--ease), box-shadow var(--ease);
+}
+
+.social-btn:hover {
+  background: var(--accent-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(180, 67, 108, 0.28);
+}
+
+.social-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.5rem 1.35rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--line);
+}
+
+.blog-teaser {
+  text-align: center;
+}
+
+.blog-teaser .section-lead {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* —— Pricing —— */
@@ -1040,12 +1651,25 @@ a:hover {
 
 /* —— Footer —— */
 .site-footer {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid transparent;
   padding: 2.25rem 0 2.5rem;
-  margin-top: 1rem;
+  margin-top: 0;
   color: var(--muted);
   font-size: 0.9rem;
   background: var(--bg-soft);
+}
+
+.site-footer-lavender {
+  background: var(--bg-lavender);
+  color: var(--accent-dark);
+}
+
+.site-footer-lavender a {
+  color: var(--accent-dark);
+}
+
+.site-footer-lavender a:hover {
+  color: var(--accent);
 }
 
 .site-footer .wrap {
@@ -1099,6 +1723,44 @@ a:hover {
 @media (max-width: 900px) {
   .price-row {
     grid-template-columns: 1fr;
+  }
+
+  .icon-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .principles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .format-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel-card {
+    flex: 0 0 100%;
+  }
+
+  .price-line {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-line-side {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .price-line .amount {
+    margin-bottom: 0;
   }
 }
 
@@ -1197,6 +1859,14 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
+  .request-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .icon-cards {
+    grid-template-columns: 1fr;
+  }
+
   .reviews {
     grid-template-columns: 1fr;
   }
@@ -1205,11 +1875,47 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
+  .steps-row {
+    grid-template-columns: 1fr;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carousel {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .carousel-btn {
+    position: absolute;
+    top: 42%;
+    z-index: 2;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .carousel-prev {
+    left: 0.25rem;
+  }
+
+  .carousel-next {
+    right: 0.25rem;
+  }
+
+  .carousel-viewport {
+    padding: 0 0.25rem;
+  }
+
   .wrap {
     width: min(var(--max), calc(100% - 1.35rem));
   }
 
   .section {
+    padding: 3.25rem 0;
+  }
+
+  .quote-band {
     padding: 2.75rem 0;
   }
 

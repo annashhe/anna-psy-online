@@ -290,11 +290,111 @@
     };
   }
 
+  function initReviewsCarousel() {
+    var root = document.querySelector('[data-carousel]');
+    if (!root) return;
+
+    var track = root.querySelector('[data-carousel-track]');
+    var viewport = root.querySelector('[data-carousel-viewport]');
+    var prev = root.querySelector('[data-carousel-prev]');
+    var next = root.querySelector('[data-carousel-next]');
+    var dotsHost = document.querySelector('[data-carousel-dots]');
+    var cards = track ? track.querySelectorAll('.carousel-card') : [];
+    if (!track || !viewport || !cards.length) return;
+
+    var index = 0;
+    var startX = 0;
+    var deltaX = 0;
+    var dragging = false;
+
+    function perView() {
+      return window.matchMedia('(max-width: 900px)').matches ? 1 : 3;
+    }
+
+    function maxIndex() {
+      return Math.max(0, cards.length - perView());
+    }
+
+    function renderDots() {
+      if (!dotsHost) return;
+      var pages = maxIndex() + 1;
+      dotsHost.innerHTML = '';
+      for (var i = 0; i < pages; i += 1) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'carousel-dot' + (i === index ? ' is-active' : '');
+        btn.setAttribute('aria-label', 'Страница отзывов ' + (i + 1));
+        btn.addEventListener('click', function (page) {
+          return function () {
+            index = page;
+            update();
+          };
+        }(i));
+        dotsHost.appendChild(btn);
+      }
+    }
+
+    function update() {
+      index = Math.max(0, Math.min(index, maxIndex()));
+      var styles = window.getComputedStyle(track);
+      var gap = parseFloat(styles.columnGap || styles.gap) || 16;
+      var cardWidth = cards[0].getBoundingClientRect().width;
+      var offset = index * (cardWidth + gap);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+      if (prev) prev.disabled = index <= 0;
+      if (next) next.disabled = index >= maxIndex();
+      renderDots();
+    }
+
+    if (prev) {
+      prev.addEventListener('click', function () {
+        index -= 1;
+        update();
+      });
+    }
+    if (next) {
+      next.addEventListener('click', function () {
+        index += 1;
+        update();
+      });
+    }
+
+    viewport.addEventListener('touchstart', function (event) {
+      if (!event.touches || !event.touches.length) return;
+      dragging = true;
+      startX = event.touches[0].clientX;
+      deltaX = 0;
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', function (event) {
+      if (!dragging || !event.touches || !event.touches.length) return;
+      deltaX = event.touches[0].clientX - startX;
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', function () {
+      if (!dragging) return;
+      dragging = false;
+      if (Math.abs(deltaX) > 40) {
+        index += deltaX < 0 ? 1 : -1;
+        update();
+      }
+    });
+
+    var resizeTimer = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(update, 120);
+    });
+
+    update();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initCallbackForm();
     initVoprosForm();
     initMobileNav();
     initNavDropdowns();
+    initReviewsCarousel();
     setupLazyWidget();
     patchBookingThankYou();
   });

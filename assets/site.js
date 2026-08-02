@@ -312,7 +312,7 @@
     if (!host || !root) return;
 
     var s = document.createElement('script');
-    s.src = 'https://anna-psy-schedule-frontend.vercel.app/widget.js';
+    s.src = 'https://anna-backend.ru/widget.js';
     s.async = true;
     s.onerror = function () {
       host.innerHTML =

@@ -12,7 +12,7 @@
 
 - Статический HTML / CSS / JS (как мужской и семейный .рф-сайты).
 - Хостинг: **GitHub Pages** (`main` → корень).
-- Календарь записи: виджет `anna-psy-schedule` с Vercel → API `https://anna-backend.ru`.
+- Календарь записи: виджет с VPS `https://anna-backend.ru/widget.js` (Vercel остаётся fallback; Тильда/.рф не трогаем).
 - Заявки с форм (после добавления origin в Worker): Cloudflare Worker `psi-leads` → Telegram.
 
 ## Важно

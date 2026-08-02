@@ -631,29 +631,86 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .tile {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 1.35rem 1.25rem;
-  transition: border-color var(--ease), transform var(--ease), box-shadow var(--ease);
+  background: rgba(255, 255, 255, 0.72);
+  border: none;
+  border-radius: 14px;
+  padding: 1.45rem 1.35rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--ease), box-shadow var(--ease), background var(--ease);
 }
 
 .tile:hover {
-  border-color: rgba(180, 67, 108, 0.28);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-card);
+  background: #fff;
 }
 
 .tile h3 {
   margin: 0 0 0.45rem;
-  font-size: 1.05rem;
-  color: var(--ink-strong);
+  font-size: 1.08rem;
+  color: var(--accent-text);
+  font-weight: 500;
 }
 
 .tile p {
   margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
+  color: #555;
+  font-size: 0.98rem;
+}
+
+/* Niche pages: request tiles read as Tilda typographic rows */
+#requests .grid-3 {
+  display: grid;
+  gap: 2.1rem 3rem;
+  max-width: 980px;
+  margin: 2rem auto 0;
+  grid-template-columns: 1fr;
+}
+
+#requests .grid-3 .tile {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.9fr) 1.2fr;
+  gap: 1.25rem 2.5rem;
+  align-items: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0.35rem 0;
+  border-radius: 0;
+}
+
+#requests .grid-3 .tile:hover {
+  transform: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+#requests .grid-3 .tile h3 {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.45rem, 2.5vw, 2.05rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--accent);
+}
+
+#requests .grid-3 .tile p {
+  margin: 0;
+  color: #555;
+  font-size: clamp(1.02rem, 1.5vw, 1.28rem);
+  line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+  #requests .grid-3 .tile {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+    text-align: center;
+  }
+
+  #requests .grid-3 .tile p {
+    text-align: center;
+  }
 }
 
 /* —— Request typographic rows (Tilda t176) —— */
@@ -1771,29 +1828,38 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .pull-quote {
   font-family: var(--font-quote);
-  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
-  line-height: 1.4;
+  font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+  line-height: 1.35;
   text-align: center;
-  max-width: 42ch;
+  width: min(100%, calc(var(--max) * 8 / 12));
+  max-width: none;
   margin: 0 auto;
   color: var(--ink);
-  background: var(--bg-lavender);
-  padding: 2rem 1.75rem;
-  border-radius: 16px;
+  background: transparent;
+  padding: 0 1.25rem;
+  border-radius: 0;
+  box-sizing: content-box;
 }
 
 .pull-quote cite {
   display: block;
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
   font-family: var(--font-body);
   font-style: normal;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
 .section-quote {
-  padding: 2.75rem 0;
-  background: transparent !important;
+  padding: 2.75rem 0 3rem;
+  text-align: center;
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(250, 246, 251, 0.95) 18%,
+      rgba(234, 219, 239, 0.42) 50%,
+      rgba(250, 246, 251, 0.95) 82%,
+      rgba(255, 255, 255, 1) 100%) !important;
 }
 
 /* —— FAQ —— */
@@ -1967,28 +2033,53 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .article-list {
   display: grid;
-  gap: 0.75rem;
+  gap: 1.15rem;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .article-list a {
-  display: block;
+  display: grid;
+  gap: 0.65rem;
   text-decoration: none;
   color: inherit;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 1rem 1.1rem;
-  transition: border-color var(--ease), box-shadow var(--ease);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  transition: transform var(--ease);
 }
 
 .article-list a:hover {
-  border-color: rgba(180, 67, 108, 0.35);
-  box-shadow: 0 8px 22px rgba(114, 41, 70, 0.07);
+  border-color: transparent;
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.article-list a img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: var(--shadow-soft);
+}
+
+.article-list strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink-strong);
+  line-height: 1.35;
 }
 
 .article-list .meta {
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .article-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .notice {
@@ -2041,11 +2132,12 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .redirect-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 1.5rem 1.35rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: none;
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
   max-width: 52ch;
+  box-shadow: var(--shadow-soft);
 }
 
 .redirect-card .target {
@@ -2101,11 +2193,11 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 /* —— Footer —— */
 .site-footer {
   border-top: 1px solid transparent;
-  padding: 2.25rem 0 2.5rem;
+  padding: 2.75rem 0 2.5rem;
   margin-top: 0;
-  color: var(--muted);
+  color: #555;
   font-size: 0.9rem;
-  background: var(--bg-soft);
+  background: var(--wash-white-lav);
 }
 
 .site-footer-lavender {

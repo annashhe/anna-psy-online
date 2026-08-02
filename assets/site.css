@@ -627,19 +627,34 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .grid-3 {
   display: grid;
-  gap: 1.1rem;
-  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid-2 {
   display: grid;
-  gap: 1.1rem;
-  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-2 > *,
+.grid-3 > *,
+.format-grid > *,
+.icon-cards > *,
+.price-row > *,
+.reviews > *,
+.change-cards > *,
+.about-projects > * {
+  min-width: 0;
 }
 
 .tile {
-  background: rgba(255, 255, 255, 0.72);
-  border: none;
+  background: #fff;
+  border: 1px solid rgba(180, 67, 108, 0.1);
   border-radius: 14px;
   padding: 1.45rem 1.35rem;
   box-shadow: var(--shadow-soft);
@@ -823,19 +838,31 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 /* —— Change photo cards —— */
-/* White section: gaps between cards must stay visible (no lavender wash) */
+/* Soft mist behind grid so column/row gutters stay readable on white pages */
 .section:has(.change-cards),
 #results.section-white {
-  background: #ffffff;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #faf6fb 14%,
+    #f7f2f8 50%,
+    #faf6fb 86%,
+    #ffffff 100%
+  );
 }
 
 .change-cards {
   display: grid;
+  row-gap: 1.75rem;
+  column-gap: 1.75rem;
   gap: 1.75rem;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .change-card {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   min-height: 300px;
   aspect-ratio: 4 / 3;
   border-radius: 14px;
@@ -895,8 +922,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 /* —— Icon cards (results) —— */
 .icon-cards {
   display: grid;
-  gap: 1.15rem;
-  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .icon-card {
@@ -1559,8 +1588,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .format-grid {
   display: grid;
-  gap: 1.1rem;
-  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .format-card {
@@ -1657,8 +1688,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 /* —— Pricing —— */
 .price-row {
   display: grid;
-  gap: 1.1rem;
-  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .price-card {
@@ -1821,15 +1854,18 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 /* —— Reviews / quotes —— */
 .reviews {
   display: grid;
-  gap: 1.1rem;
-  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .review {
-  background: var(--bg-soft);
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 1px solid rgba(180, 67, 108, 0.12);
   border-radius: 14px;
   padding: 1.25rem 1.2rem;
+  box-shadow: var(--shadow-soft);
 }
 
 .review p {
@@ -2257,8 +2293,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .about-projects {
   display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 860px;
   margin: 0 auto;
 }
@@ -2936,8 +2974,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .about-cards {
   display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .format-icon {
@@ -3035,31 +3075,36 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .social-btn[aria-label="MAX"] img {
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.social-btn[aria-label="Позвонить"] img {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 @media (max-width: 1100px) {
   .articles-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .about-cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .change-cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 900px) {
   .change-cards {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .articles-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .price-line {
@@ -3250,6 +3295,31 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   font-size: 0.95rem;
 }
 
+.group-page .grid-3,
+.group-page .grid-2,
+.group-page .price-row,
+.group-page .format-grid {
+  row-gap: 1.35rem;
+  column-gap: 1.35rem;
+  gap: 1.35rem;
+}
+
+.group-page .section-white {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #faf6fb 18%,
+    #f7f2f8 52%,
+    #faf6fb 82%,
+    #ffffff 100%
+  );
+}
+
+.group-page .tile {
+  background: #fff;
+  border: 1px solid rgba(180, 67, 108, 0.1);
+}
+
 .group-page .price-card-featured {
   border-color: rgba(180, 67, 108, 0.35);
   box-shadow: var(--shadow-card);
@@ -3285,8 +3355,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .group-page .group-max-btn img {
-  width: 1rem;
-  height: 1rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  /* Max mark reads as dark glyph on ghost button */
+  filter: none;
 }
 
 .group-page .group-contact-hint {

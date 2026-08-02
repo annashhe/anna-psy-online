@@ -346,6 +346,29 @@
     io.observe(root);
   }
 
+  function getLeadTrackingPayload() {
+    var pageUrl = '';
+    try {
+      pageUrl = window.location.href;
+    } catch (e0) {
+      pageUrl = (window.PSI_SITE_HOME || '').replace(/\/$/, '') || '';
+    }
+    var utm = {};
+    try {
+      utm = JSON.parse(
+        sessionStorage.getItem('psiUtms') || localStorage.getItem('psiUtmsFirst') || '{}'
+      );
+    } catch (e2) {}
+    return {
+      pageUrl: pageUrl,
+      utmSource: utm.utm_source || '',
+      utmMedium: utm.utm_medium || '',
+      utmCampaign: utm.utm_campaign || '',
+      utmContent: utm.utm_content || '',
+      utmTerm: utm.utm_term || ''
+    };
+  }
+
   function patchBookingThankYou() {
     if (!window.fetch) return;
     var original = window.fetch.bind(window);
@@ -357,6 +380,7 @@
       individual_90: { title: 'Индивидуальная консультация', duration: '90 минут', price: '7 000 ₽' },
       family: { title: 'Семейная (парная) консультация', duration: '90 минут', price: '7 000 ₽' }
     };
+    var api = window.PSI_LEADS_API || 'https://psi-leads.anna-shhe-adwords.workers.dev';
 
     function resolveTherapy(payload) {
       var type = (payload && (payload.therapyType || payload.therapy)) || 'individual';
@@ -410,6 +434,54 @@
       }
     }
 
+    function postBookingLead(body, attempt) {
+      attempt = attempt || 0;
+      return original(api, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body
+      }).then(function (r) {
+        if (!r.ok) throw new Error('lead status ' + r.status);
+        return r;
+      }).catch(function () {
+        if (attempt < 2) {
+          return new Promise(function (resolve) {
+            setTimeout(resolve, 700 * (attempt + 1));
+          }).then(function () {
+            return postBookingLead(body, attempt + 1);
+          });
+        }
+        throw new Error('lead_failed');
+      });
+    }
+
+    function goThankYou(payload, therapy, endIso) {
+      try {
+        sessionStorage.setItem(
+          'bookingThankYou',
+          JSON.stringify({
+            name: payload.name || '',
+            phone: payload.phone || '',
+            email: payload.email || '',
+            therapyType: therapy.type,
+            therapy: therapy.meta.title,
+            duration: therapy.meta.duration,
+            price: therapy.meta.price,
+            contactMethods: Array.isArray(payload.contactMethods)
+              ? payload.contactMethods.slice()
+              : [],
+            contact: formatContact(payload.contactMethods),
+            startIso: payload.startIso || '',
+            endIso: endIso || '',
+            clientTimezone: payload.clientTimezone || '',
+            datetime: formatWhen(payload.startIso, endIso, payload.clientTimezone),
+            comment: payload.comment || ''
+          })
+        );
+      } catch (e1) {}
+      window.location.href = '/thank-you-booking/';
+    }
+
     window.fetch = function () {
       var args = arguments;
       var url = String(args[0] || '');
@@ -419,7 +491,6 @@
         String(init.method || 'GET').toUpperCase() === 'POST';
       return original.apply(window, args).then(function (res) {
         if (isBooking && res && res.ok && !started) {
-          started = true;
           try {
             var payload = {};
             try {
@@ -434,28 +505,39 @@
               d.setMinutes(d.getMinutes() + (therapy.meta.duration.indexOf('90') >= 0 ? 90 : 50));
               endIso = d.toISOString();
             }
-            sessionStorage.setItem(
-              'bookingThankYou',
-              JSON.stringify({
-                name: payload.name || '',
-                phone: payload.phone || '',
-                email: payload.email || '',
-                therapyType: therapy.type,
-                therapy: therapy.meta.title,
-                duration: therapy.meta.duration,
-                price: therapy.meta.price,
-                contactMethods: Array.isArray(payload.contactMethods)
-                  ? payload.contactMethods.slice()
-                  : [],
-                contact: formatContact(payload.contactMethods),
-                startIso: payload.startIso || '',
-                endIso: endIso || '',
-                clientTimezone: payload.clientTimezone || '',
-                datetime: formatWhen(payload.startIso, endIso, payload.clientTimezone),
-                comment: payload.comment || ''
-              })
+            var contactMethods = Array.isArray(payload.contactMethods)
+              ? payload.contactMethods.slice()
+              : [];
+            var tracking = getLeadTrackingPayload();
+            var leadBody = JSON.stringify(
+              Object.assign(
+                {
+                  source: 'booking',
+                  name: payload.name,
+                  phone: payload.phone,
+                  therapyType: therapy.type,
+                  contactMethods: contactMethods,
+                  startIso: payload.startIso,
+                  endIso: endIso,
+                  clientTimezone: payload.clientTimezone,
+                  comment: payload.comment || '',
+                  website: ''
+                },
+                tracking
+              )
             );
-            window.location.href = '/thank-you-booking/';
+            started = true;
+            postBookingLead(leadBody)
+              .then(function () {
+                goThankYou(payload, therapy, endIso);
+              })
+              .catch(function () {
+                started = false;
+                alert(
+                  'Запись в календаре прошла, но уведомление мне не отправилось. Напишите в Telegram @annashhe или WhatsApp +7 913 755 62 84 — подтвердим слот.'
+                );
+                goThankYou(payload, therapy, endIso);
+              });
           } catch (e) {
             started = false;
             try {

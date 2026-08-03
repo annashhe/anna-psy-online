@@ -576,7 +576,12 @@
 
     function perView() {
       if (window.matchMedia('(max-width: 900px)').matches) return 1;
-      if (isAbout) return 3;
+      if (isAbout) {
+        var w = viewport.getBoundingClientRect().width;
+        if (w < 760) return 1;
+        if (w < 1120) return 2;
+        return 3;
+      }
       return 3;
     }
 

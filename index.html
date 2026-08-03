@@ -187,7 +187,7 @@
         <h2>Отзывы</h2>
         <div class="carousel" data-carousel>
           <button class="carousel-btn carousel-prev" type="button" data-carousel-prev aria-label="Предыдущие отзывы">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M23 13L15.5 20L23 27" stroke="currentColor" stroke-width="2"/></svg>
           </button>
           <div class="carousel-viewport" data-carousel-viewport>
             <div class="carousel-track" data-carousel-track>
@@ -260,7 +260,7 @@
             </div>
           </div>
           <button class="carousel-btn carousel-next" type="button" data-carousel-next aria-label="Следующие отзывы">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M17 13L24.5 20L17 27" stroke="currentColor" stroke-width="2"/></svg>
           </button>
         </div>
         <div class="carousel-dots" data-carousel-dots aria-hidden="true"></div>
@@ -349,50 +349,62 @@
         <h2>Обо мне</h2>
         <div class="carousel about-carousel" data-carousel data-carousel-auto>
           <button class="carousel-btn carousel-prev" type="button" data-carousel-prev aria-label="Предыдущие карточки">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M23 13L15.5 20L23 27" stroke="currentColor" stroke-width="2"/></svg>
           </button>
           <div class="carousel-viewport" data-carousel-viewport>
             <div class="carousel-track" data-carousel-track>
-              <article class="carousel-card about-card">
-                <h3>Квалификация:</h3>
-                <p>Клинический психолог<br />Семейный психолог</p>
-                <p>Более 2 000 часов образования</p>
-                <a class="btn btn-primary btn-sm" href="/about/#education">Подробнее об образовании</a>
+              <article class="carousel-card about-card" style="--about-card-bg:url('/assets/images/tilda/about-photo.jpg')">
+                <div class="about-card-media" aria-hidden="true"></div>
+                <div class="about-card-body">
+                  <h3><span>Квалификация</span>:<br />Клинический психолог<br />Семейный психолог</h3>
+                  <p>Более 2 000 часов образования</p>
+                  <a class="btn btn-primary btn-sm" href="/about/#education">Подробнее об образовании</a>
+                </div>
               </article>
-              <article class="carousel-card about-card">
-                <h3>Мои принципы</h3>
-                <ul class="about-principles">
-                  <li>Конфиденциальность</li>
-                  <li>Диалог без сложных терминов</li>
-                  <li>Уважение к вашей уникальности</li>
-                  <li>Фокус на ваших ресурсах</li>
-                </ul>
-                <a class="btn btn-primary btn-sm" href="/about/#principles">Подробнее о принципах</a>
+              <article class="carousel-card about-card" style="--about-card-bg:url('/assets/images/tilda/about-photo-2.jpg')">
+                <div class="about-card-media" aria-hidden="true"></div>
+                <div class="about-card-body">
+                  <h3>Мои <span>принципы</span></h3>
+                  <p>Конфиденциальность<br />Диалог без сложных терминов<br />Уважение к вашей уникальности<br />Фокус на ваших ресурсах</p>
+                  <a class="btn btn-primary btn-sm" href="/about/#principles">Подробнее о принципах</a>
+                </div>
               </article>
-              <article class="carousel-card about-card">
-                <h3>В психологии с 2019 года</h3>
-                <p>Личная терапия + групповая терапия + образование + регулярные супервизии</p>
-                <a class="btn btn-primary btn-sm" href="/about/#about">Подробнее обо мне</a>
+              <article class="carousel-card about-card" style="--about-card-bg:url('/assets/images/tilda/about-card-photo.jpg')">
+                <div class="about-card-media" aria-hidden="true"></div>
+                <div class="about-card-body">
+                  <h3>В психологии <span>с 2019 года</span></h3>
+                  <p>Личная терапия + групповая терапия + образование + регулярные супервизии</p>
+                  <a class="btn btn-primary btn-sm" href="/about/#about">Подробнее обо мне</a>
+                </div>
               </article>
-              <article class="carousel-card about-card">
-                <h3>Регулярное обучение и повышение квалификации</h3>
-                <p>В текущий момент обучаюсь на группового терапевта</p>
-                <a class="btn btn-primary btn-sm" href="/about/#education">Посмотреть дипломы</a>
+              <article class="carousel-card about-card" style="--about-card-bg:url('/assets/images/tilda/change-1.jpg')">
+                <div class="about-card-media" aria-hidden="true"></div>
+                <div class="about-card-body">
+                  <h3><span>Регулярное обучение</span> и повышение квалификации</h3>
+                  <p>В текущий момент обучаюсь на группового терапевта</p>
+                  <a class="btn btn-primary btn-sm" href="/about/#education">Посмотреть дипломы</a>
+                </div>
               </article>
-              <article class="carousel-card about-card">
-                <h3>Соучредитель сервиса по подбору и работе с психологами ДА</h3>
-                <p>Проверенные психологи</p>
-                <a class="btn btn-primary btn-sm" href="https://www.da-online.ru/?utm_source=annawebsite" target="_blank" rel="noopener">Перейти на сайт ДА</a>
+              <article class="carousel-card about-card" style="--about-card-bg:url('/assets/images/tilda/about-da.png')">
+                <div class="about-card-media" aria-hidden="true"></div>
+                <div class="about-card-body">
+                  <h3><span>Соучредитель</span> сервиса по подбору и работе с психологами Д<span>А</span></h3>
+                  <p>Проверенные психологи</p>
+                  <a class="btn btn-primary btn-sm" href="https://www.da-online.ru/?utm_source=annawebsite" target="_blank" rel="noopener">Перейти на сайт ДА</a>
+                </div>
               </article>
-              <article class="carousel-card about-card">
-                <h3>Организатор психологических мероприятий ЯРЧЕ</h3>
-                <p>Зимние фестивали и летние смены в Калининграде</p>
-                <a class="btn btn-primary btn-sm" href="https://yarchefest.ru/?utm_source=annawebsite" target="_blank" rel="noopener">Перейти на сайт ЯРЧЕ</a>
+              <article class="carousel-card about-card" style="--about-card-bg:url('/assets/images/tilda/about-yarche.jpg')">
+                <div class="about-card-media" aria-hidden="true"></div>
+                <div class="about-card-body">
+                  <h3><span>Организатор</span> психологических мероприятий ЯРЧЕ</h3>
+                  <p>Зимние фестивали и летние смены в Калининграде</p>
+                  <a class="btn btn-primary btn-sm" href="https://yarchefest.ru/?utm_source=annawebsite" target="_blank" rel="noopener">Перейти на сайт ЯРЧЕ</a>
+                </div>
               </article>
             </div>
           </div>
           <button class="carousel-btn carousel-next" type="button" data-carousel-next aria-label="Следующие карточки">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M17 13L24.5 20L17 27" stroke="currentColor" stroke-width="2"/></svg>
           </button>
         </div>
         <div class="carousel-dots" data-carousel-dots aria-hidden="true"></div>
@@ -607,7 +619,7 @@
     </div>
   </footer>
 
-  <div class="mobile-sticky-cta">
+  <div class="mobile-sticky-cta is-hidden">
     <a class="btn btn-primary" href="#booking">Записаться на консультацию</a>
   </div>
 

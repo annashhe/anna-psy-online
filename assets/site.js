@@ -774,6 +774,59 @@
     update();
   }
 
+  function initPageDots() {
+    var nav = document.querySelector('[data-page-dots]');
+    if (!nav) return;
+    var links = Array.prototype.slice.call(nav.querySelectorAll('a[data-dot-target]'));
+    if (!links.length) return;
+
+    var sections = links
+      .map(function (link) {
+        var id = link.getAttribute('data-dot-target');
+        var el = id === 'top' ? document.body : document.getElementById(id);
+        return { link: link, el: el, id: id };
+      })
+      .filter(function (item) {
+        return !!item.el;
+      });
+
+    function setActive(id) {
+      links.forEach(function (link) {
+        var on = link.getAttribute('data-dot-target') === id;
+        link.classList.toggle('is-active', on);
+        if (on) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    function update() {
+      var marker = (window.scrollY || 0) + Math.min(window.innerHeight * 0.35, 280);
+      var current = sections[0] && sections[0].id;
+      sections.forEach(function (item) {
+        var top =
+          item.id === 'top'
+            ? 0
+            : item.el.getBoundingClientRect().top + (window.scrollY || 0);
+        if (top <= marker) current = item.id;
+      });
+      setActive(current);
+    }
+
+    var ticking = false;
+    function schedule() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        update();
+      });
+    }
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    update();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     initCallbackForm();
     initVoprosForm();
@@ -787,5 +840,6 @@
     initBlogFilters();
     setupLazyWidget();
     patchBookingThankYou();
+    initPageDots();
   });
 })();

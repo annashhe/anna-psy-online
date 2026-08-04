@@ -577,7 +577,7 @@
     var autoEnabled = autoAttr !== null;
     var autoMs = parseInt(autoAttr, 10);
     if (!autoMs || isNaN(autoMs)) {
-      autoMs = isAbout ? 150000 : 2500;
+      autoMs = 2500;
     }
     var autoTimer = null;
     var userStopped = false;
@@ -736,6 +736,22 @@
     var buttons = root.querySelectorAll('[data-filter]');
     var cards = cardsHost.querySelectorAll('.blog-card');
 
+    function applyFilter(filter) {
+      cards.forEach(function (card) {
+        var cat = (card.getAttribute('data-category') || '').trim();
+        var show = filter === 'all' || cat === filter;
+        if (show) {
+          card.hidden = false;
+          card.removeAttribute('hidden');
+          card.classList.remove('is-filtered-out');
+        } else {
+          card.hidden = true;
+          card.setAttribute('hidden', '');
+          card.classList.add('is-filtered-out');
+        }
+      });
+    }
+
     buttons.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var filter = btn.getAttribute('data-filter') || 'all';
@@ -744,11 +760,7 @@
           b.classList.toggle('is-active', on);
           b.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
-        cards.forEach(function (card) {
-          var cat = card.getAttribute('data-category') || '';
-          var show = filter === 'all' || cat === filter;
-          card.hidden = !show;
-        });
+        applyFilter(filter);
       });
     });
   }

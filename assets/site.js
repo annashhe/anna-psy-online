@@ -573,6 +573,14 @@
     var deltaX = 0;
     var dragging = false;
     var isAbout = root.classList.contains('about-carousel');
+    var autoAttr = root.getAttribute('data-carousel-auto');
+    var autoEnabled = autoAttr !== null;
+    var autoMs = parseInt(autoAttr, 10);
+    if (!autoMs || isNaN(autoMs)) {
+      autoMs = isAbout ? 150000 : 2500;
+    }
+    var autoTimer = null;
+    var userStopped = false;
 
     function perView() {
       if (window.matchMedia('(max-width: 900px)').matches) return 1;
@@ -600,6 +608,7 @@
         btn.setAttribute('aria-label', 'Страница ' + (i + 1));
         btn.addEventListener('click', function (page) {
           return function () {
+            stopAuto();
             index = page;
             update();
           };
@@ -620,14 +629,36 @@
       renderDots();
     }
 
+    function stopAuto() {
+      userStopped = true;
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+
+    root._annaStopAuto = stopAuto;
+
+    function startAuto() {
+      if (!autoEnabled || userStopped || cards.length <= perView()) return;
+      if (autoTimer) clearInterval(autoTimer);
+      autoTimer = setInterval(function () {
+        if (document.hidden || userStopped) return;
+        index = index >= maxIndex() ? 0 : index + 1;
+        update();
+      }, autoMs);
+    }
+
     if (prev) {
       prev.addEventListener('click', function () {
+        stopAuto();
         index -= 1;
         update();
       });
     }
     if (next) {
       next.addEventListener('click', function () {
+        stopAuto();
         index += 1;
         update();
       });
@@ -649,6 +680,7 @@
       if (!dragging) return;
       dragging = false;
       if (Math.abs(deltaX) > 40) {
+        stopAuto();
         index += deltaX < 0 ? 1 : -1;
         update();
       }
@@ -657,19 +689,14 @@
     var resizeTimer = null;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(update, 120);
+      resizeTimer = setTimeout(function () {
+        update();
+        if (autoEnabled && !userStopped) startAuto();
+      }, 120);
     });
 
-    if (root.hasAttribute('data-carousel-auto') && cards.length > perView()) {
-      var timeout = isAbout ? 3000 : 6000;
-      setInterval(function () {
-        if (document.hidden) return;
-        index = index >= maxIndex() ? 0 : index + 1;
-        update();
-      }, timeout);
-    }
-
     update();
+    startAuto();
   }
 
   function initCookieBanner() {
@@ -696,6 +723,8 @@
         if (!card) return;
         var open = card.classList.toggle('is-open');
         btn.textContent = open ? 'Свернуть' : 'Читать полностью';
+        var carousel = card.closest('[data-carousel]');
+        if (carousel && carousel._annaStopAuto) carousel._annaStopAuto();
       });
     });
   }

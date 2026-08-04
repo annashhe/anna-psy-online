@@ -765,56 +765,6 @@
     });
   }
 
-  function initStickyCta() {
-    var sticky = document.querySelector('.mobile-sticky-cta');
-    if (!sticky) return;
-
-    var booking = document.getElementById('booking');
-    var contact = document.getElementById('contact');
-    var lastY = window.scrollY || 0;
-    var ticking = false;
-
-    function sectionInView(el) {
-      if (!el) return false;
-      var rect = el.getBoundingClientRect();
-      var vh = window.innerHeight || 0;
-      return rect.top < vh * 0.72 && rect.bottom > vh * 0.28;
-    }
-
-    function update() {
-      ticking = false;
-      if (!window.matchMedia('(max-width: 860px)').matches) {
-        sticky.classList.remove('is-hidden');
-        return;
-      }
-
-      var y = window.scrollY || 0;
-      var delta = y - lastY;
-
-      if (y < 220 || sectionInView(booking) || sectionInView(contact)) {
-        sticky.classList.add('is-hidden');
-        lastY = y;
-        return;
-      }
-
-      if (delta > 8) sticky.classList.add('is-hidden');
-      else if (delta < -6) sticky.classList.remove('is-hidden');
-      else if (y >= 220) sticky.classList.remove('is-hidden');
-
-      lastY = y;
-    }
-
-    function schedule() {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }
-
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule, { passive: true });
-    update();
-  }
-
   function initPageDots() {
     var nav = document.querySelector('[data-page-dots]');
     if (!nav) return;
@@ -874,7 +824,6 @@
     initMobileNav();
     initNavDropdowns();
     initHeaderHideOnScroll();
-    initStickyCta();
     initCarousels();
     initReviewExpand();
     initCookieBanner();

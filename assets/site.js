@@ -207,14 +207,13 @@
 
     var lastY = window.scrollY || 0;
     var ticking = false;
-    var releaseTimer = null;
+    var mobileMq = window.matchMedia('(max-width: 860px)');
 
     function show() {
       header.classList.remove('header-hidden');
     }
 
     function hide() {
-      // Keep open menus visible while interacting
       if (header.querySelector('.nav.is-open') || header.querySelector('.nav-item.is-open')) {
         show();
         return;
@@ -230,6 +229,13 @@
 
       header.classList.toggle('is-scrolled', y > 8);
 
+      // Desktop: keep header visible
+      if (!mobileMq.matches) {
+        show();
+        lastY = y;
+        return;
+      }
+
       // Near top (incl. test banner): always show
       if (y <= Math.max(64, bannerH + 8)) {
         show();
@@ -244,8 +250,8 @@
       }
 
       var delta = y - lastY;
-      if (delta > 4) hide();
-      if (delta < -4) show();
+      if (delta > 2) hide();
+      else if (delta < -2) show();
       lastY = y;
     }
 
@@ -262,17 +268,6 @@
       show();
       lastY = window.scrollY || 0;
     });
-    window.addEventListener(
-      'touchend',
-      function () {
-        if (releaseTimer) clearTimeout(releaseTimer);
-        releaseTimer = setTimeout(function () {
-          if (header.querySelector('.nav.is-open') || header.querySelector('.nav-item.is-open')) return;
-          show();
-        }, 180);
-      },
-      { passive: true }
-    );
     update();
   }
 

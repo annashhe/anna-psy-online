@@ -81,7 +81,8 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  /* clip keeps sticky header working; hidden would break position:sticky */
+  overflow-x: clip;
 }
 
 img {
@@ -2091,18 +2092,21 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .social-btn-b17 {
   background: transparent;
   padding: 0;
+  overflow: hidden;
 }
 
 .social-btn-b17:hover {
   background: transparent;
   box-shadow: none;
+  transform: translateY(-2px);
 }
 
 .social-btn-b17 img {
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
   object-fit: cover;
-  filter: none;
+  filter: none !important;
+  display: block;
 }
 
 .social-btn svg {
@@ -3446,32 +3450,8 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     grid-template-columns: 1fr;
   }
 
+  /* All carousels: arrows below track so they never cover text */
   .carousel {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
-
-  .carousel-btn {
-    position: absolute;
-    top: 42%;
-    z-index: 2;
-    box-shadow: var(--shadow-soft);
-  }
-
-  .carousel-prev {
-    left: 0.25rem;
-  }
-
-  .carousel-next {
-    right: 0.25rem;
-  }
-
-  .carousel-viewport {
-    padding: 0 0.25rem;
-  }
-
-  /* About cards: arrows below track so they never cover text */
-  .about-carousel.carousel {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
@@ -3481,32 +3461,33 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     align-items: center;
   }
 
-  .about-carousel .carousel-viewport {
+  .carousel-viewport {
     grid-area: viewport;
     padding: 0;
   }
 
-  .about-carousel .carousel-btn {
+  .carousel-btn {
     position: static;
     top: auto;
     left: auto;
     right: auto;
+    z-index: auto;
     width: 36px;
     height: 36px;
     box-shadow: none;
   }
 
-  .about-carousel .carousel-prev {
+  .carousel-prev {
     grid-area: prev;
     justify-self: start;
   }
 
-  .about-carousel .carousel-next {
+  .carousel-next {
     grid-area: next;
     justify-self: end;
   }
 
-  .about-carousel .carousel-btn svg {
+  .carousel-btn svg {
     width: 24px;
     height: 24px;
   }
@@ -3821,7 +3802,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   box-shadow: none;
 }
 
-.social-btn img {
+.social-btn:not(.social-btn-b17) img {
   width: 1.35rem;
   height: 1.35rem;
   filter: brightness(0) invert(1);

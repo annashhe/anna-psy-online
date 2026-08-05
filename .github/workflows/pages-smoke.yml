@@ -1,0 +1,21 @@
+name: Pages status
+
+# GitHub Pages for this repo already publishes from main automatically.
+# This workflow only verifies the site responds after push (optional smoke).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Pages
+        run: sleep 45
+      - name: Check homepage
+        run: |
+          code=$(curl -sS -o /dev/null -w "%{http_code}" https://muzhskoy-psikholog.ru/)
+          echo "HTTP $code"
+          test "$code" = "200"

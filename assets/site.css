@@ -16,19 +16,20 @@
   --anna-widget-primary-dark: #722946;
   --anna-widget-accent: #eadbef;
   --anna-widget-bg: #ffffff;
-  --font-display: "Inter", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font-display: Inter, Arial, sans-serif;
+  --font-body: Inter, Arial, sans-serif;
+  --font-brand: Arial, Inter, system-ui, sans-serif;
   --font-quote: Georgia, "Times New Roman", serif;
   --radius: 10px;
   --radius-lg: 30px;
-  --header-h: 72px;
-  --max: 1140px;
+  --header-h: 80px;
+  --max: 1200px;
   --ease: 0.22s ease;
   --shadow-soft: 0 8px 24px rgba(114, 41, 70, 0.06);
   --shadow-card: 0 10px 28px rgba(114, 41, 70, 0.08);
   --accent-text: #802d4b;
   --brand: #6a2841;
-  --menu-ink: #222222;
+  --menu-ink: #555555;
   --dropdown-bg: #ffffff;
   --dropdown-ink: #555555;
   /* Section washes bloom from/to white so abutments never hard-cut */
@@ -162,17 +163,18 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.95rem 0;
+  padding: 0;
   min-height: var(--header-h);
 }
 
 .brand {
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.98rem;
+  font-family: var(--font-brand);
+  font-weight: 400;
+  font-size: 16px;
   color: var(--brand);
   text-decoration: none;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  line-height: normal;
   white-space: nowrap;
   transition: color 0.3s ease;
 }
@@ -193,7 +195,7 @@ a:hover {
   flex-wrap: wrap;
   align-items: center;
   gap: 0;
-  font-size: 0.94rem;
+  font-size: 16px;
   flex: 1;
   justify-content: center;
 }
@@ -202,8 +204,12 @@ a:hover {
 .nav-item > .nav-link {
   color: var(--menu-ink);
   text-decoration: none;
-  padding: 0.45rem 0.85rem;
+  padding: 0;
+  margin: 0 0.85rem;
   border-radius: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
   transition: color 0.3s ease, opacity 0.3s ease;
   display: inline-flex;
   align-items: center;
@@ -327,6 +333,10 @@ a:hover {
 .header-cta {
   white-space: nowrap;
   box-shadow: none !important;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10.2px 30px;
+  border-radius: 10px;
 }
 
 .header-cta:hover {
@@ -398,10 +408,10 @@ a:hover {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 50px;
-  line-height: 1.4;
+  line-height: 70px;
   letter-spacing: -0.01em;
-  margin: 0 0 1.15rem;
-  max-width: 11.5em;
+  margin: 0;
+  max-width: 464px;
   color: #333333;
 }
 
@@ -434,9 +444,9 @@ em.accent,
 .hero-descr {
   margin: 0 0 1.75rem;
   font-size: 22px;
-  font-weight: 400;
+  font-weight: 300;
   color: #555555;
-  opacity: 0.8;
+  opacity: 1;
   line-height: 1.4;
 }
 
@@ -465,9 +475,9 @@ em.accent,
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 50px;
-  line-height: 1.4;
-  max-width: 11.5em;
-  margin: 0 0 1.15rem;
+  line-height: 70px;
+  max-width: 464px;
+  margin: 0;
   color: #333333;
 }
 
@@ -513,7 +523,7 @@ em.accent,
   align-items: center;
   gap: 2.75rem;
   padding: 1.5rem 0 0;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
 }
 
 .hero-with-photo .hero-photo {
@@ -536,10 +546,16 @@ em.accent,
 }
 
 .hero-with-photo .cta-row .btn {
-  font-size: 1rem;
-  padding: 0.9rem 1.5rem;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 14.6px 70px;
   border-radius: 10px;
   box-shadow: none;
+}
+
+.hero-with-photo .cta-row .btn:hover {
+  transform: none;
 }
 
 .hero-quote {

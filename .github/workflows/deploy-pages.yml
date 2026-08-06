@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-# Reliable static deploy (replaces broken legacy branch builder).
+# Static site deploy via Actions (branch builder is broken).
 on:
   push:
     branches: [main]
@@ -13,13 +13,10 @@ permissions:
 
 concurrency:
   group: pages-deploy
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +30,13 @@ jobs:
         with:
           path: .
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4

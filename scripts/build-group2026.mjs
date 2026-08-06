@@ -46,6 +46,22 @@ const mobileHeroCss = `
 .btn, a.btn, button.btn {
   text-align: center !important;
   justify-content: center !important;
+  border-radius: 60px !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+}
+@media (max-width: 640px) {
+  .btn, a.btn, button.btn,
+  .hero-buttons-bottom .btn,
+  .cta-buttons .btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
 }
 `;
 
@@ -66,7 +82,7 @@ const html = `<!DOCTYPE html>
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/group2026.css?v=20260806e" />
+  <link rel="stylesheet" href="/assets/group2026.css?v=20260806f" />
   <script>
     (function (m, e, t, r, i, k, a) {
       m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };

@@ -493,6 +493,7 @@ em.accent,
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
+  max-width: 100%;
 }
 
 .hero-visual {
@@ -550,11 +551,15 @@ em.accent,
   font-size: 22px;
   font-weight: 600;
   line-height: 1.4;
-  padding: 14.6px 70px;
+  padding: 14.6px clamp(1.25rem, 5vw, 4.375rem);
   border-radius: 10px;
   box-shadow: none;
   text-align: center;
   justify-content: center;
+  max-width: 100%;
+  width: auto;
+  box-sizing: border-box;
+  white-space: normal;
 }
 
 .hero-with-photo .cta-row .btn:hover {
@@ -612,8 +617,12 @@ button.btn,
 .price-card .btn,
 .about-card .btn,
 .thank-card-wide .btn,
-.cta-invite-inner .btn {
+.cta-invite-inner .btn,
+.quote-band-cta .btn {
   text-align: center;
+  border-radius: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .btn {
@@ -630,6 +639,11 @@ button.btn,
   cursor: pointer;
   transition: transform var(--ease), background var(--ease), border-color var(--ease), color var(--ease), box-shadow var(--ease);
   text-align: center;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .btn:hover {
@@ -3607,18 +3621,32 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
   .btn {
     width: auto;
+    max-width: 100%;
     text-align: center;
     justify-content: center;
+    border-radius: 10px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
-  .cta-row .btn {
+  .cta-row .btn,
+  .quote-band-cta .btn,
+  .cta-invite-inner .btn,
+  .form .btn,
+  .price-card .btn {
     width: 100%;
+    max-width: 100%;
     text-align: center;
     justify-content: center;
+    border-radius: 10px;
+    box-sizing: border-box;
   }
 
   .hero-with-photo .cta-row .btn {
-    padding: 14px 1.5rem;
+    padding: 14px 1.25rem;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
   }
 
   .hero {
@@ -3855,6 +3883,8 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   border-radius: 10px;
   padding: 0.45rem 1rem;
   font-weight: 500;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-cookie:hover {

@@ -232,22 +232,25 @@ a:hover {
   position: relative;
 }
 
-/* Dropdown affordance: clear chevron next to «Услуги» / «О работе со мной» */
+/* Dropdown affordance: chevron next to «Услуги» / «О работе со мной»
+   content-box: global *::after { box-sizing:border-box } was collapsing the glyph */
 .nav-item > .nav-link::after {
   content: "";
-  width: 0.55rem;
-  height: 0.55rem;
-  margin-left: 0.1rem;
+  display: inline-block;
+  box-sizing: content-box;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-left: 0.35rem;
   flex-shrink: 0;
   border-right: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
-  transform: translateY(-0.12rem) rotate(45deg);
-  opacity: 0.9;
+  transform: translateY(-0.15rem) rotate(45deg);
+  opacity: 0.95;
   transition: transform 0.2s ease;
 }
 
 .nav-item.is-open > .nav-link::after {
-  transform: translateY(0.12rem) rotate(225deg);
+  transform: translateY(0.1rem) rotate(225deg);
 }
 
 .nav-dropdown {
@@ -3378,7 +3381,15 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   .nav-item > .nav-link {
     width: 100%;
     justify-content: space-between;
-    padding: 0.7rem 0.55rem;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .nav-item > .nav-link::after {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: 0.75rem;
+    border-right-width: 2.5px;
+    border-bottom-width: 2.5px;
   }
 
   .nav-item:hover > .nav-dropdown {
@@ -3413,7 +3424,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
   .nav > a.nav-mobile-cta {
     display: flex !important;
-    margin-top: 0.5rem;
+    width: auto;
+    box-sizing: border-box;
+    margin: 0.65rem 0.75rem 0.15rem;
+    padding: 0.85rem 1rem;
     justify-content: center;
     background: var(--accent);
     color: #fff;

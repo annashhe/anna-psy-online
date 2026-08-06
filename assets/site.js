@@ -207,8 +207,6 @@
 
     var lastY = window.scrollY || 0;
     var ticking = false;
-    var mobileMq = window.matchMedia('(max-width: 860px)');
-
     function show() {
       header.classList.remove('header-hidden');
     }
@@ -228,13 +226,6 @@
       var bannerH = banner ? banner.offsetHeight : 0;
 
       header.classList.toggle('is-scrolled', y > 8);
-
-      // Desktop: keep header visible
-      if (!mobileMq.matches) {
-        show();
-        lastY = y;
-        return;
-      }
 
       // Near top (incl. test banner): always show
       if (y <= Math.max(64, bannerH + 8)) {

@@ -24,6 +24,27 @@ const bannerCss = `
 .banner-test strong { color: #f0c4d4; }
 `;
 
+const mobileHeroCss = `
+/* Mobile: photo first, ≤ half viewport */
+@media (max-width: 992px) {
+  .hero-image { order: -1; max-height: 45vh; }
+  .hero-image img {
+    max-width: min(280px, 100%);
+    max-height: 45vh;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 640px) {
+  .hero-image img {
+    max-width: min(220px, 100%);
+    max-height: 42vh;
+  }
+}
+`;
+
 const html = `<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -41,7 +62,7 @@ const html = `<!DOCTYPE html>
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/group2026.css?v=20260806c" />
+  <link rel="stylesheet" href="/assets/group2026.css?v=20260806d" />
   <script>
     (function (m, e, t, r, i, k, a) {
       m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
@@ -59,7 +80,7 @@ ${body}
 </html>
 `;
 
-fs.writeFileSync('assets/group2026.css', bannerCss + '\n' + css);
+fs.writeFileSync('assets/group2026.css', bannerCss + '\n' + css + '\n' + mobileHeroCss);
 fs.writeFileSync('group2026/index.html', html);
 console.log('wrote group2026/index.html', html.length);
 console.log('wrote assets/group2026.css', bannerCss.length + css.length);

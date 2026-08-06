@@ -3385,8 +3385,13 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
   .hero-with-photo .hero-grid {
     min-height: auto;
-    padding: 2rem 0 1.75rem;
-    gap: 1.75rem;
+    padding: 1rem 0 1.75rem;
+    gap: 1.25rem;
+  }
+
+  /* Mobile: portrait first (etalon), then copy — photo ≤ half viewport */
+  .hero-with-photo .hero-visual {
+    order: -1;
   }
 
   .hero-headline,
@@ -3402,14 +3407,20 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     font-size: 22px;
   }
 
-  .hero-visual,
+  .hero-with-photo .hero-visual,
   .hero-with-photo .hero-photo {
-    min-height: 340px;
+    min-height: 0;
+    max-height: 45vh;
+    height: auto;
   }
 
   .hero-with-photo .hero-photo,
   .hero-photo {
-    border-radius: 100px;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 18%;
+    border-radius: 30px;
   }
 
   .grid-3 {
@@ -3558,7 +3569,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
   .hero-with-photo .hero-grid {
     min-height: auto;
-    padding-top: 1.25rem;
+    padding-top: 0.75rem;
     grid-template-columns: 1fr;
   }
 
@@ -3568,8 +3579,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   }
 
   .hero-with-photo .hero-photo {
-    border-radius: 100px;
-    min-height: 420px;
+    border-radius: 30px;
+    min-height: 0;
+    max-height: 45vh;
   }
 
   .btn {
@@ -3599,9 +3611,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     line-height: 1.25;
   }
 
-  .hero-visual,
+  .hero-with-photo .hero-visual,
   .hero-with-photo .hero-photo {
-    min-height: 280px;
+    min-height: 0;
+    max-height: 42vh;
   }
 
   .price-card .amount {
@@ -3877,6 +3890,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
   .hero-with-photo .hero-photo {
     border-radius: 30px;
+    max-height: 45vh;
   }
 
   .cookie-banner {

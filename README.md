@@ -45,7 +45,9 @@ Push в `main` → GitHub Pages обновляет https://muzhskoy-psikholog.ru
 | `thank-you-booking/`, `thank-you-callback/` | Спасибо после записи / заявки (`noindex`) |
 | ниши (`it/`, `parting/`, `bloggers/`, …) | Полный контент с anna-psy.online |
 | `blog/` | Индекс + 5 статей на бренде + 3 thin-страницы под будущий 301 |
-| `REDIRECTS.md` | Черновик 301 — согласовать до боевого переезда |
+| `REDIRECTS.md` | Таблица 301 — согласовать до боевого переезда |
+| `CUTOVER.md` | Чеклист переезда DNS / noindex / Тильда |
+| `scripts/smoke-test.mjs` | Смоук тестового (или боевого) стенда |
 | `PROMPTS/` | Промпты для агентов в других репо |
 | `robots.txt` | Запрет индексации всего теста |
 

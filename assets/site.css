@@ -232,21 +232,22 @@ a:hover {
   position: relative;
 }
 
-/* Down caret like live submenu arrow */
+/* Dropdown affordance: clear chevron next to «Услуги» / «О работе со мной» */
 .nav-item > .nav-link::after {
   content: "";
-  width: 0;
-  height: 0;
-  border-left: 3.5px solid transparent;
-  border-right: 3.5px solid transparent;
-  border-top: 4.5px solid currentColor;
-  opacity: 0.75;
-  transform: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-left: 0.1rem;
+  flex-shrink: 0;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-0.12rem) rotate(45deg);
+  opacity: 0.9;
   transition: transform 0.2s ease;
 }
 
 .nav-item.is-open > .nav-link::after {
-  transform: rotate(180deg);
+  transform: translateY(0.12rem) rotate(225deg);
 }
 
 .nav-dropdown {
@@ -423,6 +424,10 @@ em.accent,
   font-style: normal;
 }
 
+.hero-headline-strong {
+  font-weight: 700;
+}
+
 .hero-name {
   margin: 0;
   font-size: 22px;
@@ -448,6 +453,15 @@ em.accent,
   color: #555555;
   opacity: 1;
   line-height: 1.4;
+}
+
+.hero-descr-muted {
+  color: #888888;
+}
+
+.hero-descr-em {
+  color: var(--accent-text);
+  font-weight: 400;
 }
 
 .hero-with-photo .hero-name + .hero-role {

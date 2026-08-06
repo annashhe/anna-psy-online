@@ -804,6 +804,33 @@
     update();
   }
 
+  /** Policies, offer, blog: discourage casual copy (not DRM). */
+  function initNoCopy() {
+    var path = location.pathname || '';
+    if (!/^\/(privacy|oferta|blog)(\/|$)/i.test(path)) return;
+    document.documentElement.classList.add('no-copy');
+    function block(event) {
+      var t = event.target;
+      if (t && (t.closest('input, textarea, [contenteditable="true"]'))) return;
+      event.preventDefault();
+    }
+    document.addEventListener('copy', block);
+    document.addEventListener('cut', block);
+    document.addEventListener('contextmenu', block);
+    document.addEventListener('dragstart', block);
+    document.addEventListener('keydown', function (event) {
+      var key = (event.key || '').toLowerCase();
+      if (!(event.ctrlKey || event.metaKey)) return;
+      if (key !== 'c' && key !== 'x' && key !== 'a' && key !== 's') return;
+      var t = event.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      event.preventDefault();
+    });
+  }
+
+  // Apply class ASAP so CSS user-select works before DOMContentLoaded.
+  initNoCopy();
+
   document.addEventListener('DOMContentLoaded', function () {
     initCallbackForm();
     initVoprosForm();

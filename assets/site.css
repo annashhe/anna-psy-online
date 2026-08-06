@@ -553,6 +553,8 @@ em.accent,
   padding: 14.6px 70px;
   border-radius: 10px;
   box-shadow: none;
+  text-align: center;
+  justify-content: center;
 }
 
 .hero-with-photo .cta-row .btn:hover {
@@ -596,6 +598,24 @@ em.accent,
 }
 
 /* —— Buttons —— */
+.btn,
+a.btn,
+button.btn,
+.btn-primary,
+.btn-ghost,
+.btn-sm,
+.btn-cookie,
+.header-cta,
+.nav-mobile-cta,
+.form .btn,
+.cta-row .btn,
+.price-card .btn,
+.about-card .btn,
+.thank-card-wide .btn,
+.cta-invite-inner .btn {
+  text-align: center;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -609,6 +629,7 @@ em.accent,
   border: 1px solid transparent;
   cursor: pointer;
   transition: transform var(--ease), background var(--ease), border-color var(--ease), color var(--ease), box-shadow var(--ease);
+  text-align: center;
 }
 
 .btn:hover {
@@ -3586,10 +3607,18 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
   .btn {
     width: auto;
+    text-align: center;
+    justify-content: center;
   }
 
   .cta-row .btn {
     width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-with-photo .cta-row .btn {
+    padding: 14px 1.5rem;
   }
 
   .hero {
@@ -3816,6 +3845,10 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .btn-cookie {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   background: #fff;
   color: #555;
   border: 1px solid #999;

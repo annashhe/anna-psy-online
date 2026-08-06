@@ -1143,6 +1143,8 @@
                 min-width: 140px;
                 padding: 0.7rem 1.5rem;
                 font-size: 0.9rem;
+                text-align: center;
+                justify-content: center;
             }
             .nav-links {
                 font-size: 0.85rem;
@@ -1371,4 +1373,9 @@
     max-width: min(220px, 100%);
     max-height: 42vh;
   }
+}
+
+.btn, a.btn, button.btn {
+  text-align: center !important;
+  justify-content: center !important;
 }

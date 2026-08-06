@@ -25,7 +25,7 @@ const bannerCss = `
 `;
 
 const mobileHeroCss = `
-/* Mobile: photo first, ≤ half viewport */
+/* Mobile: photo first, ≤ half viewport; centered button labels */
 @media (max-width: 992px) {
   .hero-image { order: -1; max-height: 45vh; }
   .hero-image img {
@@ -42,6 +42,10 @@ const mobileHeroCss = `
     max-width: min(220px, 100%);
     max-height: 42vh;
   }
+}
+.btn, a.btn, button.btn {
+  text-align: center !important;
+  justify-content: center !important;
 }
 `;
 
@@ -62,7 +66,7 @@ const html = `<!DOCTYPE html>
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/group2026.css?v=20260806d" />
+  <link rel="stylesheet" href="/assets/group2026.css?v=20260806e" />
   <script>
     (function (m, e, t, r, i, k, a) {
       m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };

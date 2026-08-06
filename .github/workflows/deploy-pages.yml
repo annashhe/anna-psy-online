@@ -1,10 +1,9 @@
-name: Deploy to GitHub Pages
+﻿name: Deploy to GitHub Pages
 
 # Static site deploy via Actions (preferred while legacy builder is stuck).
 on:
   push:
     branches: [main]
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -63,3 +62,4 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+

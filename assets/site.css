@@ -2820,7 +2820,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .about-intro h2 {
-  text-align: left;
+  text-align: center;
 }
 
 .about-intro-lead {
@@ -2828,6 +2828,58 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   font-size: 1.25rem;
   font-weight: 500;
   color: #555;
+  text-align: center;
+}
+
+.principle-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 0 0 0.85rem;
+}
+
+.principle-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+  color: var(--accent-dark);
+}
+
+#principles .section-cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+#principles .section-more {
+  margin-bottom: 1rem;
+}
+
+.first-meeting-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.first-meeting-card {
+  text-align: center;
+}
+
+.first-meeting-card h3 {
+  color: var(--accent-dark);
+}
+
+.about-notsuitable-list {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.about-notsuitable-list li {
+  margin-bottom: 0.65rem;
+}
+
+@media (max-width: 900px) {
+  .first-meeting-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .about-intro-copy {

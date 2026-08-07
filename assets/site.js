@@ -517,8 +517,8 @@
 
       item.addEventListener('mouseleave', function () {
         item.classList.remove('dropdown-suppress-hover');
-        if (!item.classList.contains('is-open')) return;
-        // Keep click-opened state only while pointer is inside; otherwise hover-open stays sticky.
+        item.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
       });
     });
 

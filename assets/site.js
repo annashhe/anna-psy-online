@@ -559,7 +559,6 @@
       individual_90: { title: 'Индивидуальная консультация', duration: '90 минут', price: '7 000 ₽' },
       family: { title: 'Семейная (парная) консультация', duration: '90 минут', price: '7 000 ₽' }
     };
-    var api = window.PSI_LEADS_API || 'https://psi-leads.anna-shhe-adwords.workers.dev';
 
     function resolveTherapy(payload) {
       var type = (payload && (payload.therapyType || payload.therapy)) || 'individual';
@@ -613,27 +612,6 @@
       }
     }
 
-    function postBookingLead(body, attempt) {
-      attempt = attempt || 0;
-      return original(api, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: body
-      }).then(function (r) {
-        if (!r.ok) throw new Error('lead status ' + r.status);
-        return r;
-      }).catch(function () {
-        if (attempt < 2) {
-          return new Promise(function (resolve) {
-            setTimeout(resolve, 700 * (attempt + 1));
-          }).then(function () {
-            return postBookingLead(body, attempt + 1);
-          });
-        }
-        throw new Error('lead_failed');
-      });
-    }
-
     function goThankYou(payload, therapy, endIso) {
       try {
         sessionStorage.setItem(
@@ -684,39 +662,10 @@
               d.setMinutes(d.getMinutes() + (therapy.meta.duration.indexOf('90') >= 0 ? 90 : 50));
               endIso = d.toISOString();
             }
-            var contactMethods = Array.isArray(payload.contactMethods)
-              ? payload.contactMethods.slice()
-              : [];
-            var tracking = getLeadTrackingPayload();
-            var leadBody = JSON.stringify(
-              Object.assign(
-                {
-                  source: 'booking',
-                  name: payload.name,
-                  phone: payload.phone,
-                  therapyType: therapy.type,
-                  contactMethods: contactMethods,
-                  startIso: payload.startIso,
-                  endIso: endIso,
-                  clientTimezone: payload.clientTimezone,
-                  comment: payload.comment || '',
-                  website: ''
-                },
-                tracking
-              )
-            );
+            // Backend /public/bookings already creates the slot and sends Telegram.
+            // Do not POST source=booking to psi-leads — that duplicated TG messages.
             started = true;
-            postBookingLead(leadBody)
-              .then(function () {
-                goThankYou(payload, therapy, endIso);
-              })
-              .catch(function () {
-                started = false;
-                alert(
-                  'Запись в календаре прошла, но уведомление мне не отправилось. Напишите в Telegram @annashhe или WhatsApp +7 913 755 62 84 — подтвердим слот.'
-                );
-                goThankYou(payload, therapy, endIso);
-              });
+            goThankYou(payload, therapy, endIso);
           } catch (e) {
             started = false;
             try {

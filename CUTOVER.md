@@ -62,7 +62,7 @@
 - [x] README обновлён под текущий статус стенда — агент
 
 Не критично / позже:
-- [ ] group2026: герой с tildacdn — ок как эталон
+- [x] group2026: герой скачан с tildacdn в `assets/images/tilda/group2026-hero.webp` — агент
 
 ---
 

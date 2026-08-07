@@ -16,9 +16,9 @@
   --anna-widget-primary-dark: #722946;
   --anna-widget-accent: #eadbef;
   --anna-widget-bg: #ffffff;
-  --font-display: Inter, Arial, sans-serif;
-  --font-body: Inter, Arial, sans-serif;
-  --font-brand: Arial, Inter, system-ui, sans-serif;
+  --font-display: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-brand: Arial, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-quote: Georgia, "Times New Roman", serif;
   --radius: 10px;
   --radius-lg: 30px;

@@ -493,6 +493,32 @@
     var items = document.querySelectorAll('.nav-item');
     if (!items.length) return;
 
+    function setExpanded(item, open) {
+      var toggle = item.querySelector('[data-dropdown-toggle]');
+      if (toggle) toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    function suppressHover(item) {
+      item.classList.add('dropdown-suppress-hover');
+    }
+
+    function clearSuppress(item) {
+      item.classList.remove('dropdown-suppress-hover');
+    }
+
+    function closeItem(item) {
+      item.classList.remove('is-open');
+      suppressHover(item);
+      setExpanded(item, false);
+    }
+
+    function openItem(item) {
+      closeAllDropdowns(item);
+      clearSuppress(item);
+      item.classList.add('is-open');
+      setExpanded(item, true);
+    }
+
     items.forEach(function (item) {
       var toggle = item.querySelector('[data-dropdown-toggle]');
       if (!toggle) return;
@@ -500,35 +526,49 @@
       toggle.addEventListener('click', function (event) {
         event.preventDefault();
         event.stopPropagation();
-        var willOpen = !item.classList.contains('is-open');
-        closeAllDropdowns(item);
-        item.classList.toggle('is-open', willOpen);
-        toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-        if (willOpen) item.classList.remove('dropdown-suppress-hover');
+        var isOpen = item.classList.contains('is-open');
+        var suppressed = item.classList.contains('dropdown-suppress-hover');
+        var desktopHover =
+          window.matchMedia('(min-width: 861px) and (hover: hover)').matches;
+        // On desktop, :hover also shows the panel — treat that as open so a second click closes.
+        var visuallyOpen =
+          isOpen || (desktopHover && !suppressed && item.matches(':hover'));
+        if (visuallyOpen) closeItem(item);
+        else openItem(item);
       });
 
       // After clicking a dropdown link, close menu even if mouse stays over the item (:hover).
       item.querySelectorAll('.nav-dropdown a').forEach(function (link) {
         link.addEventListener('click', function () {
           closeAllDropdowns();
-          item.classList.add('dropdown-suppress-hover');
+          suppressHover(item);
         });
       });
 
       item.addEventListener('mouseleave', function () {
-        item.classList.remove('dropdown-suppress-hover');
+        clearSuppress(item);
         item.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
+        setExpanded(item, false);
       });
     });
 
-    document.addEventListener('click', function (event) {
-      if (event.target.closest('.nav-item')) return;
-      closeAllDropdowns();
-    });
+    // Capture phase so outside-click still wins if something stops bubbling.
+    document.addEventListener(
+      'pointerdown',
+      function (event) {
+        if (event.target.closest('.nav-item')) return;
+        closeAllDropdowns();
+      },
+      true
+    );
 
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') closeAllDropdowns();
+      if (event.key !== 'Escape') return;
+      document.querySelectorAll('.nav-item').forEach(function (item) {
+        if (item.classList.contains('is-open') || item.matches(':hover')) {
+          closeItem(item);
+        }
+      });
     });
   }
 

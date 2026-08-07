@@ -3395,7 +3395,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .thank-row {
   display: grid;
-  gap: 0.15rem;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.5rem 1rem;
+  align-items: baseline;
 }
 
 .thank-row span {
@@ -3408,16 +3410,60 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   font-weight: 600;
   color: var(--ink);
   font-size: 1rem;
+  text-align: left;
 }
 
 .thank-row.is-highlight strong {
   color: var(--accent-text);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
 }
 
+.thank-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.thank-footer .thank-note {
+  margin: 0;
+}
+
+.thank-messengers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  font-size: 0.95rem;
+}
+
+.thank-messengers a {
+  color: var(--accent-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.thank-messengers a:hover {
+  text-decoration: underline;
+}
+
+.thank-cta {
+  margin-top: 0.35rem !important;
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+
 .thank-card-wide .btn {
-  margin-top: 1.35rem;
+  margin-top: 0;
+}
+
+@media (max-width: 480px) {
+  .thank-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
 }
 
 .redirect-card {

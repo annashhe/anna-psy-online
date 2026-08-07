@@ -10,7 +10,7 @@
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/site.css?v=20260807i" />
+  <link rel="stylesheet" href="/assets/site.css?v=20260807k" />
 </head>
 <body>
   <div class="banner-test">ТЕСТОВЫЙ САЙТ · noindex · <a href="/">на главную</a></div>
@@ -68,18 +68,16 @@
             return CONTACT[key] || String(m || '').trim();
           })
           .filter(Boolean);
-        if (!list.length) return 'Telegram, WhatsApp или MAX';
+        if (!list.length) return '';
         if (list.length === 1) return list[0];
         if (list.length === 2) return list[0] + ' или ' + list[1];
         return list.slice(0, -1).join(', ') + ' или ' + list[list.length - 1];
       }
 
-      function row(label, value, highlight) {
+      function row(label, value) {
         if (!value) return '';
         return (
-          '<div class="thank-row' +
-          (highlight ? ' is-highlight' : '') +
-          '"><span>' +
+          '<div class="thank-row"><span>' +
           escapeHtml(label) +
           '</span><strong>' +
           value +
@@ -94,17 +92,32 @@
         sessionStorage.removeItem('callbackThankYou');
       } catch (e) {}
 
-      var messengers =
-        '<a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a>, ' +
-        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a> или ' +
-        '<a href="' + MAX_URL + '" target="_blank" rel="noopener">MAX</a>';
+      var messengerLinks =
+        '<span class="thank-messengers">' +
+        '<a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a>' +
+        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a>' +
+        '<a href="' + MAX_URL + '" target="_blank" rel="noopener">MAX</a>' +
+        '</span>';
+
+      function layout(opts) {
+        return (
+          '<h1>' + opts.title + '</h1>' +
+          '<p class="thank-lead">' + opts.lead + '</p>' +
+          (opts.details || '') +
+          '<div class="thank-footer">' +
+          '<p class="thank-note">Если вопрос срочный — напишите напрямую:</p>' +
+          messengerLinks +
+          '<a class="btn btn-primary thank-cta" href="/">Вернуться на сайт</a>' +
+          '</div>'
+        );
+      }
 
       if (!raw) {
-        root.innerHTML =
-          '<h1>Спасибо!</h1>' +
-          '<p class="thank-lead">Если вы только что отправили заявку, я скоро свяжусь с вами.</p>' +
-          '<p class="thank-note">Если вопрос срочный — напишите напрямую в ' + messengers + '.</p>' +
-          '<p><a class="btn btn-ghost" href="/">На главную</a></p>';
+        root.innerHTML = layout({
+          title: 'Спасибо!',
+          lead: 'Если вы только что отправили заявку, я скоро свяжусь с вами.',
+          details: ''
+        });
         return;
       }
 
@@ -118,22 +131,19 @@
       var name = escapeHtml(data.name || '');
       var via = formatContact(data.contactMethods);
       var phone = displayPhone(data.phone);
-      var greeting = name ? 'Спасибо, ' + name + '!' : 'Спасибо!';
-
-      root.innerHTML =
-        '<h1>' + greeting + '</h1>' +
-        '<p class="thank-lead">Я получила вашу заявку и свяжусь с вами через ' +
-        escapeHtml(via) +
-        (phone ? ' по телефону <strong>' + escapeHtml(phone) + '</strong>' : ' по указанному телефону') +
-        ' в течение дня.</p>' +
+      var details =
         '<div class="thank-details">' +
-        row('Имя', name) +
         row('Телефон', phone ? escapeHtml(phone) : '') +
-        row('Способ связи', escapeHtml(via), true) +
+        row('Способ связи', via ? escapeHtml(via) : '') +
         row('Комментарий', data.comment ? escapeHtml(data.comment) : '') +
-        '</div>' +
-        '<p class="thank-note">Если вопрос срочный, можете написать мне напрямую в ' + messengers + '.</p>' +
-        '<p><a class="btn btn-ghost" href="/">Вернуться на сайт</a></p>';
+        '</div>';
+      if (!phone && !via && !data.comment) details = '';
+
+      root.innerHTML = layout({
+        title: name ? 'Спасибо, ' + name + '!' : 'Спасибо!',
+        lead: 'Я получила вашу заявку и свяжусь с вами в течение дня.',
+        details: details
+      });
     })();
   </script>
   <script>
@@ -145,6 +155,6 @@
     })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
     ym(99617923, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: false });
   </script>
-  <script src="/assets/site.js?v=20260807j" defer></script>
+  <script src="/assets/site.js?v=20260807k" defer></script>
 </body>
 </html>

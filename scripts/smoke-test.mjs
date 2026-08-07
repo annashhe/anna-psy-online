@@ -1,13 +1,14 @@
 /**
- * Smoke checks for https://muzhskoy-psikholog.ru/ (test stand).
+ * Smoke checks for anna-psy.online (or current Pages host).
  * Usage: node scripts/smoke-test.mjs
- * Optional: SMOKE_BASE=https://muzhskoy-psikholog.ru node scripts/smoke-test.mjs
+ * Optional: SMOKE_BASE=https://anna-psy.online node scripts/smoke-test.mjs
  */
-const BASE = (process.env.SMOKE_BASE || 'https://muzhskoy-psikholog.ru').replace(/\/$/, '');
+const BASE = (process.env.SMOKE_BASE || 'https://anna-psy.online').replace(/\/$/, '');
 const ORIGIN = BASE;
 const WIDGET = 'https://anna-backend.ru/widget.js';
 const LEADS = 'https://psi-leads.anna-shhe-adwords.workers.dev';
 const BOOKINGS = 'https://anna-backend.ru/public/bookings';
+const HOST_OK = /(anna-psy\.online|muzhskoy-psikholog\.ru)/i;
 
 const pages = [
   '/',
@@ -58,7 +59,7 @@ async function fetchText(url, init = {}) {
     redirect: 'manual',
     ...init,
     headers: {
-      'User-Agent': 'muzhskoy-smoke/1.0',
+      'User-Agent': 'anna-psy-smoke/1.0',
       ...(init.headers || {}),
     },
   });
@@ -76,20 +77,22 @@ async function checkPage(path) {
   if (!/charset=utf-8/i.test(res.headers.get('content-type') || '') && !text.includes('charset="UTF-8"')) {
     warn(path, 'content-type without utf-8');
   }
-  const noindex = /noindex/i.test(text) || path.startsWith('/thank-you');
-  if (!noindex && path !== '/robots.txt') {
-    // thank-you always noindex; others should have meta or rely on robots.txt
-    if (!/<meta[^>]+robots[^>]+noindex/i.test(text)) {
-      warn(path, 'no meta noindex (robots.txt still Disallow: /)');
-    }
+
+  const isThankYou = path.startsWith('/thank-you');
+  if (isThankYou) {
+    if (!/<meta[^>]+robots[^>]+noindex/i.test(text)) fail(path, 'thank-you must stay noindex');
+  } else if (/banner-test/i.test(text)) {
+    warn(path, 'test banner still present');
+  } else if (/<meta[^>]+robots[^>]+noindex/i.test(text) && path !== '/404.html') {
+    warn(path, 'unexpected meta noindex on production page');
   }
+
   if (path === '/group2026/') {
     if (!text.includes('group2026.css')) fail(path, 'missing group2026.css');
     else if (text.includes('class="group-page"')) fail(path, 'old group-page body still present');
     else if (!text.includes('badge-start') && !text.includes('hero-image')) fail(path, 'etalon hero markers missing');
     else ok(`${path} (etalon layout)`);
   } else if (path === '/') {
-    if (!text.includes('banner-test')) warn(path, 'test banner missing');
     if (!text.includes('data-anna-psy-widget')) fail(path, 'widget host missing');
     else ok(`${path} (widget host)`);
   } else {
@@ -109,8 +112,13 @@ async function checkRobots() {
     fail('robots.txt', `HTTP ${res.status}`);
     return;
   }
-  if (!/Disallow:\s*\//i.test(text)) fail('robots.txt', 'missing Disallow: /');
-  else ok('robots.txt Disallow: /');
+  if (/Disallow:\s*\/\s*$/m.test(text) && !/Allow:\s*\//i.test(text)) {
+    fail('robots.txt', 'still full Disallow: / (test mode)');
+  } else if (!/Disallow:\s*\/thank-you/i.test(text)) {
+    warn('robots.txt', 'thank-you Disallow missing');
+  } else {
+    ok('robots.txt open + thank-you Disallow');
+  }
 }
 
 async function checkWidget() {
@@ -133,12 +141,10 @@ async function checkCors(name, url, method = 'OPTIONS') {
   const okOrigin =
     allowOrigin === '*' ||
     allowOrigin === ORIGIN ||
-    allowOrigin.includes('muzhskoy-psikholog.ru');
+    HOST_OK.test(allowOrigin);
   if (res.status >= 400 && res.status !== 204) {
-    // Some endpoints answer 200/204 on OPTIONS
     warn(name, `OPTIONS HTTP ${res.status}, ACAO=${allowOrigin || '(none)'}`);
   } else if (!okOrigin && method === 'OPTIONS') {
-    // Try a lightweight POST probe for leads CORS (expect 4xx validation, not CORS block)
     warn(name, `OPTIONS ACAO=${allowOrigin || '(none)'} — will probe POST`);
   } else {
     ok(`${name} CORS (${allowOrigin || res.status})`);
@@ -146,7 +152,6 @@ async function checkCors(name, url, method = 'OPTIONS') {
 }
 
 async function checkLeadsEndpoint() {
-  // Invalid payload should not create a lead; we only care that API is reachable + CORS.
   const { res, text } = await fetchText(LEADS, {
     method: 'POST',
     headers: {
@@ -156,7 +161,7 @@ async function checkLeadsEndpoint() {
     body: JSON.stringify({ smoke: true }),
   });
   const acao = res.headers.get('access-control-allow-origin') || '';
-  const corsOk = acao === '*' || acao === ORIGIN || acao.includes('muzhskoy-psikholog.ru');
+  const corsOk = acao === '*' || acao === ORIGIN || HOST_OK.test(acao);
   if (!corsOk) fail('psi-leads CORS', `ACAO=${acao || '(none)'}`);
   else ok(`psi-leads CORS (${acao})`);
   if (res.status === 0) fail('psi-leads', 'network failure');
@@ -174,7 +179,7 @@ async function checkBookingsProbe() {
     },
   });
   const acao = res.headers.get('access-control-allow-origin') || '';
-  const corsOk = acao === '*' || acao === ORIGIN || acao.includes('muzhskoy-psikholog.ru');
+  const corsOk = acao === '*' || acao === ORIGIN || HOST_OK.test(acao);
   if (!corsOk) warn('bookings CORS', `ACAO=${acao || '(none)'} HTTP ${res.status}`);
   else ok(`bookings CORS (${acao || res.status})`);
 }

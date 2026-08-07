@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  window.PSI_SITE_HOME = 'https://muzhskoy-psikholog.ru';
+  window.PSI_SITE_HOME = 'https://anna-psy.online';
   window.PSI_LEADS_API = 'https://psi-leads.anna-shhe-adwords.workers.dev';
 
   /** Capture first-touch UTMs once; keep across in-site navigation. */
@@ -136,7 +136,7 @@
             comment: comment ? comment.value.trim() : '',
             website: website ? website.value.trim() : '',
             pageUrl: window.location.href,
-            site: 'muzhskoy-psikholog.ru'
+            site: 'anna-psy.online'
           },
           getLeadTrackingPayload()
         ),
@@ -386,7 +386,7 @@
             comment: buildComment(),
             website: website ? website.value.trim() : '',
             pageUrl: window.location.href,
-            site: 'muzhskoy-psikholog.ru'
+            site: 'anna-psy.online'
           },
           getLeadTrackingPayload()
         ),

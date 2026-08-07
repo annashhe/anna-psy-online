@@ -7,22 +7,7 @@ let body = fs.readFileSync('local/group-etalon-body.html', 'utf8');
 // Fix about links to trailing slash
 body = body.replaceAll('href="/about"', 'href="/about/"');
 
-// Prepend test banner after opening of first header... better inject before header
-const banner = `<div class="banner-test">ТЕСТОВЫЙ САЙТ · <strong>muzhskoy-psikholog.ru</strong> · не индексируется · боевой пока на anna-psy.online</div>
-`;
-body = banner + body;
-
-const bannerCss = `
-.banner-test {
-  background: linear-gradient(180deg, #1a1216 0%, #2a1c24 72%, #4a3a52 100%);
-  color: #f7f4ef;
-  text-align: center;
-  font-size: 0.8rem;
-  padding: 0.4rem 1rem 0.55rem;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-.banner-test strong { color: #f0c4d4; }
-`;
+const bannerCss = ``;
 
 const mobileHeroCss = `
 /* Mobile: photo first, ≤ half viewport; centered button labels */
@@ -70,10 +55,9 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>Терапевтическая группа «Здоровые отношения» онлайн | Анна Щеголихина | ТЕСТ</title>
+  <title>Терапевтическая группа «Здоровые отношения» онлайн | Анна Щеголихина</title>
   <meta name="description" content="Групповая терапия онлайн для тех, кто устал от неудачных знакомств. Научитесь строить тёплые, устойчивые отношения. 12–16 встреч, старт 5 сентября 2026." />
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="canonical" href="https://muzhskoy-psikholog.ru/group2026/" />
+  <link rel="canonical" href="https://anna-psy.online/group2026/" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://static.tildacdn.com" />

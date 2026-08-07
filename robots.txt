@@ -1,5 +1,6 @@
 User-agent: *
-Disallow: /
+Allow: /
 
-# Тестовый стенд — индексация запрещена целиком.
-# После переезда на anna-psy.online robots будет открыт, thank-you останутся в Disallow.
+Disallow: /thank-you-booking/
+Disallow: /thank-you-callback/
+Disallow: /thank-you-callback/_preview.html

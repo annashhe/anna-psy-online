@@ -757,14 +757,13 @@ function buildPage(p) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${p.title}</title>
   <meta name="description" content="${p.description}" />
-  <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/site.css?v=20260806b" />
+  <link rel="stylesheet" href="/assets/site.css?v=20260807cutover" />
   <script>
     (function (m, e, t, r, i, k, a) {
       m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
@@ -777,7 +776,6 @@ function buildPage(p) {
   </script>
 </head>
 <body id="top">
-  <div class="banner-test">ТЕСТОВЫЙ САЙТ · <strong>muzhskoy-psikholog.ru</strong> · не индексируется · боевой пока на anna-psy.online</div>
   ${header()}
 
   <main>

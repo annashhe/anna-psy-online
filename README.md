@@ -33,7 +33,9 @@ start index.html
 
 ## Деплой
 
-Push в `main` → GitHub Pages обновляет https://muzhskoy-psikholog.ru/
+Push в `main` → workflow **Deploy to GitHub Pages** обновляет сайт.
+
+Если вместо сайта видите GitHub 404 «There isn't a GitHub Pages site here» или DNS на whatsmydns смешанный (Cloudflare + `185.199.*`) — смотрите **`HOSTING-DNS.md`**.
 
 ## Файлы
 

@@ -288,6 +288,13 @@ a:hover {
   display: block;
 }
 
+/* After a dropdown link click, keep menu closed until the pointer leaves the item */
+.nav-item.dropdown-suppress-hover > .nav-dropdown,
+.nav-item.dropdown-suppress-hover:hover > .nav-dropdown,
+.nav-item.dropdown-suppress-hover.is-open > .nav-dropdown {
+  display: none !important;
+}
+
 .nav-dropdown a {
   display: block;
   padding: 0.55rem 1.35rem;

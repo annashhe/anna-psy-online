@@ -504,6 +504,21 @@
         closeAllDropdowns(item);
         item.classList.toggle('is-open', willOpen);
         toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        if (willOpen) item.classList.remove('dropdown-suppress-hover');
+      });
+
+      // After clicking a dropdown link, close menu even if mouse stays over the item (:hover).
+      item.querySelectorAll('.nav-dropdown a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          closeAllDropdowns();
+          item.classList.add('dropdown-suppress-hover');
+        });
+      });
+
+      item.addEventListener('mouseleave', function () {
+        item.classList.remove('dropdown-suppress-hover');
+        if (!item.classList.contains('is-open')) return;
+        // Keep click-opened state only while pointer is inside; otherwise hover-open stays sticky.
       });
     });
 

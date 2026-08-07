@@ -36,7 +36,13 @@
    `muzhskoy-psikholog.ru` теперь «боевой» по контенту (без баннера/noindex), пока DNS `anna-psy.online` ещё на Тильде.
 8. [x] Проверка стенда + аудит до DNS — **вместе** / агент (2026-08-07)
 
-**← Сейчас: раздел 2 — DNS `anna-psy.online` → GitHub Pages (см. откат ниже).**
+**← Сейчас: DNS почти разошёлся (A→GitHub). Ждём TLS / Enforce HTTPS в Pages, потом раздел 3.**
+
+Прогресс DNS (2026-08-07 ~22:50):
+- [x] REG.RU: NS `ns1/ns2.reg.ru`, A `185.199.*`, www → `annashhe.github.io` — **Анна**
+- [x] Контент уже с GitHub Pages (`Server: GitHub.com`, наш `site.js`) — агент
+- [ ] Сертификат HTTPS / Enforce HTTPS в Pages — **Анна** (Check again → дождаться галочки → включить)
+- [ ] Добить остатки кэша (редкие точки ещё `tildadns` / `176.57`) — само разойдётся
 
 ### Аудит перед DNS (2026-08-07)
 

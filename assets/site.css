@@ -54,10 +54,9 @@
     #ffffff 0%,
     #faf6fb 18%,
     #f3ebf6 48%,
-    #faf6fb 78%,
-    #ffffff 100%
+    #faf6fb 100%
   );
-  --wash-quote: linear-gradient(180deg, #faf6fb 0%, #eadbef 48%, #faf6fb 100%);
+  --wash-quote: linear-gradient(180deg, #faf6fb 0%, #eadbef 45%, #faf6fb 100%);
   /* Etalon: lavender lives in the sticky header; hero itself is white */
   --wash-hero: #ffffff;
   --divider-fade: linear-gradient(90deg, rgba(180, 67, 108, 0), #b4436c 50%, rgba(180, 67, 108, 0));
@@ -713,15 +712,14 @@ button.btn,
   background: linear-gradient(
     180deg,
     #ffffff 0%,
-    #faf6fb 22%,
-    #faf6fb 78%,
-    #ffffff 100%
+    #faf6fb 18%,
+    #faf6fb 100%
   );
 }
 
 .section-lavender {
-  /* Etalon “lavender” content bands are soft mist #faf6fb, not solid #eadbef */
-  background: linear-gradient(180deg, #ffffff 0%, #faf6fb 28%, #faf6fb 72%, #ffffff 100%);
+  /* Soft mist band — ends on mist so no white hairline before next block */
+  background: linear-gradient(180deg, #ffffff 0%, #faf6fb 28%, #faf6fb 100%);
 }
 
 .section-wash-up {
@@ -1566,8 +1564,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     180deg,
     #ffffff 0%,
     #faf6fb 18%,
-    #faf6fb 70%,
-    #ffffff 100%
+    #faf6fb 100%
   );
   padding-bottom: 120px;
 }
@@ -1577,8 +1574,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     180deg,
     #ffffff 0%,
     #faf6fb 16%,
-    #faf6fb 72%,
-    #ffffff 100%
+    #faf6fb 100%
   );
 }
 
@@ -1587,8 +1583,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     180deg,
     #ffffff 0%,
     #faf6fb 20%,
-    #faf6fb 78%,
-    #ffffff 100%
+    #faf6fb 100%
   );
 }
 
@@ -2189,6 +2184,11 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .social-btn svg {
   width: 1.25rem;
   height: 1.25rem;
+  fill: currentColor;
+  color: #fff;
+}
+
+.social-btn svg path {
   fill: currentColor;
 }
 
@@ -2852,7 +2852,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .cta-band {
-  background: var(--wash-quote);
+  background: #faf6fb;
   padding: 2.5rem 0;
 }
 
@@ -3566,7 +3566,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 }
 
 .site-footer-lavender {
-  background: linear-gradient(180deg, #ffffff 0%, #f3eaf6 28%, #eadbef 55%, #eadbef 100%);
+  background: linear-gradient(180deg, #faf6fb 0%, #f3eaf6 32%, #eadbef 62%, #eadbef 100%);
   color: #555;
   margin-top: 0;
   padding-top: 2.75rem;

@@ -1396,3 +1396,55 @@
     padding-right: 1.25rem !important;
   }
 }
+
+/* Floating scroll to top */
+.scroll-top {
+  position: fixed;
+  right: 1.15rem;
+  bottom: 1.35rem;
+  z-index: 220;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(114, 41, 70, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(114, 41, 70, 0.55);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease, color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(34, 34, 34, 0.06);
+}
+.scroll-top.is-visible {
+  opacity: 0.55;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scroll-top:hover,
+.scroll-top:focus-visible {
+  opacity: 0.92;
+  color: #722946;
+  border-color: rgba(114, 41, 70, 0.35);
+  background: rgba(255, 255, 255, 0.92);
+}
+.scroll-top svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: block;
+}
+@media (max-width: 640px) {
+  .scroll-top {
+    right: 0.85rem;
+    bottom: 4.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

@@ -291,7 +291,7 @@ function aboutBlock() {
               <article class="carousel-card about-card">
                 <div class="about-card-body">
                   <h3><span>Регулярное обучение</span> и повышение квалификации</h3>
-                  <p>В текущий момент обучаюсь на группового терапевта</p>
+                  <p>В текущий момент обучаюсь на <a href="/group2026/">группового терапевта</a></p>
                   <a class="btn btn-primary btn-sm" href="/about/#education">Посмотреть дипломы</a>
                 </div>
               </article>

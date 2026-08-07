@@ -118,56 +118,249 @@
     var form = document.getElementById('voprosForm');
     if (!form) return;
 
+    var steps = Array.prototype.slice.call(form.querySelectorAll('[data-quiz-step]')).sort(function (a, b) {
+      return Number(a.getAttribute('data-quiz-step')) - Number(b.getAttribute('data-quiz-step'));
+    });
+    if (!steps.length) return;
+
+    var current = 0;
+    var total = steps.length;
+    var stepCurrentEl = form.querySelector('[data-quiz-current]');
+    var stepTotalEl = form.querySelector('[data-quiz-total]');
+    var bigNumEl = form.querySelector('[data-quiz-big-num]');
+    var noteEl = form.querySelector('[data-quiz-note]');
+    var btnNext = form.querySelector('[data-quiz-next]');
+    var btnBack = form.querySelector('[data-quiz-back]');
+    var btnSubmit = form.querySelector('.quiz-submit');
+
     var name = form.querySelector('[name="name"]');
     var phone = form.querySelector('[name="phone"]');
-    var comment = form.querySelector('[name="comment"]');
+    var email = form.querySelector('[name="email"]');
+    var age = form.querySelector('[name="age"]');
+    var userComment = form.querySelector('[name="userComment"]');
     var consent = form.querySelector('[name="consent"]');
     var website = form.querySelector('[name="website"]');
-    var role = form.querySelector('[name="role"]');
     var question = form.querySelector('[name="question"]');
+    var topicsCustomText = form.querySelector('[name="topicsCustomText"]');
+    var timesCustomText = form.querySelector('[name="timesCustomText"]');
+    var scaleInput = form.querySelector('[data-scale-input]');
+    var scaleOutput = form.querySelector('[data-scale-output]');
+    var topicCustomToggle = form.querySelector('[data-topic-custom-toggle]');
+    var topicCustomWrap = form.querySelector('[data-topic-custom]');
+    var timeCustomToggle = form.querySelector('[data-time-custom-toggle]');
+    var timeCustomWrap = form.querySelector('[data-time-custom]');
     var contacts = form.querySelectorAll('[name="contactMethods"]');
     var contactBox = form.querySelector('[data-contact-methods]');
 
+    if (stepTotalEl) stepTotalEl.textContent = String(total);
     bindPhoneMask(phone);
+
+    function clearStepErrors(step) {
+      step.querySelectorAll('.is-error').forEach(function (el) {
+        el.classList.remove('is-error');
+      });
+    }
+
+    function checkedValues(nameAttr) {
+      return Array.prototype.filter.call(form.querySelectorAll('[name="' + nameAttr + '"]'), function (el) {
+        return el.checked;
+      }).map(function (el) {
+        return el.value;
+      });
+    }
+
+    function selectedRadio(nameAttr) {
+      var el = form.querySelector('[name="' + nameAttr + '"]:checked');
+      return el ? el.value : '';
+    }
+
+    function showStep(index) {
+      steps.forEach(function (step, i) {
+        step.hidden = i !== index;
+      });
+      current = index;
+      if (stepCurrentEl) stepCurrentEl.textContent = String(index + 1);
+      if (bigNumEl) bigNumEl.textContent = String(index + 1);
+      if (noteEl) {
+        var defaultNote = 'Ответы помогут сделать встречу бережной и полезной для вас';
+        noteEl.textContent = steps[index].getAttribute('data-quiz-note') || defaultNote;
+      }
+      if (btnBack) btnBack.hidden = index === 0;
+      if (btnNext) btnNext.hidden = index === total - 1;
+      if (btnSubmit) btnSubmit.hidden = index !== total - 1;
+    }
+
+    function validateStep(index) {
+      var step = steps[index];
+      clearStepErrors(step);
+      var valid = true;
+      var stepNum = Number(step.getAttribute('data-quiz-step'));
+
+      if (stepNum === 1) {
+        if (!selectedRadio('role')) {
+          setError(step.querySelector('.quiz-options'), true);
+          valid = false;
+        }
+      }
+
+      if (stepNum === 3) {
+        var topics = checkedValues('topics').filter(function (v) { return v !== 'custom'; });
+        var customTopicChecked = topicCustomToggle && topicCustomToggle.checked;
+        if (!topics.length && !customTopicChecked) {
+          setError(step.querySelector('[data-topics-box]'), true);
+          valid = false;
+        }
+        if (customTopicChecked && (!topicsCustomText || !topicsCustomText.value.trim())) {
+          setError(topicsCustomText, true);
+          valid = false;
+        }
+      }
+
+      if (stepNum === 4) {
+        if (!selectedRadio('experience')) {
+          setError(step.querySelector('.quiz-options'), true);
+          valid = false;
+        }
+      }
+
+      if (stepNum === 7 && timeCustomToggle && timeCustomToggle.checked) {
+        if (!timesCustomText || !timesCustomText.value.trim()) {
+          setError(timesCustomText, true);
+          valid = false;
+        }
+      }
+
+      if (stepNum === 8) {
+        var formatChecks = form.querySelectorAll('[name="formatAgree"]');
+        var allFormat = formatChecks.length && Array.prototype.every.call(formatChecks, function (c) {
+          return c.checked;
+        });
+        if (!allFormat) {
+          setError(step.querySelector('[data-format-box]'), true);
+          valid = false;
+        }
+        if (!consent || !consent.checked) {
+          setError(consent && consent.parentElement, true);
+          valid = false;
+        }
+      }
+
+      if (stepNum === 9) {
+        var selectedContacts = checkedValues('contactMethods');
+        var badName = !name || !name.value.trim();
+        var badPhone = !phone || phoneDigits(phone.value).length !== 11;
+        var badContacts = !selectedContacts.length;
+        var badConsentFinal = !consent || !consent.checked;
+        if (age && age.value) {
+          var ageNum = Number(age.value);
+          if (ageNum < 18 || ageNum > 80) {
+            setError(age, true);
+            valid = false;
+          }
+        }
+        setError(name, badName);
+        setError(phone, badPhone);
+        setError(contactBox, badContacts);
+        setError(consent && consent.parentElement, badConsentFinal);
+        if (badName || badPhone || badContacts || badConsentFinal) valid = false;
+      }
+
+      return valid;
+    }
+
+    function buildComment() {
+      var parts = [];
+      var roleVal = selectedRadio('role');
+      if (roleVal) parts.push('Роль: ' + roleVal);
+      if (question && question.value.trim()) parts.push('Вопрос: ' + question.value.trim());
+
+      var topics = checkedValues('topics').filter(function (v) { return v !== 'custom'; });
+      if (topicCustomToggle && topicCustomToggle.checked && topicsCustomText && topicsCustomText.value.trim()) {
+        topics.push(topicsCustomText.value.trim());
+      }
+      if (topics.length) parts.push('Темы: ' + topics.join('; '));
+
+      var experienceVal = selectedRadio('experience');
+      if (experienceVal) parts.push('Опыт с психологом: ' + experienceVal);
+
+      var individualVal = selectedRadio('individual');
+      if (individualVal) parts.push('Индивидуальная работа: ' + individualVal);
+
+      if (scaleInput) parts.push('Тяжесть (1–10): ' + scaleInput.value);
+
+      var days = checkedValues('days');
+      if (days.length) parts.push('Удобные дни: ' + days.join(', '));
+
+      var times = checkedValues('times').filter(function (v) { return v !== 'custom'; });
+      if (timeCustomToggle && timeCustomToggle.checked && timesCustomText && timesCustomText.value.trim()) {
+        times.push(timesCustomText.value.trim());
+      }
+      if (times.length) parts.push('Удобное время: ' + times.join('; '));
+
+      var formatAgree = checkedValues('formatAgree');
+      if (formatAgree.length) parts.push('Согласие с форматом: ' + formatAgree.join('; '));
+
+      if (email && email.value.trim()) parts.push('Email: ' + email.value.trim());
+      if (age && age.value) parts.push('Возраст: ' + age.value);
+      if (userComment && userComment.value.trim()) parts.push('Комментарий: ' + userComment.value.trim());
+
+      return parts.join('\n');
+    }
+
+    if (scaleInput && scaleOutput) {
+      scaleInput.addEventListener('input', function () {
+        scaleOutput.textContent = scaleInput.value;
+      });
+    }
+
+    if (topicCustomToggle && topicCustomWrap) {
+      topicCustomToggle.addEventListener('change', function () {
+        topicCustomWrap.hidden = !topicCustomToggle.checked;
+        if (!topicCustomToggle.checked && topicsCustomText) topicsCustomText.value = '';
+      });
+    }
+
+    if (timeCustomToggle && timeCustomWrap) {
+      timeCustomToggle.addEventListener('change', function () {
+        timeCustomWrap.hidden = !timeCustomToggle.checked;
+        if (!timeCustomToggle.checked && timesCustomText) timesCustomText.value = '';
+      });
+    }
+
+    if (btnNext) {
+      btnNext.addEventListener('click', function () {
+        if (!validateStep(current)) return;
+        if (current < total - 1) showStep(current + 1);
+      });
+    }
+
+    if (btnBack) {
+      btnBack.addEventListener('click', function () {
+        if (current > 0) showStep(current - 1);
+      });
+    }
 
     form.addEventListener('submit', function (event) {
       event.preventDefault();
-      var selected = Array.prototype.filter.call(contacts, function (c) {
-        return c.checked;
-      }).map(function (c) {
-        return c.value;
-      });
+      if (!validateStep(current)) return;
 
-      var badName = !name || !name.value.trim();
-      var badPhone = !phone || phoneDigits(phone.value).length !== 11;
-      var badContacts = !selected.length;
-      var badConsent = !consent || !consent.checked;
-
-      setError(name, badName);
-      setError(phone, badPhone);
-      setError(contactBox, badContacts);
-      setError(consent && consent.parentElement, badConsent);
-      if (badName || badPhone || badContacts || badConsent) return;
-
-      var parts = [];
-      if (role && role.value) parts.push('Роль: ' + role.value);
-      if (question && question.value.trim()) parts.push('Вопрос: ' + question.value.trim());
-      if (comment && comment.value.trim()) parts.push(comment.value.trim());
-
+      var selectedContacts = checkedValues('contactMethods');
       postLead(
         {
           source: 'vopros-psikhologu',
           name: name.value.trim(),
           phone: phoneDigits(phone.value),
-          contactMethods: selected,
-          comment: parts.join('\n'),
+          contactMethods: selectedContacts,
+          comment: buildComment(),
           website: website ? website.value.trim() : '',
           pageUrl: window.location.href,
           site: 'muzhskoy-psikholog.ru'
         },
-        form.querySelector('[type="submit"]')
+        btnSubmit
       );
     });
+
+    showStep(0);
   }
 
   function closeAllDropdowns(except) {
@@ -804,6 +997,52 @@
     update();
   }
 
+  function initScrollTop() {
+    if (document.querySelector('.scroll-top')) return;
+
+    var btn = document.createElement('a');
+    btn.className = 'scroll-top';
+    btn.href = '#top';
+    btn.setAttribute('aria-label', 'Наверх');
+    btn.setAttribute('title', 'Наверх');
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 14.5L12 8.5L18 14.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    btn.addEventListener('click', function (event) {
+      var topEl = document.getElementById('top');
+      if (!topEl) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      if ('scrollBehavior' in document.documentElement.style) {
+        event.preventDefault();
+        topEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
+    document.body.appendChild(btn);
+
+    var threshold = 420;
+    var ticking = false;
+    function update() {
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      btn.classList.toggle('is-visible', y > threshold);
+    }
+    function schedule() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        update();
+      });
+    }
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    update();
+  }
+
   /** Policies, offer, blog: discourage casual copy (not DRM). */
   function initNoCopy() {
     var path = location.pathname || '';
@@ -844,5 +1083,6 @@
     setupLazyWidget();
     patchBookingThankYou();
     initPageDots();
+    initScrollTop();
   });
 })();

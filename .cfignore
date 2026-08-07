@@ -1,0 +1,10 @@
+# Not part of the public site — exclude from Cloudflare Pages upload
+local/
+.git/
+.github/
+PROMPTS/
+scripts/
+node_modules/
+*.tflite
+.DS_Store
+Thumbs.db

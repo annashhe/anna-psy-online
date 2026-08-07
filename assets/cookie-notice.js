@@ -217,9 +217,34 @@
     openSettingsModal();
   });
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', global.mountPsiCookieNotice);
-  } else {
-    global.mountPsiCookieNotice();
+  // Show banner after LCP settles — early mount made the cookie text win LCP in PageSpeed.
+  function scheduleCookieBanner() {
+    notifyAnalyticsGate();
+    var prefs = readPrefs();
+    if (prefs) return;
+
+    var show = function () {
+      global.mountPsiCookieNotice();
+    };
+    var afterLoad = function () {
+      if (typeof global.requestIdleCallback === 'function') {
+        global.requestIdleCallback(show, { timeout: 4500 });
+      } else {
+        global.setTimeout(show, 2800);
+      }
+    };
+    if (document.readyState === 'complete') {
+      global.setTimeout(afterLoad, 1200);
+    } else {
+      global.addEventListener(
+        'load',
+        function () {
+          global.setTimeout(afterLoad, 1200);
+        },
+        { once: true }
+      );
+    }
   }
+
+  scheduleCookieBanner();
 })(window);

@@ -449,8 +449,8 @@
     function update() {
       ticking = false;
       var y = window.scrollY || 0;
-      var banner = document.querySelector('.banner-test');
-      var bannerH = banner ? banner.offsetHeight : 0;
+      // Test banner removed; keep constant to avoid layout reads on scroll.
+      var bannerH = 0;
 
       header.classList.toggle('is-scrolled', y > 8);
 

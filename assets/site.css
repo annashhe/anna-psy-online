@@ -40,7 +40,7 @@
     #eadbef 24%,
     #eadbef 68%,
     #f3eaf6 86%,
-    #ffffff 100%
+    #faf6fb 100%
   );
   --wash-white-lav: linear-gradient(
     180deg,
@@ -1152,10 +1152,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   padding: 75px 0 60px;
   background: linear-gradient(
     180deg,
-    #ffffff 0%,
-    #faf6fb 18%,
-    #faf6fb 82%,
-    #ffffff 100%
+    #faf6fb 0%,
+    #f3ebf6 42%,
+    #faf6fb 100%
   );
   text-align: center;
   position: relative;
@@ -1164,10 +1163,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 .quote-band-cta {
   background: linear-gradient(
     180deg,
-    #ffffff 0%,
-    #faf6fb 18%,
-    #faf6fb 82%,
-    #ffffff 100%
+    #faf6fb 0%,
+    #f3ebf6 42%,
+    #faf6fb 100%
   );
   padding-top: 75px;
   padding-bottom: 60px;
@@ -1289,10 +1287,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   padding: 75px 0 60px;
   background: linear-gradient(
     180deg,
-    #ffffff 0%,
-    #faf6fb 20%,
-    #faf6fb 80%,
-    #ffffff 100%
+    #faf6fb 0%,
+    #f3ebf6 45%,
+    #faf6fb 100%
   );
   text-align: center;
 }
@@ -1326,10 +1323,9 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   padding-bottom: 50px;
   background: linear-gradient(
     180deg,
-    #ffffff 0%,
-    #faf6fb 22%,
-    #faf6fb 78%,
-    #ffffff 100%
+    #faf6fb 0%,
+    #f3ebf6 45%,
+    #faf6fb 100%
   );
 }
 
@@ -4634,8 +4630,7 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
     #ffffff 0%,
     #faf6fb 18%,
     #f7f2f8 52%,
-    #faf6fb 82%,
-    #ffffff 100%
+    #faf6fb 100%
   );
 }
 

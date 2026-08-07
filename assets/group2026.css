@@ -785,7 +785,7 @@
             padding: 2.5rem 0;
             color: #3a3530;
             font-size: 0.85rem;
-            border-top: 1px solid rgba(180, 67, 108, 0.04);
+            border-top: none;
         }
         .site-footer .container {
             display: flex;

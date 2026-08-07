@@ -5024,6 +5024,25 @@ html.no-copy [contenteditable="true"] {
   grid-template-columns: 1fr 1fr;
 }
 
+.quiz-contacts-grid > label {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.quiz-contacts-grid > label input {
+  font-weight: 400;
+  width: 100%;
+}
+
+.quiz-contacts-grid .req {
+  color: var(--accent);
+}
+
 .quiz-nav {
   display: flex;
   flex-wrap: wrap;
@@ -5032,6 +5051,11 @@ html.no-copy [contenteditable="true"] {
   padding-top: 0.5rem;
   border-top: 1px solid var(--line);
   margin-top: 0.35rem;
+}
+
+/* .btn { display:inline-flex } would otherwise override the hidden attribute */
+.quiz-nav [hidden] {
+  display: none !important;
 }
 
 .quiz-back {

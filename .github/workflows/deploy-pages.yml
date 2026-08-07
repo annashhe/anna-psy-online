@@ -14,11 +14,13 @@ permissions:
 
 concurrency:
   group: pages-deploy-v4
-  cancel-in-progress: false
+  # New push cancels a stuck/previous deploy so "in progress" cannot block the queue forever.
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,6 +64,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -84,3 +84,11 @@ Push в `main` → Actions **Deploy to GitHub Pages** → сайт обновл�
 2. Pages: Source = GitHub Actions, domain привязан
 3. DNS: только GitHub IP, серое облако
 4. Подождать 5–30 минут на DNS / HTTPS
+
+## Защита от зависания Deploy «in progress»
+
+1. Source в Settings → Pages = **только GitHub Actions** (не Deploy from a branch одновременно).
+2. Workflow уже: `cancel-in-progress: true` + `timeout-minutes` на build/deploy.
+3. Если run завис: Actions → открыть run → **Cancel workflow**.
+4. Не запускать параллельно ручной wrangler / Cloudflare Pages для этого домена.
+5. После cancel — **Re-run failed jobs** или новый push в `main`.

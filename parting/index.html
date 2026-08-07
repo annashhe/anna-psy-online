@@ -605,17 +605,12 @@
         <a href="/about/">О работе со мной</a>
         <a href="/privacy/">Политика конфиденциальности</a>
         <a href="/oferta/">Публичная оферта</a>
+        <a href="#" class="js-cookie-settings">Настройки cookie</a>
       </nav>
       <a class="footer-up" href="#top">Наверх</a>
     </div>
   </footer>
-
-  <div class="cookie-banner" data-cookie-banner hidden>
-    <p>Мы используем файлы cookie для улучшения работы сайта и анализа его посещаемости. Продолжая использовать наш сайт, вы соглашаетесь с использованием cookie.</p>
-    <button class="btn btn-cookie" type="button" data-cookie-ok>OK</button>
-  </div>
-
-  <nav class="page-dots" aria-label="Навигация по разделам" data-page-dots>
+<nav class="page-dots" aria-label="Навигация по разделам" data-page-dots>
     <a href="#top" data-dot-target="top"><span class="page-dots-tip">Обложка</span><span class="page-dots-dot" aria-hidden="true"></span></a>
     <a href="#requests" data-dot-target="requests"><span class="page-dots-tip">Часто приходят с этими запросами</span><span class="page-dots-dot" aria-hidden="true"></span></a>
     <a href="#results" data-dot-target="results"><span class="page-dots-tip">Ваши изменения</span><span class="page-dots-dot" aria-hidden="true"></span></a>
@@ -629,15 +624,8 @@
     <a href="#faq" data-dot-target="faq"><span class="page-dots-tip">Часто задаваемые вопросы</span><span class="page-dots-dot" aria-hidden="true"></span></a>
     <a href="#blog" data-dot-target="blog"><span class="page-dots-tip">Статьи психолога</span><span class="page-dots-dot" aria-hidden="true"></span></a>
   </nav>
-  <script>
-    (function (m, e, t, r, i, k, a) {
-      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
-      m[i].l = 1 * new Date();
-      for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) return; }
-      k = e.createElement(t); k.async = 1; k.src = r; a = e.getElementsByTagName(t)[0]; a.parentNode.insertBefore(k, a);
-    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-    ym(99617923, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
-  </script>
-  <script src="/assets/site.js?v=20260807nav2" defer></script>
+    <script src="/assets/cookie-notice.js?v=20260807c" defer></script>
+  <script src="/assets/consent-analytics.js?v=20260807c" defer></script>
+  <script src="/assets/site.js?v=20260807c" defer></script>
 </body>
 </html>

@@ -1,58 +1,55 @@
-# muzhskoy-psikholog-ru — тестовый стенд anna-psy.online
+# anna-psy-online
 
-Тестовая копия будущего сайта **Анны Щеголихиной** (сейчас на Тильде: https://anna-psy.online/).
+Сайт психолога **Анны Щеголихиной**: https://anna-psy.online/  
+Репозиторий: статический HTML / CSS / JS → **GitHub Pages**.
 
-## Зачем этот репозиторий
-
-- Проверить новый дизайн и запись **до** смены DNS боевого домена.
-- Домен теста: **https://muzhskoy-psikholog.ru/**
-- Пока сайт в режиме **`noindex`** — поисковики не должны индексировать тест.
+Сейчас на Pages смотрит тест-домен **https://muzhskoy-psikholog.ru/** (пока DNS боевого домена на Тильде). Переезд: `CUTOVER.md`.
 
 ## Стек
 
-- Статический HTML / CSS / JS (как мужской и семейный .рф-сайты).
+- Статика (как мужской и семейный .рф-сайты).
 - Хостинг: **GitHub Pages** (`main` → корень).
-- Календарь записи: виджет с VPS `https://anna-backend.ru/widget.js` (Vercel остаётся fallback; Тильда/.рф не трогаем).
-- Заявки с форм (после добавления origin в Worker): Cloudflare Worker `psi-leads` → Telegram.
+- Календарь записи: `https://anna-backend.ru/widget.js`.
+- Формы → Cloudflare Worker `psi-leads` → CRM + Telegram.
+- Cookie / аналитика: `assets/cookie-notice.js` + `assets/consent-analytics.js` (Метрика `99617923`, отказ от статистики как на мужском сайте).
 
 ## Важно
 
-- Код Тильды **не копируем** (условия экспорта Тильды). Контент для теста перенесён с anna-psy.online, включая тексты страниц конфиденциальности и оферты; вёрстку делаем свою.
-- Боевой виджет на Тильде и .рф **не ломаем** этим репозиторием.
-- Бэкапы Postgres на VPS: инструкция в репо schedule — `BACKUP.md` + `scripts/backup-postgres.sh` (Анна выполняет на сервере).
-- Локальный бэклог планирования: `local/BACKLOG.md` (папка в `.gitignore`, на Pages не попадает).
+- Код Тильды **не копируем**. Контент (включая privacy/oferta) перенесён своими страницами.
+- Боевой виджет на Тильде и .рф этим репо не ломаем.
+- До смены DNS **не** менять `CNAME` на `anna-psy.online`.
+- Бэкапы Postgres на VPS: в репо schedule — `BACKUP.md`.
+- Локальный бэклог: `local/BACKLOG.md` (в `.gitignore`).
 
 ## Локальный просмотр
 
-Откройте `index.html` в браузере или:
-
 ```powershell
-cd C:\Users\ANNA\SITES\muzhskoy-psikholog-ru
+cd C:\Users\ANNA\SITES\anna-psy-online
 start index.html
 ```
 
+Или любой локальный static-server из корня репо.
+
 ## Деплой
 
-Push в `main` → workflow **Deploy to GitHub Pages** обновляет сайт.
+Push в `main` → workflow **Deploy to GitHub Pages**.  
+DNS/Pages (серое облако Cloudflare → IP GitHub): **`HOSTING-DNS.md`**.
 
-Хостинг снова **GitHub Pages** (не Cloudflare Pages): у части провайдеров в РФ Cloudflare рвал соединения. DNS домена может оставаться в Cloudflare, но записи — **серое облако** на IP GitHub. Пошагово: **`HOSTING-DNS.md`**.
-
-## Файлы
+## Ключевые файлы
 
 | Путь | Назначение |
 |------|------------|
 | `index.html` | Главная |
-| `about/` | О работе |
-| `privacy/`, `oferta/` | Юрстраницы — тексты с Тильды без смены смысла |
-| `thank-you-booking/`, `thank-you-callback/` | Спасибо после записи / заявки (`noindex`) |
-| ниши (`it/`, `parting/`, `bloggers/`, …) | Полный контент с anna-psy.online |
-| `blog/` | Индекс + 5 статей на бренде + 3 thin-страницы под будущий 301 |
-| `REDIRECTS.md` | Таблица 301 — согласовать до боевого переезда |
-| `CUTOVER.md` | Чеклист переезда DNS / noindex / Тильда |
-| `scripts/smoke-test.mjs` | Смоук тестового (или боевого) стенда |
-| `PROMPTS/` | Промпты для агентов в других репо |
-| `robots.txt` | Запрет индексации всего теста |
+| `about/`, ниши (`it/`, `parting/`, `bloggers/`, …) | Контентные страницы |
+| `group2026/` | Лендинг терапевтической группы |
+| `privacy/`, `oferta/` | Юрстраницы |
+| `thank-you-booking/`, `thank-you-callback/` | Спасибо (`noindex`) |
+| `blog/` | Индекс + статьи на бренде; часть карточек → мужской .рф |
+| `REDIRECTS.md` | Таблица редиректов |
+| `CUTOVER.md` | Чеклист переезда DNS |
+| `robots.txt` | Allow `/`; Disallow thank-you |
+| `scripts/smoke-test.mjs` | Смоук стенда |
 
 ## Метрика
 
-Счётчик тестовый/боевой для anna-psy: `99617923` (на тесте можно оставить для проверки целей; сайт всё равно noindex).
+Счётчик: `99617923` (webvisor + clickmap). Загрузка через consent-gate; отказ — в «Настройки cookie».

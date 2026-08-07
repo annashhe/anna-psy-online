@@ -4,6 +4,28 @@
   window.PSI_SITE_HOME = 'https://muzhskoy-psikholog.ru';
   window.PSI_LEADS_API = 'https://psi-leads.anna-shhe-adwords.workers.dev';
 
+  /** Capture first-page UTMs for booking Telegram + forms. */
+  (function captureUtms() {
+    try {
+      var params = new URLSearchParams(window.location.search || '');
+      var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+      var utm = {};
+      var found = false;
+      keys.forEach(function (k) {
+        var v = params.get(k);
+        if (v) {
+          utm[k] = v;
+          found = true;
+        }
+      });
+      if (!found) return;
+      sessionStorage.setItem('psiUtms', JSON.stringify(utm));
+      if (!localStorage.getItem('psiUtmsFirst')) {
+        localStorage.setItem('psiUtmsFirst', JSON.stringify(utm));
+      }
+    } catch (e) {}
+  })();
+
   function phoneDigits(value) {
     return String(value || '').replace(/\D/g, '').replace(/^8/, '7').slice(0, 11);
   }

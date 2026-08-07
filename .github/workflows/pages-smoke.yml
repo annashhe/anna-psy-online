@@ -1,7 +1,7 @@
 name: Pages status
 
-# GitHub Pages for this repo already publishes from main automatically.
-# This workflow only verifies the site responds after push (optional smoke).
+# Verifies the live custom domain responds after push (optional smoke).
+# Deploy itself is handled by "Deploy to GitHub Pages".
 
 on:
   push:
@@ -16,6 +16,15 @@ jobs:
         run: sleep 45
       - name: Check homepage
         run: |
-          code=$(curl -sS -o /dev/null -w "%{http_code}" https://muzhskoy-psikholog.ru/)
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/home.html -w "%{http_code}" https://anna-psy.online/)
           echo "HTTP $code"
           test "$code" = "200"
+          grep -q 'site.js' /tmp/home.html
+          grep -q 'Анна' /tmp/home.html || grep -q 'anna' /tmp/home.html
+      - name: Check HTTPS redirect from HTTP
+        run: |
+          set -euo pipefail
+          loc=$(curl -sS -o /dev/null -w "%{redirect_url}" http://anna-psy.online/ || true)
+          echo "Redirect: $loc"
+          echo "$loc" | grep -q 'https://anna-psy.online'

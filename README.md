@@ -35,7 +35,7 @@ start index.html
 
 Push в `main` → workflow **Deploy to GitHub Pages** обновляет сайт.
 
-Если вместо сайта видите GitHub 404 «There isn't a GitHub Pages site here» или DNS на whatsmydns смешанный (Cloudflare + `185.199.*`) — смотрите **`HOSTING-DNS.md`**.
+Хостинг снова **GitHub Pages** (не Cloudflare Pages): у части провайдеров в РФ Cloudflare рвал соединения. DNS домена может оставаться в Cloudflare, но записи — **серое облако** на IP GitHub. Пошагово: **`HOSTING-DNS.md`**.
 
 ## Файлы
 

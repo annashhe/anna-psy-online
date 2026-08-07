@@ -1,38 +1,71 @@
-﻿name: Deploy to Cloudflare Pages
+﻿name: Deploy to GitHub Pages
 
+# Static site → GitHub Pages (not Cloudflare). Cloudflare DNS may still
+# point at these IPs with grey-cloud (DNS only) records.
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: cf-pages-deploy
+  group: pages-deploy-v4
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare site artifact
+      - name: Prepare publish directory
         run: |
-          mkdir -p /tmp/site
-          rsync -a \
-            --exclude local \
-            --exclude .git \
-            --exclude .github \
-            --exclude PROMPTS \
-            --exclude scripts \
-            --exclude node_modules \
-            --exclude .wrangler \
-            ./ /tmp/site/
+          set -euo pipefail
+          rm -rf _site
+          mkdir _site
+          tar -cf - \
+            --exclude='./.git' \
+            --exclude='./.github' \
+            --exclude='./_site' \
+            --exclude='./local' \
+            --exclude='./PROMPTS' \
+            --exclude='./scripts' \
+            --exclude='./node_modules' \
+            --exclude='./.wrangler' \
+            --exclude='./.gitignore' \
+            --exclude='./HOSTING-DNS.md' \
+            --exclude='./CUTOVER.md' \
+            --exclude='./REDIRECTS.md' \
+            --exclude='./DESIGN-FROM-TILDA.md' \
+            --exclude='./.cfignore' \
+            . | tar -xf - -C _site
+          test -f _site/index.html
+          test -f _site/about/index.html
+          test -f _site/vopros-psikhologu/index.html
+          test -f _site/CNAME
+          test -f _site/assets/site.css
+          test -f _site/assets/site.js
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: f480ee9a20c8270499364bf5fbb05de6
-          command: pages deploy /tmp/site --project-name=muzhskoy-psikholog-ru
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -2345,10 +2345,41 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .consent {
   display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
   gap: 0.55rem;
   align-items: flex-start;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+/* Override .form label { display:grid } so consent stays on one row (text | checkbox) */
+.form label.consent {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 0.55rem;
+  grid-template-columns: unset;
+}
+
+.form label.consent span {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.45;
+}
+
+.form label.consent input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .is-error {

@@ -4,7 +4,7 @@
   window.PSI_SITE_HOME = 'https://muzhskoy-psikholog.ru';
   window.PSI_LEADS_API = 'https://psi-leads.anna-shhe-adwords.workers.dev';
 
-  /** Capture first-page UTMs for booking Telegram + forms. */
+  /** Capture first-touch UTMs once; keep across in-site navigation. */
   (function captureUtms() {
     try {
       var params = new URLSearchParams(window.location.search || '');
@@ -14,15 +14,21 @@
       keys.forEach(function (k) {
         var v = params.get(k);
         if (v) {
-          utm[k] = v;
+          utm[k] = String(v).slice(0, 200);
           found = true;
         }
       });
       if (!found) return;
-      sessionStorage.setItem('psiUtms', JSON.stringify(utm));
-      if (!localStorage.getItem('psiUtmsFirst')) {
-        localStorage.setItem('psiUtmsFirst', JSON.stringify(utm));
-      }
+      try {
+        if (!sessionStorage.getItem('psiUtms')) {
+          sessionStorage.setItem('psiUtms', JSON.stringify(utm));
+        }
+      } catch (e0) {}
+      try {
+        if (!localStorage.getItem('psiUtmsFirst')) {
+          localStorage.setItem('psiUtmsFirst', JSON.stringify(utm));
+        }
+      } catch (e1) {}
     } catch (e) {}
   })();
 
@@ -121,16 +127,19 @@
       if (badName || badPhone || badContacts || badConsent) return;
 
       postLead(
-        {
-          source: 'callback',
-          name: name.value.trim(),
-          phone: phoneDigits(phone.value),
-          contactMethods: selected,
-          comment: comment ? comment.value.trim() : '',
-          website: website ? website.value.trim() : '',
-          pageUrl: window.location.href,
-          site: 'muzhskoy-psikholog.ru'
-        },
+        Object.assign(
+          {
+            source: 'callback',
+            name: name.value.trim(),
+            phone: phoneDigits(phone.value),
+            contactMethods: selected,
+            comment: comment ? comment.value.trim() : '',
+            website: website ? website.value.trim() : '',
+            pageUrl: window.location.href,
+            site: 'muzhskoy-psikholog.ru'
+          },
+          getLeadTrackingPayload()
+        ),
         form.querySelector('[type="submit"]')
       );
     });
@@ -368,16 +377,19 @@
 
       var selectedContacts = checkedValues('contactMethods');
       postLead(
-        {
-          source: 'vopros-psikhologu',
-          name: name.value.trim(),
-          phone: phoneDigits(phone.value),
-          contactMethods: selectedContacts,
-          comment: buildComment(),
-          website: website ? website.value.trim() : '',
-          pageUrl: window.location.href,
-          site: 'muzhskoy-psikholog.ru'
-        },
+        Object.assign(
+          {
+            source: 'vopros-psikhologu',
+            name: name.value.trim(),
+            phone: phoneDigits(phone.value),
+            contactMethods: selectedContacts,
+            comment: buildComment(),
+            website: website ? website.value.trim() : '',
+            pageUrl: window.location.href,
+            site: 'muzhskoy-psikholog.ru'
+          },
+          getLeadTrackingPayload()
+        ),
         btnSubmit
       );
     });
@@ -557,7 +569,7 @@
     var utm = {};
     try {
       utm = JSON.parse(
-        sessionStorage.getItem('psiUtms') || localStorage.getItem('psiUtmsFirst') || '{}'
+        localStorage.getItem('psiUtmsFirst') || sessionStorage.getItem('psiUtms') || '{}'
       );
     } catch (e2) {}
     return {

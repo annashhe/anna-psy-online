@@ -2345,19 +2345,19 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
 
 .consent {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: flex-start;
   gap: 0.55rem;
   align-items: flex-start;
   font-size: 0.85rem;
   color: var(--muted);
 }
 
-/* Override .form label { display:grid } so consent stays on one row (text | checkbox) */
+/* Override .form label { display:grid } so consent stays on one row (checkbox | text) */
 .form label.consent {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 0.55rem;
   grid-template-columns: unset;

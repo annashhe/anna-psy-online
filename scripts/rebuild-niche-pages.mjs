@@ -29,7 +29,7 @@ function header() {
             <a href="/psikholog-v-kaliningrade/" role="menuitem">Психолог в Калининграде</a>
             <a href="/semeynyy-psikholog-kaliningrad/" role="menuitem">Семейный психолог в Калининграде</a>
             <a href="/" role="menuitem">Индивидуальные консультации онлайн</a>
-            <a href="/family/" role="menuitem">Семейные консультации онлайн</a>
+            <a href="https://психолог-семейный-онлайн.рф/" role="menuitem">Семейные консультации онлайн</a>
             <a href="/psycholog-dlya-muzhchin/" role="menuitem">Психолог для Мужчин</a>
             <a href="/it/" role="menuitem">Психолог для IT специалистов</a>
             <a href="/parting/" role="menuitem">Психолог при Расставании, разводе, измене</a>
@@ -558,7 +558,7 @@ const defaultPrices = [
     amount: '7 000 ₽',
   },
   {
-    title: '<a href="/family/">Семейная (парная) консультация</a>',
+    title: '<a href="https://психолог-семейный-онлайн.рф/">Семейная (парная) консультация</a>',
     mid: '90 мин<br />Формат для пары или семьи, когда важно услышать друг друга, наладить диалог и двигаться к изменениям вместе',
     amount: '7 000 ₽',
   },

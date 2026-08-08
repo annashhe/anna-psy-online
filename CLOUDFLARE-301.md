@@ -18,7 +18,8 @@ GitHub Pages **не умеет** отдавать произвольные 301. 
 - Worker **`anna-psy-redirects`** задеплоен, routes `anna-psy.online/*` и `www.anna-psy.online/*`
 - Редиректы `/family/` `/psycholog-dlya-muzhchin/` `/semeynyy-psikholog-kaliningrad/` `/thankyoupage/` → **HTTP 301**
 - Меню «Услуги» ведёт **напрямую** на .рф (не через 301); старые URL редиректов оставляем для внешних ссылок
-- PageSpeed (поле): LCP ~2,4 с — CWV пройден; lab ~88. GH Pages кеш статики часто **10 мин** → задача Cache Rule (#146)
+- PageSpeed (поле): LCP ~2,4 с — CWV пройден; lab ~88
+- **Cache Rule** `assets long cache` Active: `/assets/` → Edge 6 months, Browser 7 days (#146)
 - Деплой Worker из PowerShell: один раз в сессии `$env:CLOUDFLARE_API_TOKEN = "…"` (в чат не слать) или `wrangler login`
 
 ## Cache Rule: длинный кеш `/assets/*` (#146)

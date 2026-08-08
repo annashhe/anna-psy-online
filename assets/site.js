@@ -600,10 +600,20 @@
         '<p style="margin:0 0 .75rem;">Календарь временно недоступен. Запишитесь через мессенджеры' +
         (hasCallbackForm ? ' или форму ниже' : ' или форму на странице «О работе»') +
         '.</p>' +
-        '<p style="margin:0;"><a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a> · ' +
-        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a>' +
+        '<p style="margin:0;"><a href="https://t.me/annashhe" data-cms-href="messengers.telegram" target="_blank" rel="noopener">Telegram</a> · ' +
+        '<a href="https://wa.me/79137556284" data-cms-href="messengers.whatsapp" target="_blank" rel="noopener">WhatsApp</a>' +
         extra +
         '</p></div>';
+      try {
+        var copy = window.__ANNA_SITE_COPY__;
+        if (copy) {
+          var links = host.querySelectorAll('a[data-cms-href]');
+          links.forEach(function (a) {
+            var key = a.getAttribute('data-cms-href');
+            if (key && copy[key]) a.setAttribute('href', copy[key]);
+          });
+        }
+      } catch (e) {}
     };
     root.appendChild(s);
   }
@@ -663,6 +673,22 @@
       individual_90: { title: 'Индивидуальная консультация', duration: '90 минут', price: '7 000 ₽' },
       family: { title: 'Семейная (парная) консультация', duration: '90 минут', price: '7 000 ₽' }
     };
+
+    function syncTherapyPricesFromCms() {
+      var map = window.__ANNA_THERAPY_PRICES__;
+      if (!map) return;
+      if (map.individual) {
+        THERAPY.individual.price = map.individual;
+      }
+      if (map.individual_90 || map.individual90) {
+        var p90 = map.individual_90 || map.individual90;
+        THERAPY.individual90.price = p90;
+        THERAPY.individual_90.price = p90;
+      }
+      if (map.family) THERAPY.family.price = map.family;
+    }
+    syncTherapyPricesFromCms();
+    window.addEventListener('anna-site-copy', syncTherapyPricesFromCms);
 
     function resolveTherapy(payload) {
       var type = (payload && (payload.therapyType || payload.therapy)) || 'individual';

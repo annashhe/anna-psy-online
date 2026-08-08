@@ -11,13 +11,15 @@ GitHub Pages **не умеет** отдавать произвольные 301. 
 
 Если снова `ERR_CONNECTION_RESET` — откат: снова серое облако / NS REG.RU, остаются HTML-редиректы.
 
-## Статус 2026-08-08
+## Статус 2026-08-08 (вечер)
 
-- NS → Cloudflare (`donna` / `randall`), распространение ещё частичное (whatsmydns микс) — ок
-- A `@` / www → **Proxied**; SSL **Full** + Always Use HTTPS
+- NS → Cloudflare (`donna` / `randall`); зона Active; proxy orange
+- SSL **Full** + Always Use HTTPS; МегаФон: сайт открывается
 - Worker **`anna-psy-redirects`** задеплоен, routes `anna-psy.online/*` и `www.anna-psy.online/*`
-- Проверено: `/family/` `/psycholog-dlya-muzhchin/` `/semeynyy-psikholog-kaliningrad/` `/thankyoupage/` → **HTTP 301**; `/` → 200; `www` → apex 301
-- МегаФон: сайт открывается
+- Редиректы `/family/` `/psycholog-dlya-muzhchin/` `/semeynyy-psikholog-kaliningrad/` `/thankyoupage/` → **HTTP 301**
+- Меню «Услуги» ведёт **напрямую** на .рф (не через 301); старые URL редиректов оставляем для внешних ссылок
+- PageSpeed (поле): LCP ~2,4 с — CWV пройден; lab ~88. GH Pages кеш статики часто **10 мин** → задача Cache Rule (#146)
+- Деплой Worker из PowerShell: один раз в сессии `$env:CLOUDFLARE_API_TOKEN = "…"` (в чат не слать) или `wrangler login`
 
 ## Было (до старта)
 

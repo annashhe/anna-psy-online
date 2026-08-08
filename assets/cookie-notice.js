@@ -112,11 +112,56 @@
     document.head.appendChild(style);
   }
 
+  var modalLastFocus = null;
+  var modalKeyHandler = null;
+
+  function lockBodyScroll(lock) {
+    try {
+      document.documentElement.style.overflow = lock ? 'hidden' : '';
+      document.body.style.overflow = lock ? 'hidden' : '';
+    } catch (e) {}
+  }
+
+  function getModalFocusables(overlay) {
+    if (!overlay) return [];
+    return Array.prototype.slice.call(
+      overlay.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter(function (el) {
+      return el.offsetParent !== null || el === document.activeElement;
+    });
+  }
+
+  function closeSettingsModal() {
+    var overlay = document.getElementById('psiCookieModal');
+    if (!overlay) return;
+    overlay.classList.remove('open');
+    overlay.setAttribute('hidden', 'hidden');
+    lockBodyScroll(false);
+    if (modalKeyHandler) {
+      document.removeEventListener('keydown', modalKeyHandler, true);
+      modalKeyHandler = null;
+    }
+    if (modalLastFocus && typeof modalLastFocus.focus === 'function') {
+      try {
+        modalLastFocus.focus();
+      } catch (e) {}
+    }
+    modalLastFocus = null;
+  }
+
   function openSettingsModal() {
     ensureStyles();
+    modalLastFocus = document.activeElement;
     var existing = document.getElementById('psiCookieModal');
     if (existing) {
       existing.classList.add('open');
+      existing.removeAttribute('hidden');
+      lockBodyScroll(true);
+      bindModalA11y(existing);
+      var focusables = getModalFocusables(existing);
+      if (focusables[0]) focusables[0].focus();
       return;
     }
     var prefs = readPrefs();
@@ -127,10 +172,10 @@
     overlay.className = 'psi-cookie-modal-overlay open';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-label', 'Настройки cookie');
+    overlay.setAttribute('aria-labelledby', 'psiCookieModalTitle');
     overlay.innerHTML =
       '<div class="psi-cookie-modal">' +
-      '<h2>Настройки cookie</h2>' +
+      '<h2 id="psiCookieModalTitle">Настройки cookie</h2>' +
       '<p>Выберите, что разрешить. Подробнее — в <a href="' +
       PRIVACY_HREF +
       '" target="_blank" rel="noopener">политике конфиденциальности</a>.</p>' +
@@ -151,23 +196,55 @@
       '</div>';
 
     document.body.appendChild(overlay);
+    lockBodyScroll(true);
 
     overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) overlay.classList.remove('open');
+      if (e.target === overlay) closeSettingsModal();
     });
 
     var analyticsEl = document.getElementById('psiCookieAnalytics');
     overlay.querySelector('.psi-cookie-save').addEventListener('click', function () {
       savePrefs(analyticsEl && analyticsEl.checked, 'settings');
-      overlay.classList.remove('open');
+      closeSettingsModal();
       hideBannerEl();
     });
     overlay.querySelector('.psi-cookie-reject-analytics').addEventListener('click', function () {
       if (analyticsEl) analyticsEl.checked = false;
       savePrefs(false, 'reject-analytics');
-      overlay.classList.remove('open');
+      closeSettingsModal();
       hideBannerEl();
     });
+
+    bindModalA11y(overlay);
+    var focusables = getModalFocusables(overlay);
+    if (focusables[0]) focusables[0].focus();
+  }
+
+  function bindModalA11y(overlay) {
+    if (modalKeyHandler) {
+      document.removeEventListener('keydown', modalKeyHandler, true);
+    }
+    modalKeyHandler = function (e) {
+      if (!overlay.classList.contains('open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeSettingsModal();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      var focusables = getModalFocusables(overlay);
+      if (!focusables.length) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', modalKeyHandler, true);
   }
 
   global.psiOpenCookieSettings = openSettingsModal;

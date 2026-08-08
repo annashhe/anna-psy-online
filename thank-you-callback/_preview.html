@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="utf-8"><title>Preview thank-you-callback</title></head>
+<body>
+<script>
+sessionStorage.setItem('callbackThankYou', JSON.stringify({
+  name: 'Игорь',
+  phone: '+79137556284',
+  contactMethods: ['telegram', 'whatsapp'],
+  comment: 'Тестовый комментарий для превью'
+}));
+location.replace('/thank-you-callback/');
+</script>
+</body>
+</html>

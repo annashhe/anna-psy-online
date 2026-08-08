@@ -89,7 +89,7 @@
       })
       .catch(function () {
         if (submit) submit.disabled = false;
-        alert('Заявку не удалось отправить. Напишите в Telegram @annashhe или на WhatsApp +7 913 755 62 84.');
+        alert('Заявку не удалось отправить. Напишите в Telegram @annashhe или на WhatsApp +7 913 755 6284.');
       });
   }
 
@@ -125,6 +125,10 @@
       setError(contactBox, badContacts);
       setError(consent && consent.parentElement, badConsent);
       if (badName || badPhone || badContacts || badConsent) return;
+      if (website && website.value.trim()) {
+        window.location.href = '/thank-you-callback/';
+        return;
+      }
 
       postLead(
         Object.assign(
@@ -374,6 +378,10 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       if (!validateStep(current)) return;
+      if (website && website.value.trim()) {
+        window.location.href = '/thank-you-callback/';
+        return;
+      }
 
       var selectedContacts = checkedValues('contactMethods');
       postLead(
@@ -583,12 +591,19 @@
     s.src = 'https://anna-backend.ru/widget.js';
     s.async = true;
     s.onerror = function () {
+      var hasCallbackForm = !!document.getElementById('callbackForm');
+      var extra = hasCallbackForm
+        ? ' · <a href="#contact">Оставить заявку</a>'
+        : ' · <a href="/about/#contact">Оставить заявку</a>';
       host.innerHTML =
         '<div style="padding:1.25rem;border:1px solid rgba(28,26,23,.12);border-radius:12px;background:#fff;">' +
-        '<p style="margin:0 0 .75rem;">Календарь временно недоступен. Запишитесь через мессенджеры или форму ниже.</p>' +
+        '<p style="margin:0 0 .75rem;">Календарь временно недоступен. Запишитесь через мессенджеры' +
+        (hasCallbackForm ? ' или форму ниже' : ' или форму на странице «О работе»') +
+        '.</p>' +
         '<p style="margin:0;"><a href="https://t.me/annashhe" target="_blank" rel="noopener">Telegram</a> · ' +
-        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a> · ' +
-        '<a href="#contact">Оставить заявку</a></p></div>';
+        '<a href="https://wa.me/79137556284" target="_blank" rel="noopener">WhatsApp</a>' +
+        extra +
+        '</p></div>';
     };
     root.appendChild(s);
   }

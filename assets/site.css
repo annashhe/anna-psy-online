@@ -2634,6 +2634,12 @@ main > .section:nth-of-type(even):not(.section-white):not(.section-soft):not(.se
   margin: 0 0 1.5rem;
 }
 
+.prose.article .article-meta {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+  color: var(--muted, #6e6e6e);
+}
+
 .prose.article h3 {
   font-size: 1.08rem;
   margin: 1.35rem 0 0.45rem;

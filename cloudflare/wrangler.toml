@@ -1,0 +1,8 @@
+name = "anna-psy-redirects"
+main = "anna-psy-redirects.js"
+compatibility_date = "2026-08-07"
+
+routes = [
+  { pattern = "anna-psy.online/*", zone_name = "anna-psy.online" },
+  { pattern = "www.anna-psy.online/*", zone_name = "anna-psy.online" }
+]

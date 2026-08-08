@@ -4,3 +4,12 @@ Allow: /
 Disallow: /thank-you-booking/
 Disallow: /thank-you-callback/
 Disallow: /thank-you-callback/_preview.html
+Disallow: /thankyoupage/
+Disallow: /family/
+Disallow: /psycholog-dlya-muzhchin/
+Disallow: /semeynyy-psikholog-kaliningrad/
+Disallow: /blog/breakup/kak_zabyt_cheloveka/
+Disallow: /blog/self-knowledge/v_chem_smysl_zhizni/
+Disallow: /blog/v_chem_smysl_zhizni/
+
+Sitemap: https://anna-psy.online/sitemap.xml

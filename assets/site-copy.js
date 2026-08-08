@@ -32,9 +32,9 @@
     "links.b17",
     "links.yandexMaps",
     "links.yandexServices",
-    "links.yasno",
     "links.profi",
     "prices",
+    "group2026.prices",
     "projects",
     "group2026.seatsBadge",
   ];
@@ -293,12 +293,60 @@
       if (byId.individual50 && byId.individual50.amountLabel) {
         html = html.replace(/4\s*500\s*₽/g, byId.individual50.amountLabel);
         html = html.replace(/4\s*500\s*руб/gi, byId.individual50.amountLabel.replace("₽", "руб"));
+        if (byId.individual50.amountWords) {
+          html = html.replace(/\(Четыре тысячи пятьсот\)/g, "(" + byId.individual50.amountWords + ")");
+        }
       }
       if (byId.individual90 && byId.individual90.amountLabel) {
         html = html.replace(/7\s*000\s*₽/g, byId.individual90.amountLabel);
         html = html.replace(/7\s*000\s*руб/gi, byId.individual90.amountLabel.replace("₽", "руб"));
+        if (byId.individual90.amountWords) {
+          html = html.replace(/\(Семь тысяч\)/g, "(" + byId.individual90.amountWords + ")");
+        }
       }
       box.innerHTML = html;
+    });
+  }
+
+  function applyGroupPrices(raw) {
+    var list = parseJson(raw, []);
+    if (!Array.isArray(list) || !list.length) return;
+    var byId = {};
+    list.forEach(function (row) {
+      if (row && row.id) byId[row.id] = row;
+    });
+    window.__ANNA_GROUP_PRICES_BY_ID__ = byId;
+
+    document.querySelectorAll("[data-group-price-id]").forEach(function (card) {
+      var id = card.getAttribute("data-group-price-id");
+      var row = byId[id];
+      if (!row) return;
+      var labelEl = card.querySelector("[data-group-price-label]");
+      var amountEl = card.querySelector("[data-group-price-amount]");
+      var noteEl = card.querySelector("[data-group-price-note]");
+      if (labelEl && row.label) labelEl.textContent = row.label;
+      if (amountEl && row.amountLabel) {
+        if (amountEl.querySelector("small")) {
+          var num = String(row.amountLabel).replace(/\s*₽\s*$/, "").trim();
+          amountEl.innerHTML = escHtml(num) + " <small>₽</small>";
+        } else {
+          amountEl.textContent = row.amountLabel;
+        }
+      }
+      if (noteEl && row.note) noteEl.textContent = row.note;
+    });
+
+    document.querySelectorAll("[data-cms-group-amount]").forEach(function (el) {
+      var id = el.getAttribute("data-cms-group-amount");
+      var row = byId[id];
+      if (row && row.amountLabel) {
+        if (el.querySelector("small")) {
+          var n = String(row.amountLabel).replace(/\s*₽\s*$/, "").trim();
+          el.innerHTML = escHtml(n) + " <small>₽</small>";
+        } else {
+          el.textContent = row.amountLabel;
+        }
+      }
     });
   }
 
@@ -378,6 +426,7 @@
     applyPhone(items);
     applyKnownUrlRewrites(items);
     applyPrices(items.prices);
+    applyGroupPrices(items["group2026.prices"]);
     applyProjects(items.projects);
     applySeats(items);
     applyJsonLd(items);

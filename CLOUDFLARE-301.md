@@ -21,6 +21,45 @@ GitHub Pages **не умеет** отдавать произвольные 301. 
 - PageSpeed (поле): LCP ~2,4 с — CWV пройден; lab ~88. GH Pages кеш статики часто **10 мин** → задача Cache Rule (#146)
 - Деплой Worker из PowerShell: один раз в сессии `$env:CLOUDFLARE_API_TOKEN = "…"` (в чат не слать) или `wrangler login`
 
+## Cache Rule: длинный кеш `/assets/*` (#146)
+
+GitHub Pages часто отдаёт статику с коротким `Cache-Control` (~10 мин). На Free Cloudflare это обходится **Cache Rule**.
+
+CSS/JS у нас с `?v=…` — при выкладке меняй версию в HTML, браузер сам возьмёт новый файл. Картинки без `?v=` обновляются через Purge или через неделю–месяц (см. TTL ниже).
+
+### В дашборде (рекомендуется)
+
+1. [dash.cloudflare.com](https://dash.cloudflare.com) → зона **`anna-psy.online`**
+2. **Caching** → **Cache Rules** → **Create rule**  
+   (или **Rules** → **Cache Rules**)
+3. **Rule name:** `assets long cache`
+4. **When incoming requests match** → **Custom filter expression**
+   - Field: **URI Path**
+   - Operator: **starts with**
+   - Value: `/assets/`
+5. **Then**
+   - **Cache eligibility:** Eligible for cache
+   - **Edge TTL:** Ignore cache-control header and use this TTL → **1 month**
+   - **Browser TTL:** Override origin and use this TTL → **1 week**  
+     (картинки без `?v=` не «залипнут» на год; CSS/JS и так с версией)
+6. **Deploy** / Save
+
+Проверка: открой DevTools → Network → любой `/assets/...` (повторная загрузка) → заголовок `cf-cache-status: HIT` (после второго запроса) и длинный `cache-control` / возраст на edge.
+
+При срочной смене картинки без `?v=`: **Caching** → **Configuration** → **Purge Cache** → Custom Purge URL.
+
+### Через API (твой PowerShell, токен не в чат)
+
+```powershell
+$env:CLOUDFLARE_API_TOKEN = "…"   # права: Zone Cache Rules Edit + Zone Read
+$zoneId = (Invoke-RestMethod -Headers @{Authorization="Bearer $env:CLOUDFLARE_API_TOKEN"} `
+  "https://api.cloudflare.com/client/v4/zones?name=anna-psy.online").result[0].id
+
+# Правила Cache Settings — phase entrypoint; проще через UI, если API rulesets незнаком
+```
+
+На Free проще и надёжнее создать правило в UI (шаги выше).
+
 ## Было (до старта)
 
 - NS: `ns1.reg.ru` / `ns2.reg.ru`

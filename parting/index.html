@@ -9,7 +9,8 @@
   <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="stylesheet" href="/assets/site.css?v=20260807perf" />
+    <link rel="preload" as="image" href="/assets/images/hero-portrait-640.webp" imagesrcset="/assets/images/hero-portrait-640.webp 640w, /assets/images/hero-portrait.webp 1080w" imagesizes="(max-width: 860px) min(88vw, 420px), 388px" fetchpriority="high" />
+  <link rel="stylesheet" href="/assets/site.css?v=20260808hero" />
 </head>
 <body id="top">
 <header class="site-header">
@@ -69,7 +70,7 @@
           </div>
         </div>
         <div class="hero-visual">
-          <img class="hero-photo" src="/assets/images/hero-portrait.webp" alt="Психолог Анна Щеголихина" width="720" height="900" />
+          <img class="hero-photo" src="/assets/images/hero-portrait-640.webp" srcset="/assets/images/hero-portrait-640.webp 640w, /assets/images/hero-portrait.webp 1080w" sizes="(max-width: 860px) min(88vw, 420px), 388px" alt="Психолог Анна Щеголихина" width="640" height="800" fetchpriority="high" decoding="async" />
         </div>
       </div>
     </section>
